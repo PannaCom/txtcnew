@@ -1,6 +1,16 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+@*<script type="text/javascript" src="/Scripts/jquery-1.11.0.min.js"></script>
+<script src="/Scripts/jquery-ui-1.8.24.js"></script>
+<script src="/Scripts/jquery-2.1.1.js"></script>
+<script src="/Scripts/jquery-ui.js"></script>
+<link rel="stylesheet" href="/Scripts/jquery-ui.css">*@
+<script src="/Scripts/jquery.datetimepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="/Content/jquery.datetimepicker.css" />
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places" type="text/javascript"></script>
+<script src="/Scripts/jquery.geocomplete.js"></script>
+
 @*<h2>Đặt xe trực tuyến Grab - Uber đường dài</h2>*@
 <div class="content-heading text-center">
     <!-- Input Your Home Content Here -->
@@ -10,12 +20,15 @@
                 <h2 style="color:#337ab7;">Đặt xe trực tuyến Grab - Uber đường dài</h2>
                 <div class="col-sm-8">
                     <p style="text-align:left;margin-top:5px;">Điểm đi *</p>
-                    <input id="name" name="name" class="form-control" placeholder="quận huyện, đường phố, thị trấn..." />
+                    <input id="car_from" name="car_from" class="form-control" placeholder="quận huyện, đường phố, thị trấn..." />
+                    <input id="lon1" name="lon1" value="" type="hidden"><input id="lat1" name="lat1" value="" type="hidden">
                     <p style="text-align:left;margin-top:5px;">Điểm đến *</p>
-                    <input id="phone" name="phone" class="form-control" placeholder="quận huyện, đường phố, thị trấn..." />
+                    <input id="car_to" name="car_to" class="form-control" placeholder="quận huyện, đường phố, thị trấn..." onblur="CreateLine();"/>
+                    <input id="lon2" name="lon2" value="" type="hidden"><input id="lat2" name="lat2" value="" type="hidden">
                 </div>
                 <div class="col-sm-4">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29768.399237825946!2d105.82972151548583!3d21.15041217448257!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135011877263c29%3A0xfed63a1860e09572!2zdHQuIMSQw7RuZyBBbmgsIMSQw7RuZyBBbmgsIEhhbm9pLCBWaWV0bmFt!5e0!3m2!1sen!2s!4v1470755312032" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                    <div class="map_canvas" id="map" style="width:100%;height:450px;border:0"></div>
+                    @*<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29768.399237825946!2d105.82972151548583!3d21.15041217448257!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135011877263c29%3A0xfed63a1860e09572!2zdHQuIMSQw7RuZyBBbmgsIMSQw7RuZyBBbmgsIEhhbm9pLCBWaWV0bmFt!5e0!3m2!1sen!2s!4v1470755312032" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>*@
                 </div>
                 <input type="button" value="XÁC NHẬN" class="btn btn-primary btn-block" onclick="booking();" style="margin-bottom:5px;" id="btnregister1" />
             </div>
@@ -23,3 +36,270 @@
         </div><!-- end col 10 with offset 1 to centered -->
     </div> <!-- end contact form outer row with centered text-->
 </div><!-- End Input Your Home Content Here -->
+<script>
+    $('#datetimepicker').datetimepicker({
+        dayOfWeekStart: 1,
+        lang: 'en',
+        disabledDates: ['1986/01/08', '1986/01/09', '1986/01/10'],
+        startDate: '@DateTime.Now.Year/@DateTime.Now.Month/@DateTime.Now.Date'
+    });
+    var d = new Date();
+    var s = d.toLocaleString();
+    $('#datetimepicker').datetimepicker({ value: s, step: 10 });
+
+    $(function () {
+        var latlng = new google.maps.LatLng(21.0333, 105.85);
+        var mapOptions = {
+            zoom: 8,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+        var options = {
+            map: ".map_canvas"
+        };
+        $("#car_from").geocomplete(options)
+          .bind("geocode:result", function (event, result) {
+              $("#lon1").val(result.geometry.location.lng());
+              $("#lat1").val(result.geometry.location.lat());
+              //alert("long" + result.geometry.location.lng() + ", lat=" + result.geometry.location.lat());
+          })
+          .bind("geocode:error", function (event, status) {
+              $.log("ERROR: " + status);
+          })
+          .bind("geocode:multiple", function (event, results) {
+              $.log("Multiple: " + results.length + " results found");
+          });
+        $("#car_to").geocomplete(options)
+          .bind("geocode:result", function (event, result) {
+              $("#lon2").val(result.geometry.location.lng());
+              $("#lat2").val(result.geometry.location.lat());
+              //alert("long" + result.geometry.location.lng() + ", lat=" + result.geometry.location.lat());
+          })
+          .bind("geocode:error", function (event, status) {
+              $.log("ERROR: " + status);
+          })
+          .bind("geocode:multiple", function (event, results) {
+              $.log("Multiple: " + results.length + " results found");
+          });
+    });
+    function booking() {
+        var formdata = new FormData(); //FormData object
+        var datetimepicker = document.getElementById("datetimepicker").value;
+        if (document.getElementById("name").value == "") {
+            alert("Nhập tên!");
+            document.getElementById("name").focus();
+            return;
+        }
+        if (document.getElementById("phone").value == "") {
+            alert("Nhập số điện thoại!");
+            document.getElementById("phone").focus();
+            return;
+        }
+        if (document.getElementById("datetimepicker").value == "") {
+            alert("Nhập thời gian!");
+            document.getElementById("datetimepicker").focus();
+            return;
+        }
+        if (document.getElementById("des").value == "") {
+            alert("Nhập ghi chú!");
+            document.getElementById("des").focus();
+            return;
+        }
+        formdata.append("name", document.getElementById("name").value);
+        formdata.append("phone", document.getElementById("phone").value);
+        formdata.append("email", document.getElementById("email").value);
+        formdata.append("date_from", document.getElementById("datetimepicker").value);
+        formdata.append("des", document.getElementById("des").value);
+
+        document.getElementById("btnregister1").value = "Đang đăng ký xin chờ....";
+        document.getElementById("btnregister1").disabled = true;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/Home/AddNew');
+        xhr.send(formdata);
+        var content = "";
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                if (xhr.responseText == "1") {
+                    alert("Bạn đã đăng ký thành công! Chúng tôi sẽ liên hệ lại sớm nhất!");
+                } else {
+                    alert("Chương trình đang cập nhật, xin quay lại sau!");
+                }
+                document.getElementById("btnregister1").value = "XÁC NHẬN";
+                document.getElementById("btnregister1").disabled = false;
+            }
+        }
+    }
+    function CreateLine() {
+        geocoder = new google.maps.Geocoder();
+        var latlng = new google.maps.LatLng(21.0333,105.85);
+        var mapOptions = {
+            zoom: 8,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+        var address = document.getElementById('car_from').value;
+        var address2 = document.getElementById('car_to').value;
+
+        var temp, temp2;
+
+        geocoder.geocode({'address': address }, function (results, status) {
+            temp = results[0].geometry.location;
+            geocoder.geocode({ 'address': address2 }, function (results, status) {
+                temp2 = results[0].geometry.location;
+
+                var route = [
+                  temp,
+                  temp2
+                ];
+
+                var polyline = new google.maps.Polyline({
+                    path: route,
+                    strokeColor: "#ff0000",
+                    strokeOpacity: 0.6,
+                    strokeWeight: 5
+                });
+
+                polyline.setMap(map);
+            });
+        });
+    }
+    //function register() {
+    //    var formdata = new FormData(); //FormData object
+    //    var datetimepicker = document.getElementById("datetimepicker").value;
+    //    if (document.getElementById("tname").value == "") {
+    //        alert("Nhập tên lái xe!");
+    //        document.getElementById("tname").focus();
+    //        return;
+    //    }
+    //    if (document.getElementById("tphone").value == "") {
+    //        alert("Nhập số điện thoại lái xe!");
+    //        document.getElementById("tphone").focus();
+    //        return;
+    //    }
+    //    if (document.getElementById("address").value == "") {
+    //        alert("Nhập địa chỉ!");
+    //        document.getElementById("address").focus();
+    //        return;
+    //    }
+    //    if (document.getElementById("car_number").value == "") {
+    //        alert("Nhập biển số xe!");
+    //        document.getElementById("car_number").focus();
+    //        return;
+    //    }
+    //    if (document.getElementById("car_made").value == "") {
+    //        alert("Nhập hãng xe!");
+    //        document.getElementById("car_made").focus();
+    //        return;
+    //    }
+    //    if (document.getElementById("car_model").value == "") {
+    //        alert("Nhập loại xe model!");
+    //        document.getElementById("car_model").focus();
+    //        return;
+    //    }
+    //    if (document.getElementById("car_size").value == "") {
+    //        alert("Nhập số chỗ!");
+    //        document.getElementById("car_size").focus();
+    //        return;
+    //    }
+    //    if (document.getElementById("car_year").value == "") {
+    //        alert("Nhập năm sản xuất!");
+    //        document.getElementById("car_year").focus();
+    //        return;
+    //    }
+    //    if (document.getElementById("car_type").value == "") {
+    //        alert("Nhập loại xe!");
+    //        document.getElementById("car_type").focus();
+    //        return;
+    //    }
+    //    if (document.getElementById("car_price").value == "") {
+    //        alert("Nhập bảng giá!");
+    //        document.getElementById("car_price").focus();
+    //        return;
+    //    }
+    //    formdata.append("name", document.getElementById("tname").value);
+    //    formdata.append("phone", document.getElementById("tphone").value);
+    //    //formdata.append("province", document.getElementById("province").value);
+    //    formdata.append("car_number", document.getElementById("car_number").value);
+    //    formdata.append("car_made", document.getElementById("car_made").value);
+    //    formdata.append("car_model", document.getElementById("car_model").value);
+    //    formdata.append("car_size", document.getElementById("car_size").value);
+    //    formdata.append("car_year", document.getElementById("car_year").value);
+    //    formdata.append("car_type", document.getElementById("car_type").value);
+    //    formdata.append("car_price", document.getElementById("car_price").value);
+    //    formdata.append("address", document.getElementById("address").value);
+    //    formdata.append("lon", document.getElementById("lon").value);
+    //    formdata.append("lat", document.getElementById("lat").value);
+    //    document.getElementById("btnregister2").value = "Đang đăng ký xin chờ...";
+    //    document.getElementById("btnregister2").disabled = true;
+    //    var xhr = new XMLHttpRequest();
+    //    xhr.open('POST', '/Home/Register');
+    //    xhr.send(formdata);
+    //    var content = "";
+    //    xhr.onreadystatechange = function () {
+    //        if (xhr.readyState == 4 && xhr.status == 200) {
+    //            if (xhr.responseText == "1") {
+    //                alert("Bạn đã đăng ký thành công! Khi có khách chúng tôi sẽ liên hệ với bạn!");
+    //            } else {
+    //                alert("Chương trình đang cập nhật, xin quay lại sau!");
+    //            }
+    //            document.getElementById("btnregister2").value = "ĐĂNG KÝ XE";
+    //            document.getElementById("btnregister2").disabled = false;
+    //        }
+    //    }
+    //}
+    //$.ajax({
+    //    url: "/Home/getTinhThanh",
+    //    cache: false
+    //}).done(function (html) {
+    //    $("#province").html("" + html);
+    //});
+    //$.ajax({
+    //    url: "/Home/getHangXe",
+    //    cache: false
+    //}).done(function (html) {
+    //    $("#car_made").html("" + html);
+    //});
+    //$.ajax({
+    //    url: "/Home/getLoaiXe",
+    //    cache: false
+    //}).done(function (html) {
+    //    $("#car_type").html("" + html);
+    //});
+    //function getQuanHuyen() {
+    //    $.ajax({
+    //        url: "/Home/getQuanHuyen?keyword=" + $("#province").val(),
+    //        cache: false
+    //    }).done(function (html) {
+    //        $("#province2").html("" + html);
+    //    });
+    //}
+    //function show(id) {
+    //    if (id == 1) {
+    //        $("#dv1").show();
+    //        $("#dv2").hide();
+    //    } else {
+    //        $("#dv2").show();
+    //        $("#dv1").hide();
+    //    }
+    //}
+    //function autosearchmodel() {
+    //    //var tags = ["c++", "java", "php", "coldfusion", "javascript", "asp", "ruby"];
+    //    var keyword = document.getElementById("car_model").value;
+    //    var urlSearch = '/Api/getCarModelList2?keyword=';
+    //    $('#car_model').autocomplete({
+    //        source: urlSearch + keyword,
+    //        select: function (event, ui) {
+    //            //alert(ui.item.value);
+    //            //console.log(ui.item.value);
+    //            $(event.target).val(ui.item.value);
+    //            return false;
+    //        },
+    //        minLength: 1
+    //    });
+    //}
+</script>
