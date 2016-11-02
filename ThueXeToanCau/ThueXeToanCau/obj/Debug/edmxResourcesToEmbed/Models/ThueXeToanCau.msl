@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="thuexetoancauModelStoreContainer" CdmEntityContainer="thuexetoancauEntities">
+    <EntitySetMapping Name="bookings">
+      <EntityTypeMapping TypeName="thuexetoancauModel.booking">
+        <MappingFragment StoreEntitySet="booking">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="car_from" ColumnName="car_from" />
+          <ScalarProperty Name="car_to" ColumnName="car_to" />
+          <ScalarProperty Name="car_type" ColumnName="car_type" />
+          <ScalarProperty Name="car_hire_type" ColumnName="car_hire_type" />
+          <ScalarProperty Name="car_who_hire" ColumnName="car_who_hire" />
+          <ScalarProperty Name="from_datetime" ColumnName="from_datetime" />
+          <ScalarProperty Name="to_datetime" ColumnName="to_datetime" />
+          <ScalarProperty Name="geo1" ColumnName="geo1" />
+          <ScalarProperty Name="lon1" ColumnName="lon1" />
+          <ScalarProperty Name="lat1" ColumnName="lat1" />
+          <ScalarProperty Name="geo2" ColumnName="geo2" />
+          <ScalarProperty Name="lon2" ColumnName="lon2" />
+          <ScalarProperty Name="lat2" ColumnName="lat2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="drivers">
+      <EntityTypeMapping TypeName="thuexetoancauModel.driver">
+        <MappingFragment StoreEntitySet="drivers">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="pass" ColumnName="pass" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="car_model" ColumnName="car_model" />
+          <ScalarProperty Name="car_made" ColumnName="car_made" />
+          <ScalarProperty Name="car_years" ColumnName="car_years" />
+          <ScalarProperty Name="car_size" ColumnName="car_size" />
+          <ScalarProperty Name="car_number" ColumnName="car_number" />
+          <ScalarProperty Name="car_type" ColumnName="car_type" />
+          <ScalarProperty Name="car_price" ColumnName="car_price" />
+          <ScalarProperty Name="total_moneys" ColumnName="total_moneys" />
+          <ScalarProperty Name="province" ColumnName="province" />
+          <ScalarProperty Name="date_time" ColumnName="date_time" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="address" ColumnName="address" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="list_car">
+      <EntityTypeMapping TypeName="thuexetoancauModel.list_car">
+        <MappingFragment StoreEntitySet="list_car">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="no" ColumnName="no" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="list_car_model">
+      <EntityTypeMapping TypeName="thuexetoancauModel.list_car_model">
+        <MappingFragment StoreEntitySet="list_car_model">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="list_car_type">
+      <EntityTypeMapping TypeName="thuexetoancauModel.list_car_type">
+        <MappingFragment StoreEntitySet="list_car_type">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TinhThanhs">
+      <EntityTypeMapping TypeName="thuexetoancauModel.TinhThanh">
+        <MappingFragment StoreEntitySet="TinhThanh">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="quanhuyen" ColumnName="quanhuyen" />
+          <ScalarProperty Name="tinhthanhpho" ColumnName="tinhthanhpho" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="users">
+      <EntityTypeMapping TypeName="thuexetoancauModel.user">
+        <MappingFragment StoreEntitySet="users">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="pass" ColumnName="pass" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

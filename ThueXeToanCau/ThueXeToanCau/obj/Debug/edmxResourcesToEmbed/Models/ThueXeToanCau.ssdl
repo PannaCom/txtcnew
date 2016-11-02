@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="thuexetoancauModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="booking">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="car_from" Type="nvarchar" MaxLength="150" />
+    <Property Name="car_to" Type="nvarchar" MaxLength="150" />
+    <Property Name="car_type" Type="int" />
+    <Property Name="car_hire_type" Type="nvarchar" MaxLength="150" />
+    <Property Name="car_who_hire" Type="nvarchar" MaxLength="150" />
+    <Property Name="from_datetime" Type="datetime" />
+    <Property Name="to_datetime" Type="datetime" />
+    <Property Name="geo1" Type="geography" />
+    <Property Name="lon1" Type="float" />
+    <Property Name="lat1" Type="float" />
+    <Property Name="geo2" Type="geography" />
+    <Property Name="lon2" Type="float" />
+    <Property Name="lat2" Type="float" />
+  </EntityType>
+  <EntityType Name="drivers">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="250" />
+    <Property Name="pass" Type="nvarchar" MaxLength="50" />
+    <Property Name="phone" Type="nvarchar" MaxLength="50" />
+    <Property Name="email" Type="nvarchar" MaxLength="50" />
+    <Property Name="car_model" Type="nvarchar" MaxLength="50" />
+    <Property Name="car_made" Type="nvarchar" MaxLength="50" />
+    <Property Name="car_years" Type="int" />
+    <Property Name="car_size" Type="int" />
+    <Property Name="car_number" Type="nvarchar" MaxLength="50" />
+    <Property Name="car_type" Type="nvarchar" MaxLength="150" />
+    <Property Name="car_price" Type="int" />
+    <Property Name="total_moneys" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="province" Type="nvarchar" MaxLength="150" />
+    <Property Name="date_time" Type="datetime" />
+    <Property Name="code" Type="nvarchar" MaxLength="50" />
+    <Property Name="address" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'thuexetoancau.dbo.list_car' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="list_car">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" />
+    <Property Name="no" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'thuexetoancau.dbo.list_car_model' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="list_car_model">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'thuexetoancau.dbo.list_car_type' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="list_car_type">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="TinhThanh">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="quanhuyen" Type="nvarchar" MaxLength="255" />
+    <Property Name="tinhthanhpho" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" />
+    <Property Name="pass" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityContainer Name="thuexetoancauModelStoreContainer">
+    <EntitySet Name="booking" EntityType="Self.booking" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="drivers" EntityType="Self.drivers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="list_car" EntityType="Self.list_car" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [list_car].[id] AS [id], 
+    [list_car].[name] AS [name], 
+    [list_car].[no] AS [no]
+    FROM [dbo].[list_car] AS [list_car]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="list_car_model" EntityType="Self.list_car_model" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [list_car_model].[id] AS [id], 
+    [list_car_model].[name] AS [name]
+    FROM [dbo].[list_car_model] AS [list_car_model]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="list_car_type" EntityType="Self.list_car_type" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [list_car_type].[id] AS [id], 
+    [list_car_type].[name] AS [name]
+    FROM [dbo].[list_car_type] AS [list_car_type]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="TinhThanh" EntityType="Self.TinhThanh" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [TinhThanh].[id] AS [id], 
+    [TinhThanh].[quanhuyen] AS [quanhuyen], 
+    [TinhThanh].[tinhthanhpho] AS [tinhthanhpho]
+    FROM [dbo].[TinhThanh] AS [TinhThanh]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="users" EntityType="Self.users" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [users].[id] AS [id], 
+    [users].[name] AS [name], 
+    [users].[pass] AS [pass]
+    FROM [dbo].[users] AS [users]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>
