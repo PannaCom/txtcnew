@@ -1,3 +1,26 @@
+/*DuyVT*/
+.divRegister {
+    background-color: white; color: black; border-radius: 25px; min-height: 567px;margin-top: 10px;padding-bottom:10px;
+}
+
+.divRegister h2, .divRegister h4 {
+    color:#449d44;text-align: center;
+}
+
+.divRegister p {
+    text-align:left;margin: 12px 0px 0px 0;
+}
+
+.divRegister .form-control {
+    height:30px;padding:5px 12px;
+}
+
+#btnRegisDriver {
+    margin-top:5px;
+}
+
+/*END DuyVT*/
+
 @font-face {
     font-family: myFirstFont;
     src: url(HelveticaVn-Cn.ttf);

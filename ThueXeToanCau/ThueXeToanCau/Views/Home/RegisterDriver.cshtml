@@ -1,0 +1,115 @@
+﻿@{
+    ViewBag.Title = "Đăng Ký Tài Xế";
+}
+
+<div class="col-sm-12 divRegister">
+    <h2>ĐĂNG KÝ TÀI XẾ</h2>
+    <h4>Dành cho nhà xe/tài xế có xe riêng</h4>
+    <p>Tên tài xế *</p>
+    <input id="tname" type="text" class="form-control" placeholder="Nhập tên">
+    <p>Số điện thoại *</p>
+    <input id="tphone" type="number" class="form-control" placeholder="Nhập số điện thoại">
+    <p>Mật Khẩu *</p>
+    <input id="tPass" type="password" class="form-control" placeholder="Nhập mật khẩu">
+    <p>Xác Nhận Mật Khẩu *</p>
+    <input id="tPassConfirm" type="password" class="form-control" placeholder="Nhập lại mật khẩu">
+    <p>Chứng Minh Nhân Dân *</p>
+    <input id="tCMND" type="text" class="form-control" placeholder="Nhập chứng minh nhân dân">
+    <p>Số bằng lái xe *</p>
+    <input id="tLicense" type="text" class="form-control" placeholder="Nhập số bằng lái xe">
+    <p>Địa chỉ (thường trú hoặc hay đón khách) *</p>
+    <input id="address" type="text" class="form-control" placeholder="Nhập địa chỉ chính xác" autocomplete="off">    
+    <p>Biển số *</p>
+    <input id="car_number" type="text" class="form-control" placeholder="Nhập biển số">
+    <p>Hãng xe *</p>
+    <select id="car" class="form-control">
+        @{
+            foreach (var item in (List<string>)ViewBag.cars)
+            {
+                <option value="@item">@item</option>
+            }
+        }        
+    </select>
+    <p>Tên xe (model) *</p>
+    <select id="car_model" class="form-control">
+        @{
+            foreach (var item in (List<string>)ViewBag.carModels)
+            {
+                <option value="@item">@item</option>
+            }
+        }
+    </select>
+    <p>Số chỗ *</p>
+    <select id="car_size" class="form-control"><option value="4">4 chỗ</option><option value="5">5 chỗ</option><option value="7">7 chỗ</option><option value="12">12 chỗ</option><option value="16">16 chỗ</option><option value="24">24 chỗ</option><option value="40">40 chỗ</option><option value="50">50 chỗ</option></select>
+    <p>Loại xe *</p>
+    <select id="car_type" class="form-control">
+        @{
+            foreach (var item in (List<string>)ViewBag.carTypes)
+            {
+                <option value="@item">@item</option>
+            }
+        }
+    </select>
+    <p>Năm sản xuất *</p>
+    <input id="car_year" type="text" class="form-control" placeholder="Nhập năm sản xuất: 2016, 2015, ...">
+    @*<select id="car_year" class="form-control"><option value="2016">2016</option><option value="2015">2015</option><option value="2014">2014</option><option value="2013">2013</option><option value="2012">2012</option><option value="2011">2011</option><option value="2010">2010</option><option value="2009">2009</option><option value="2009">Trước 2009</option></select>*@
+    <p>Bảng giá</p>
+    <select id="car_price" class="form-control">
+        <option value="-1">Thỏa thuận</option>
+        <option value="5000">5000 đồng/km</option>
+        <option value="5500">5500 đồng/km</option>
+        <option value="6000">6000 đồng/km</option>
+        <option value="6500">6500 đồng/km</option>
+        <option value="7000">7000 đồng/km</option>
+        <option value="7500">7500 đồng/km</option>
+        <option value="8000">8000 đồng/km</option>
+        <option value="8500">8500 đồng/km</option>
+        <option value="9000">9000 đồng/km</option>
+        <option value="9500">9500 đồng/km</option>
+        <option value="10000">10000 đồng/km</option>
+        <option value="10500">10500 đồng/km</option>
+        <option value="11000">11000 đồng/km</option>
+        <option value="11500">11500 đồng/km</option>
+        <option value="12000">12000 đồng/km</option>
+        <option value="12500">12500 đồng/km</option>
+        <option value="13000">13000 đồng/km</option>
+        <option value="13500">13500 đồng/km</option>
+        <option value="14000">14000 đồng/km</option>
+        <option value="14500">14500 đồng/km</option>
+        <option value="15000">15000 đồng/km</option>
+        <option value="15500">15500 đồng/km</option>
+        <option value="16000">16000 đồng/km</option>
+        <option value="16500">16500 đồng/km</option>
+        <option value="17000">17000 đồng/km</option>
+        <option value="17500">17500 đồng/km</option>
+        <option value="18000">18000 đồng/km</option>
+        <option value="18500">18500 đồng/km</option>
+        <option value="19000">19000 đồng/km</option>
+        <option value="19500">19500 đồng/km</option>
+        <option value="20000">20000 đồng/km</option>
+        <option value="20500">20500 đồng/km</option>
+        <option value="21000">21000 đồng/km</option>
+        <option value="21500">21500 đồng/km</option>
+        <option value="22000">22000 đồng/km</option>
+        <option value="22500">22500 đồng/km</option>
+        <option value="23000">23000 đồng/km</option>
+        <option value="23500">23500 đồng/km</option>
+        <option value="24000">24000 đồng/km</option>
+        <option value="24500">24500 đồng/km</option>
+        <option value="25000">25000 đồng/km</option>
+        <option value="25500">25500 đồng/km</option>
+        <option value="26000">26000 đồng/km</option>
+        <option value="26500">26500 đồng/km</option>
+        <option value="27000">27000 đồng/km</option>
+        <option value="27500">27500 đồng/km</option>
+        <option value="28000">28000 đồng/km</option>
+        <option value="28500">28500 đồng/km</option>
+        <option value="29000">29000 đồng/km</option>
+        <option value="29500">29500 đồng/km</option>
+    </select>
+    <button id="btnRegisDriver" class="btn btn-primary btn-block" onclick="registerDriver();">ĐĂNG KÝ XE</button>
+</div>
+<script type="text/javascript">
+    var url_addUpdateDriver = '@Url.Action("addUpdateDriver", "Home")';
+</script>
+<script type="text/javascript" src="~/Scripts/driver.js"></script>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ThueXeToanCau.Models;
 
 namespace ThueXeToanCau.Controllers
 {
@@ -25,6 +26,20 @@ namespace ThueXeToanCau.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult RegisterDriver() {
+            ViewBag.cars = DBContext.getCars().Select(f => f.name).ToList();
+            ViewBag.carModels = DBContext.getCarModels().Select(f=>f.name).ToList();
+            ViewBag.carTypes = DBContext.getCarTypes().Select(f=>f.name).ToList();
+            return View();
+        }
+
+        [HttpPost]
+        public string addUpdateDriver(driver dri)
+        {
+            return DBContext.addUpdateDriver(dri);
         }
     }
 }
