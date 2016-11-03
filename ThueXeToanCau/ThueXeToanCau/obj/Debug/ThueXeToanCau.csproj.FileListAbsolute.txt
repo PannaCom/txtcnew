@@ -82,6 +82,7 @@ D:\Project\GitHub\ThueXeToanCau\Code\trunk\ThueXeToanCau\ThueXeToanCau\bin\Syste
 D:\Project\GitHub\ThueXeToanCau\Code\trunk\ThueXeToanCau\ThueXeToanCau\bin\System.Web.WebPages.dll
 D:\Project\GitHub\ThueXeToanCau\Code\trunk\ThueXeToanCau\ThueXeToanCau\bin\System.Web.WebPages.Razor.dll
 D:\Project\GitHub\ThueXeToanCau\Code\trunk\ThueXeToanCau\ThueXeToanCau\bin\WebGrease.dll
+D:\Project\GitHub\ThueXeToanCau\Code\trunk\ThueXeToanCau\ThueXeToanCau\bin\Newtonsoft.Json.xml
 D:\Project\GitHub\ThueXeToanCau\Code\trunk\ThueXeToanCau\ThueXeToanCau\bin\System.Web.Helpers.xml
 D:\Project\GitHub\ThueXeToanCau\Code\trunk\ThueXeToanCau\ThueXeToanCau\bin\System.Web.Mvc.xml
 D:\Project\GitHub\ThueXeToanCau\Code\trunk\ThueXeToanCau\ThueXeToanCau\bin\System.Web.Optimization.xml
@@ -90,7 +91,6 @@ D:\Project\GitHub\ThueXeToanCau\Code\trunk\ThueXeToanCau\ThueXeToanCau\bin\Syste
 D:\Project\GitHub\ThueXeToanCau\Code\trunk\ThueXeToanCau\ThueXeToanCau\bin\System.Web.WebPages.Deployment.xml
 D:\Project\GitHub\ThueXeToanCau\Code\trunk\ThueXeToanCau\ThueXeToanCau\bin\System.Web.WebPages.Razor.xml
 D:\Project\GitHub\ThueXeToanCau\Code\trunk\ThueXeToanCau\ThueXeToanCau\bin\Antlr3.Runtime.pdb
-D:\Project\GitHub\ThueXeToanCau\Code\trunk\ThueXeToanCau\ThueXeToanCau\bin\Newtonsoft.Json.xml
 D:\Project\GitHub\ThueXeToanCau\Code\trunk\ThueXeToanCau\ThueXeToanCau\bin\EntityFramework.xml
 D:\Project\GitHub\ThueXeToanCau\Code\trunk\ThueXeToanCau\ThueXeToanCau\bin\EntityFramework.SqlServer.xml
 D:\Project\GitHub\ThueXeToanCau\Code\trunk\ThueXeToanCau\ThueXeToanCau\bin\Microsoft.AspNet.Identity.Core.xml

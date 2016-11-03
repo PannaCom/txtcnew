@@ -1,46 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="thuexetoancauModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityType Name="booking">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="car_from" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-    <Property Name="car_to" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-    <Property Name="car_type" Type="Int32" />
-    <Property Name="car_hire_type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-    <Property Name="car_who_hire" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-    <Property Name="from_datetime" Type="DateTime" Precision="3" />
-    <Property Name="to_datetime" Type="DateTime" Precision="3" />
-    <Property Name="geo1" Type="Geography" />
-    <Property Name="lon1" Type="Double" />
-    <Property Name="lat1" Type="Double" />
-    <Property Name="geo2" Type="Geography" />
-    <Property Name="lon2" Type="Double" />
-    <Property Name="lat2" Type="Double" />
-  </EntityType>
-  <EntityType Name="driver">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-    <Property Name="pass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="car_model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="car_made" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="car_years" Type="Int32" />
-    <Property Name="car_size" Type="Int32" />
-    <Property Name="car_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="car_type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-    <Property Name="car_price" Type="Int32" />
-    <Property Name="total_moneys" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="province" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-    <Property Name="date_time" Type="DateTime" Precision="3" />
-    <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-  </EntityType>
   <EntityType Name="list_car">
     <Key>
       <PropertyRef Name="id" />
@@ -80,12 +39,57 @@
     <Property Name="pass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityContainer Name="thuexetoancauEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="bookings" EntityType="Self.booking" />
-    <EntitySet Name="drivers" EntityType="Self.driver" />
     <EntitySet Name="list_car" EntityType="Self.list_car" />
     <EntitySet Name="list_car_model" EntityType="Self.list_car_model" />
     <EntitySet Name="list_car_type" EntityType="Self.list_car_type" />
     <EntitySet Name="TinhThanhs" EntityType="Self.TinhThanh" />
     <EntitySet Name="users" EntityType="Self.user" />
+    <EntitySet Name="drivers" EntityType="thuexetoancauModel.driver" />
+    <EntitySet Name="bookings" EntityType="thuexetoancauModel.booking" />
   </EntityContainer>
+  <EntityType Name="driver">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="pass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="car_model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="car_made" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="car_years" Type="Int32" />
+    <Property Name="car_size" Type="Int32" />
+    <Property Name="car_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="car_type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="car_price" Type="Int32" />
+    <Property Name="total_moneys" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="province" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="date_time" Type="DateTime" Precision="3" />
+    <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="card_identify" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="license" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="booking">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="car_from" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="car_to" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="car_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="car_hire_type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="car_who_hire" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="from_datetime" Type="DateTime" Precision="3" />
+    <Property Name="to_datetime" Type="DateTime" Precision="3" />
+    <Property Name="geo1" Type="Geography" />
+    <Property Name="lon1" Type="Double" />
+    <Property Name="lat1" Type="Double" />
+    <Property Name="geo2" Type="Geography" />
+    <Property Name="lon2" Type="Double" />
+    <Property Name="lat2" Type="Double" />
+    <Property Name="book_price" Type="Int32" />
+    <Property Name="datebook" Type="DateTime" Precision="3" />
+  </EntityType>
 </Schema>

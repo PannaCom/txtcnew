@@ -7,7 +7,7 @@
     <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="car_from" Type="nvarchar" MaxLength="150" />
     <Property Name="car_to" Type="nvarchar" MaxLength="150" />
-    <Property Name="car_type" Type="int" />
+    <Property Name="car_type" Type="nvarchar" MaxLength="50" />
     <Property Name="car_hire_type" Type="nvarchar" MaxLength="150" />
     <Property Name="car_who_hire" Type="nvarchar" MaxLength="150" />
     <Property Name="from_datetime" Type="datetime" />
@@ -18,6 +18,8 @@
     <Property Name="geo2" Type="geography" />
     <Property Name="lon2" Type="float" />
     <Property Name="lat2" Type="float" />
+    <Property Name="book_price" Type="int" />
+    <Property Name="datebook" Type="datetime" />
   </EntityType>
   <EntityType Name="drivers">
     <Key>
@@ -40,6 +42,8 @@
     <Property Name="date_time" Type="datetime" />
     <Property Name="code" Type="nvarchar" MaxLength="50" />
     <Property Name="address" Type="nvarchar" MaxLength="250" />
+    <Property Name="card_identify" Type="nvarchar" MaxLength="50" />
+    <Property Name="license" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'thuexetoancau.dbo.list_car' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
