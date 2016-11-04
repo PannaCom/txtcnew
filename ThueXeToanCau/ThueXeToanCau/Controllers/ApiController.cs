@@ -185,5 +185,20 @@ namespace ThueXeToanCau.Controllers
             return JsonConvert.SerializeObject(p.ToList());
         }
 
+        #region Drivers - duyvt
+
+        public JsonResult getCarModelList(string keyword)
+        {
+            if (string.IsNullOrEmpty(keyword))
+            {
+                return Json(db.list_car_model.Select(f => f.name ).ToList(), JsonRequestBehavior.AllowGet);
+            }
+            else {
+                var data = db.list_car_model.Where(f => f.name.ToLower().IndexOf(keyword.ToLower()) != -1).Select(f => f.name).ToList();
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        #endregion
     }
 }

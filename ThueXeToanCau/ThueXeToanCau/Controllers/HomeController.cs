@@ -31,7 +31,7 @@ namespace ThueXeToanCau.Controllers
         [HttpGet]
         public ActionResult RegisterDriver() {
             ViewBag.cars = DBContext.getCars().Select(f => f.name).ToList();
-            ViewBag.carModels = DBContext.getCarModels().Select(f=>f.name).ToList();
+            //ViewBag.carModels = DBContext.getCarModels().Select(f=>f.name).ToList();
             ViewBag.carTypes = DBContext.getCarTypes().Select(f=>f.name).ToList();
             return View();
         }
