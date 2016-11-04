@@ -23,11 +23,9 @@ namespace ThueXeToanCau.Controllers
             try
             {
                 //get km distance
-                int km = getD(lon1,lat1,lon2,lat2);
-                if (car_hire_type.Equals("Một chiều"))
-                {
-
-                }
+                int price_max = getD(lon1, lat1, lon2, lat2, car_hire_type, car_type, from_datetime);
+                int reduce = Config.reduct1;
+                int price = price_max - price_max * reduce / 100;
 
                 booking bo = new booking();
                 bo.car_from = car_from;
@@ -44,6 +42,8 @@ namespace ThueXeToanCau.Controllers
                 bo.lon2 = lon2;
                 bo.to_datetime = to_datetime;
                 bo.datebook = DateTime.Now;
+                bo.book_price = price;
+                bo.book_price_max = price_max;
                 db.bookings.Add(bo);
                 db.SaveChanges();
                 
@@ -90,7 +90,7 @@ namespace ThueXeToanCau.Controllers
             public string status { get; set; }
         }
         //Hà Nội - Ninh Bình http://localhost:58046/api/getD?lat1=20.9740873&lon1=105.3724793&lat2=20.1877591&lon2=105.5745668
-        public int getD(double lon1, double lat1, double lon2, double lat2)
+        public int getD(double lon1, double lat1, double lon2, double lat2, string car_hire_type,int? car_type,DateTime? date)
         {
             //get km distance
             try { 
@@ -103,7 +103,67 @@ namespace ThueXeToanCau.Controllers
                 //var rs = jss.Deserialize<dynamic>(result);
                 //var a=rs["rows"][0]["elements"][0]["distance"];//[0][1].ToString()
                 //return a[1];
-                return int.Parse(dt)/1000;
+                int km= int.Parse(dt)/1000;
+                int factor = 100;
+                int price=6000;
+                int total = price*factor*km;
+                if (car_hire_type.ToLowerInvariant().Contains("một chiều"))
+                {
+                    if (Config.isHoliDay(date))
+                    {
+                        if (car_type == 5) { 
+                            factor = Config.factorHoliday1;
+                            price = Config.price1;
+                        }
+                        if (car_type == 8) { 
+                            factor = Config.factorHoliday2;
+                            price = Config.price2;
+                        }
+                        if (car_type == 16) { 
+                            factor = Config.factorHoliday3;
+                            price = Config.price3;
+                        }
+                        if (car_type == 30) { 
+                            factor = Config.factorHoliday4;
+                            price = Config.price4;
+                        }
+                        if (car_type == 45) { 
+                            factor = Config.factorHoliday5;
+                            price = Config.price5;
+                        }
+                    }
+                    else
+                    {
+                        if (car_type == 5)
+                        {
+                            factor = Config.factor1;
+                            price = Config.price1;
+                        }
+                        if (car_type == 8)
+                        {
+                            factor = Config.factor2;
+                            price = Config.price2;
+                        }
+                        if (car_type == 16)
+                        {
+                            factor = Config.factor3;
+                            price = Config.price3;
+                        }
+                        if (car_type == 30)
+                        {
+                            factor = Config.factor4;
+                            price = Config.price4;
+                        }
+                        if (car_type == 45)
+                        {
+                            factor = Config.factor5;
+                            price = Config.price5;
+                        }
+                    }
+                    total = price * factor * km/100;
+                    return total;
+                }
+                return 1;
              }catch(Exception ex){
                  return 0;
              }

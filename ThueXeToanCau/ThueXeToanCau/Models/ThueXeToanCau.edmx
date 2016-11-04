@@ -24,6 +24,7 @@
           <Property Name="lon2" Type="float" />
           <Property Name="lat2" Type="float" />
           <Property Name="book_price" Type="int" />
+          <Property Name="book_price_max" Type="int" />
           <Property Name="datebook" Type="datetime" />
         </EntityType>
         <EntityType Name="drivers">
@@ -49,6 +50,7 @@
           <Property Name="address" Type="nvarchar" MaxLength="250" />
           <Property Name="card_identify" Type="nvarchar" MaxLength="50" />
           <Property Name="license" Type="nvarchar" MaxLength="50" />
+          <Property Name="CMND" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'thuexetoancau.dbo.list_car' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -209,6 +211,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
           <Property Name="address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="card_identify" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="license" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CMND" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="booking">
           <Key>
@@ -229,6 +232,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
           <Property Name="lon2" Type="Double" />
           <Property Name="lat2" Type="Double" />
           <Property Name="book_price" Type="Int32" />
+          <Property Name="book_price_max" Type="Int32" />
           <Property Name="datebook" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
@@ -283,6 +287,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
           <EntitySetMapping Name="drivers">
             <EntityTypeMapping TypeName="thuexetoancauModel.driver">
               <MappingFragment StoreEntitySet="drivers">
+                <ScalarProperty Name="CMND" ColumnName="CMND" />
                 <ScalarProperty Name="license" ColumnName="license" />
                 <ScalarProperty Name="card_identify" ColumnName="card_identify" />
                 <ScalarProperty Name="address" ColumnName="address" />
@@ -309,6 +314,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
             <EntityTypeMapping TypeName="thuexetoancauModel.booking">
               <MappingFragment StoreEntitySet="booking">
                 <ScalarProperty Name="datebook" ColumnName="datebook" />
+                <ScalarProperty Name="book_price_max" ColumnName="book_price_max" />
                 <ScalarProperty Name="book_price" ColumnName="book_price" />
                 <ScalarProperty Name="lat2" ColumnName="lat2" />
                 <ScalarProperty Name="lon2" ColumnName="lon2" />

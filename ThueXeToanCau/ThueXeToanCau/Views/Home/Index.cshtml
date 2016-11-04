@@ -18,16 +18,26 @@
         <div class="col-sm-12">
             <div class="col-sm-12" id="dv1" style="background-color:white;color:black;border-radius:25px;min-height:567px;border-right:1px solid #808080;">
                 <h2 style="color:#337ab7;">Đặt xe trực tuyến Grab - Uber đường dài</h2>
-                <div class="col-sm-8">
+                <div class="col-sm-6">
                     <p style="text-align:left;margin-top:5px;">Điểm đi *</p>
                     <input id="car_from" name="car_from" class="form-control" placeholder="quận huyện, đường phố, thị trấn..." />
                     <input id="lon1" name="lon1" value="" type="hidden"><input id="lat1" name="lat1" value="" type="hidden">
                     <p style="text-align:left;margin-top:5px;">Điểm đến *</p>
                     <input id="car_to" name="car_to" class="form-control" placeholder="quận huyện, đường phố, thị trấn..." onblur="CreateLine();"/>
                     <input id="lon2" name="lon2" value="" type="hidden"><input id="lat2" name="lat2" value="" type="hidden">
+                    <p style="text-align:left;margin-top:5px;">Loại xe *</p>
+                    <select id="car_type" class="form-control"><option value="4">4 chỗ</option><option value="8">8 chỗ</option><option value="16">16 chỗ</option><option value="30">30 chỗ</option><option value="45">45 chỗ</option></select>
+                    <p style="text-align:left;margin-top:5px;">Hình thức thuê *</p>
+                    <select id="car_hire_type" class="form-control"><option value="Khứ hồi">Khứ hồi</option><option value="Một chiều">Một chiều</option><option value="Sân bay">Sân bay</option><option value="Chiều về">Chiều về</option><option value="Đi chung">Đi chung</option></select>
+                    <p style="text-align:left;margin-top:5px;">Đối tượng thuê *</p>
+                    <select id="car_who_hire" class="form-control"><option value="Khách thuê xe">Khách thuê xe</option><option value="Văn phòng xe">Văn phòng xe</option><option value="Nhà xe,Lái xe">Nhà xe,Lái xe</option><option value="Lễ tân/Công ty du lịch">Lễ tân/Công ty du lịch</option><option value="Doanh nghiệp/Tổ chức">Doanh nghiệp/Tổ chức</option></select>
+                    <p style="text-align:left;margin-top:5px;">Ngày giờ đi *</p>
+                    <input class="form-control" id="from_datetime" placeholder="Chọn ngày giờ" type="text">
+                    <p style="text-align:left;margin-top:5px;">Ngày giờ về *</p>
+                    <input class="form-control" id="to_datetime" placeholder="Chọn ngày giờ" type="text">
                 </div>
-                <div class="col-sm-4">
-                    <div class="map_canvas" id="map" style="width:100%;height:450px;border:0"></div>
+                <div class="col-sm-6">
+                    <div class="map_canvas" id="map" style="width:100%;height:550px;border:0"></div>
                     @*<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29768.399237825946!2d105.82972151548583!3d21.15041217448257!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135011877263c29%3A0xfed63a1860e09572!2zdHQuIMSQw7RuZyBBbmgsIMSQw7RuZyBBbmgsIEhhbm9pLCBWaWV0bmFt!5e0!3m2!1sen!2s!4v1470755312032" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>*@
                 </div>
                 <input type="button" value="XÁC NHẬN" class="btn btn-primary btn-block" onclick="booking();" style="margin-bottom:5px;" id="btnregister1" />
@@ -37,7 +47,13 @@
     </div> <!-- end contact form outer row with centered text-->
 </div><!-- End Input Your Home Content Here -->
 <script>
-    $('#datetimepicker').datetimepicker({
+    $('#from_datetime').datetimepicker({
+        dayOfWeekStart: 1,
+        lang: 'en',
+        disabledDates: ['1986/01/08', '1986/01/09', '1986/01/10'],
+        startDate: '@DateTime.Now.Year/@DateTime.Now.Month/@DateTime.Now.Date'
+    });
+    $('#to_datetime').datetimepicker({
         dayOfWeekStart: 1,
         lang: 'en',
         disabledDates: ['1986/01/08', '1986/01/09', '1986/01/10'],
@@ -45,8 +61,8 @@
     });
     var d = new Date();
     var s = d.toLocaleString();
-    $('#datetimepicker').datetimepicker({ value: s, step: 10 });
-
+    $('#from_datetime').datetimepicker({ value: s, step: 10 });
+    $('#to_datetime').datetimepicker({ value: s, step: 10 });
     $(function () {
         var latlng = new google.maps.LatLng(21.0333, 105.85);
         var mapOptions = {
@@ -86,10 +102,10 @@
     });
     function booking() {
         var formdata = new FormData(); //FormData object
-        var datetimepicker = document.getElementById("datetimepicker").value;
-        if (document.getElementById("name").value == "") {
+        var from_datetime = document.getElementById("from_datetime").value;
+        if (document.getElementById("car_from").value == "") {
             alert("Nhập tên!");
-            document.getElementById("name").focus();
+            document.getElementById("car_from").focus();
             return;
         }
         if (document.getElementById("phone").value == "") {

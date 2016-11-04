@@ -10,6 +10,26 @@ namespace ThueXeToanCau
 {
     public class Config
     {
+        public static int factor1 = 130;
+        public static int factor2 = 130;
+        public static int factor3 = 130;
+        public static int factor4 = 130;
+        public static int factor5 = 130;
+        public static int factorHoliday1 = 120;
+        public static int factorHoliday2 = 130;
+        public static int factorHoliday3 = 140;
+        public static int factorHoliday4 = 150;
+        public static int factorHoliday5 = 160;
+        public static int price1 = 6000;
+        public static int price2 = 8000;
+        public static int price3 = 12000;
+        public static int price4 = 16000;
+        public static int price5 = 18000;
+        public static int reduct1 = 5;
+        public static int reduct2 = 10;
+        public static int reduct3 = 15;
+        public static int reduct4 = 20;
+        
         //convert longitude latitude to geography
         public static DbGeography CreatePoint(double? latitude, double? longitude)
         {
@@ -17,6 +37,9 @@ namespace ThueXeToanCau
             latitude = (double)latitude;
             longitude = (double)longitude;
             return DbGeography.FromText(String.Format("POINT({1} {0})", latitude, longitude));
+        }
+        public static bool isHoliDay(DateTime? date){
+            return false;
         }
         public static string GetMd5Hash(MD5 md5Hash, string input)
         {

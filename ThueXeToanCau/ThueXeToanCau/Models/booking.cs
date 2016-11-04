@@ -29,6 +29,7 @@ namespace ThueXeToanCau.Models
         public Nullable<double> lon2 { get; set; }
         public Nullable<double> lat2 { get; set; }
         public Nullable<int> book_price { get; set; }
+        public Nullable<int> book_price_max { get; set; }
         public Nullable<System.DateTime> datebook { get; set; }
     }
 }
