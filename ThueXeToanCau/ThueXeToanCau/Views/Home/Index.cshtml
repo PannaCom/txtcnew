@@ -26,7 +26,7 @@
                     <input id="car_to" name="car_to" class="form-control" placeholder="quận huyện, đường phố, thị trấn..." onblur="CreateLine();"/>
                     <input id="lon2" name="lon2" value="" type="hidden"><input id="lat2" name="lat2" value="" type="hidden">
                     <p style="text-align:left;margin-top:5px;">Loại xe *</p>
-                    <select id="car_type" class="form-control"><option value="4">4 chỗ</option><option value="8">8 chỗ</option><option value="16">16 chỗ</option><option value="30">30 chỗ</option><option value="45">45 chỗ</option></select>
+                    <select id="car_type" class="form-control"><option value="5">5 chỗ</option><option value="8">8 chỗ</option><option value="16">16 chỗ</option><option value="30">30 chỗ</option><option value="45">45 chỗ</option></select>
                     <p style="text-align:left;margin-top:5px;">Hình thức thuê *</p>
                     <select id="car_hire_type" class="form-control"><option value="Khứ hồi">Khứ hồi</option><option value="Một chiều">Một chiều</option><option value="Sân bay">Sân bay</option><option value="Chiều về">Chiều về</option><option value="Đi chung">Đi chung</option></select>
                     <p style="text-align:left;margin-top:5px;">Đối tượng thuê *</p>
@@ -103,45 +103,50 @@
     function booking() {
         var formdata = new FormData(); //FormData object
         var from_datetime = document.getElementById("from_datetime").value;
-        if (document.getElementById("car_from").value == "") {
-            alert("Nhập tên!");
+        if (document.getElementById("car_from").value == "" || document.getElementById("lon1").value == "") {
+            alert("Nhập điểm đi!");
             document.getElementById("car_from").focus();
             return;
         }
-        if (document.getElementById("phone").value == "") {
-            alert("Nhập số điện thoại!");
-            document.getElementById("phone").focus();
+        if (document.getElementById("car_to").value == "" || document.getElementById("lon2").value == "") {
+            alert("Nhập điểm đến!");
+            document.getElementById("car_to").focus();
             return;
         }
-        if (document.getElementById("datetimepicker").value == "") {
-            alert("Nhập thời gian!");
-            document.getElementById("datetimepicker").focus();
+        if (document.getElementById("from_datetime").value == "") {
+            alert("Ngày giờ đi!");
+            document.getElementById("from_datetime").focus();
             return;
         }
-        if (document.getElementById("des").value == "") {
-            alert("Nhập ghi chú!");
-            document.getElementById("des").focus();
+        if (document.getElementById("to_datetime").value == "") {
+            alert("Ngày giờ về!");
+            document.getElementById("to_datetime").focus();
             return;
         }
-        formdata.append("name", document.getElementById("name").value);
-        formdata.append("phone", document.getElementById("phone").value);
-        formdata.append("email", document.getElementById("email").value);
-        formdata.append("date_from", document.getElementById("datetimepicker").value);
-        formdata.append("des", document.getElementById("des").value);
-
+        formdata.append("car_from", document.getElementById("car_from").value);
+        formdata.append("car_to", document.getElementById("car_to").value);
+        formdata.append("car_type", document.getElementById("car_type").value);
+        formdata.append("car_hire_type", document.getElementById("car_hire_type").value);
+        formdata.append("car_who_hire", document.getElementById("car_who_hire").value);
+        formdata.append("from_datetime", document.getElementById("from_datetime").value);
+        formdata.append("to_datetime", document.getElementById("to_datetime").value);
+        formdata.append("lat1", document.getElementById("lat1").value);
+        formdata.append("lon1", document.getElementById("lon1").value);
+        formdata.append("lat2", document.getElementById("lat2").value);
+        formdata.append("lon2", document.getElementById("lon2").value);
         document.getElementById("btnregister1").value = "Đang đăng ký xin chờ....";
         document.getElementById("btnregister1").disabled = true;
 
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/Home/AddNew');
+        xhr.open('POST', '/Api/Booking');
         xhr.send(formdata);
         var content = "";
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 if (xhr.responseText == "1") {
-                    alert("Bạn đã đăng ký thành công! Chúng tôi sẽ liên hệ lại sớm nhất!");
+                    alert("Bạn đã đặt xe thành công! Lái xe của chúng tôi sẽ liên hệ lại sớm nhất!");
                 } else {
-                    alert("Chương trình đang cập nhật, xin quay lại sau!");
+                    alert("Hiện tổng đài đang bận, xin quay lại sau!");
                 }
                 document.getElementById("btnregister1").value = "XÁC NHẬN";
                 document.getElementById("btnregister1").disabled = false;

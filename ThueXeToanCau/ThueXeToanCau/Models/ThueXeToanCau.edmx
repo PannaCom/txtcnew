@@ -26,6 +26,16 @@
           <Property Name="book_price" Type="int" />
           <Property Name="book_price_max" Type="int" />
           <Property Name="datebook" Type="datetime" />
+          <Property Name="time_to_reduce" Type="int" />
+        </EntityType>
+        <EntityType Name="car_price">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="car_size" Type="int" />
+          <Property Name="price" Type="float" />
+          <Property Name="multiple" Type="float" />
         </EntityType>
         <EntityType Name="drivers">
           <Key>
@@ -50,7 +60,6 @@
           <Property Name="address" Type="nvarchar" MaxLength="250" />
           <Property Name="card_identify" Type="nvarchar" MaxLength="50" />
           <Property Name="license" Type="nvarchar" MaxLength="50" />
-          <Property Name="CMND" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'thuexetoancau.dbo.list_car' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -80,6 +89,15 @@ warning 6002: The table/view 'thuexetoancau.dbo.list_car_type' does not have a p
           <Property Name="id" Type="int" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="NationalDay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DayName" Type="nvarchar" MaxLength="100" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TinhThanh">
@@ -102,7 +120,9 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
         </EntityType>
         <EntityContainer Name="thuexetoancauModelStoreContainer">
           <EntitySet Name="booking" EntityType="Self.booking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="car_price" EntityType="Self.car_price" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="drivers" EntityType="Self.drivers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NationalDay" EntityType="Self.NationalDay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="list_car" EntityType="Self.list_car" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [list_car].[id] AS [id], 
@@ -185,9 +205,52 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
           <EntitySet Name="list_car_type" EntityType="Self.list_car_type" />
           <EntitySet Name="TinhThanhs" EntityType="Self.TinhThanh" />
           <EntitySet Name="users" EntityType="Self.user" />
-          <EntitySet Name="drivers" EntityType="thuexetoancauModel.driver" />
           <EntitySet Name="bookings" EntityType="thuexetoancauModel.booking" />
+          <EntitySet Name="car_price" EntityType="thuexetoancauModel.car_price" />
+          <EntitySet Name="NationalDays" EntityType="thuexetoancauModel.NationalDay" />
+          <EntitySet Name="drivers" EntityType="thuexetoancauModel.driver" />
         </EntityContainer>
+        <EntityType Name="booking">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="car_from" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="car_to" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="car_type" Type="Int32" />
+          <Property Name="car_hire_type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="car_who_hire" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="from_datetime" Type="DateTime" Precision="3" />
+          <Property Name="to_datetime" Type="DateTime" Precision="3" />
+          <Property Name="geo1" Type="Geography" />
+          <Property Name="lon1" Type="Double" />
+          <Property Name="lat1" Type="Double" />
+          <Property Name="geo2" Type="Geography" />
+          <Property Name="lon2" Type="Double" />
+          <Property Name="lat2" Type="Double" />
+          <Property Name="book_price" Type="Int32" />
+          <Property Name="book_price_max" Type="Int32" />
+          <Property Name="datebook" Type="DateTime" Precision="3" />
+          <Property Name="time_to_reduce" Type="Int32" />
+        </EntityType>
+        <EntityType Name="car_price">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="car_size" Type="Int32" />
+          <Property Name="price" Type="Double" />
+          <Property Name="multiple" Type="Double" />
+        </EntityType>
+        <EntityType Name="NationalDay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DayName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+        </EntityType>
         <EntityType Name="driver">
           <Key>
             <PropertyRef Name="id" />
@@ -211,29 +274,6 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
           <Property Name="address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="card_identify" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="license" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CMND" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="booking">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="car_from" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="car_to" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="car_type" Type="Int32" />
-          <Property Name="car_hire_type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="car_who_hire" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="from_datetime" Type="DateTime" Precision="3" />
-          <Property Name="to_datetime" Type="DateTime" Precision="3" />
-          <Property Name="geo1" Type="Geography" />
-          <Property Name="lon1" Type="Double" />
-          <Property Name="lat1" Type="Double" />
-          <Property Name="geo2" Type="Geography" />
-          <Property Name="lon2" Type="Double" />
-          <Property Name="lat2" Type="Double" />
-          <Property Name="book_price" Type="Int32" />
-          <Property Name="book_price_max" Type="Int32" />
-          <Property Name="datebook" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -284,10 +324,53 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="bookings">
+            <EntityTypeMapping TypeName="thuexetoancauModel.booking">
+              <MappingFragment StoreEntitySet="booking">
+                <ScalarProperty Name="time_to_reduce" ColumnName="time_to_reduce" />
+                <ScalarProperty Name="datebook" ColumnName="datebook" />
+                <ScalarProperty Name="book_price_max" ColumnName="book_price_max" />
+                <ScalarProperty Name="book_price" ColumnName="book_price" />
+                <ScalarProperty Name="lat2" ColumnName="lat2" />
+                <ScalarProperty Name="lon2" ColumnName="lon2" />
+                <ScalarProperty Name="geo2" ColumnName="geo2" />
+                <ScalarProperty Name="lat1" ColumnName="lat1" />
+                <ScalarProperty Name="lon1" ColumnName="lon1" />
+                <ScalarProperty Name="geo1" ColumnName="geo1" />
+                <ScalarProperty Name="to_datetime" ColumnName="to_datetime" />
+                <ScalarProperty Name="from_datetime" ColumnName="from_datetime" />
+                <ScalarProperty Name="car_who_hire" ColumnName="car_who_hire" />
+                <ScalarProperty Name="car_hire_type" ColumnName="car_hire_type" />
+                <ScalarProperty Name="car_type" ColumnName="car_type" />
+                <ScalarProperty Name="car_to" ColumnName="car_to" />
+                <ScalarProperty Name="car_from" ColumnName="car_from" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="car_price">
+            <EntityTypeMapping TypeName="thuexetoancauModel.car_price">
+              <MappingFragment StoreEntitySet="car_price">
+                <ScalarProperty Name="multiple" ColumnName="multiple" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="car_size" ColumnName="car_size" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NationalDays">
+            <EntityTypeMapping TypeName="thuexetoancauModel.NationalDay">
+              <MappingFragment StoreEntitySet="NationalDay">
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="DayName" ColumnName="DayName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="drivers">
             <EntityTypeMapping TypeName="thuexetoancauModel.driver">
               <MappingFragment StoreEntitySet="drivers">
-                <ScalarProperty Name="CMND" ColumnName="CMND" />
                 <ScalarProperty Name="license" ColumnName="license" />
                 <ScalarProperty Name="card_identify" ColumnName="card_identify" />
                 <ScalarProperty Name="address" ColumnName="address" />
@@ -306,29 +389,6 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
                 <ScalarProperty Name="phone" ColumnName="phone" />
                 <ScalarProperty Name="pass" ColumnName="pass" />
                 <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="bookings">
-            <EntityTypeMapping TypeName="thuexetoancauModel.booking">
-              <MappingFragment StoreEntitySet="booking">
-                <ScalarProperty Name="datebook" ColumnName="datebook" />
-                <ScalarProperty Name="book_price_max" ColumnName="book_price_max" />
-                <ScalarProperty Name="book_price" ColumnName="book_price" />
-                <ScalarProperty Name="lat2" ColumnName="lat2" />
-                <ScalarProperty Name="lon2" ColumnName="lon2" />
-                <ScalarProperty Name="geo2" ColumnName="geo2" />
-                <ScalarProperty Name="lat1" ColumnName="lat1" />
-                <ScalarProperty Name="lon1" ColumnName="lon1" />
-                <ScalarProperty Name="geo1" ColumnName="geo1" />
-                <ScalarProperty Name="to_datetime" ColumnName="to_datetime" />
-                <ScalarProperty Name="from_datetime" ColumnName="from_datetime" />
-                <ScalarProperty Name="car_who_hire" ColumnName="car_who_hire" />
-                <ScalarProperty Name="car_hire_type" ColumnName="car_hire_type" />
-                <ScalarProperty Name="car_type" ColumnName="car_type" />
-                <ScalarProperty Name="car_to" ColumnName="car_to" />
-                <ScalarProperty Name="car_from" ColumnName="car_from" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

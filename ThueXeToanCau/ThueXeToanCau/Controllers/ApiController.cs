@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System.Data.Entity;
 using Microsoft.Owin.BuilderProperties;
 using System.Web.Script.Serialization;
+using System.Security.Cryptography;
 namespace ThueXeToanCau.Controllers
 {
     public class ApiController : Controller
@@ -18,6 +19,7 @@ namespace ThueXeToanCau.Controllers
         {
             return View();
         }
+        [HttpPost]
         public string booking(string car_from, string car_to, int? car_type, string car_hire_type, string car_who_hire, DateTime? from_datetime, DateTime? to_datetime, double lon1,double lat1,double lon2,double lat2)
         {
             try
@@ -44,6 +46,7 @@ namespace ThueXeToanCau.Controllers
                 bo.datebook = DateTime.Now;
                 bo.book_price = price;
                 bo.book_price_max = price_max;
+                bo.time_to_reduce = 15 * 60;
                 db.bookings.Add(bo);
                 db.SaveChanges();
                 
@@ -168,7 +171,7 @@ namespace ThueXeToanCau.Controllers
                  return 0;
              }
         }
-        public string driverRegister(int? id, string name, string phone, string car_made, string car_model, int car_size, int car_year, string car_type, string card_identify, string license)
+        public string driverRegister(int? id, string name, string phone, string pass,string car_made, string car_model, int car_size, int car_year, string car_type, string card_identify, string license)
         {
             try
             {
@@ -177,6 +180,9 @@ namespace ThueXeToanCau.Controllers
                     driver r = new driver();
                     r.name = name;
                     r.phone = phone;
+                    MD5 md5Hash = MD5.Create();
+                    string hash = Config.GetMd5Hash(md5Hash, pass);
+                    r.pass = hash;
                     r.car_made = car_made;
                     r.car_model = car_model;
                     r.car_size = car_size;
@@ -223,6 +229,9 @@ namespace ThueXeToanCau.Controllers
             public DateTime? from_datetime { get; set; }
             public DateTime? to_datetime { get; set; }
             public DateTime? datebook { get; set; }
+            public int? book_price { get; set; }
+            public int? book_price_max { get; set; }
+            public int? time_to_reduce { get; set; }
             public double lon1 { get; set; }
             public double lat1 { get; set; }
             public double lon2 { get; set; }
@@ -232,7 +241,7 @@ namespace ThueXeToanCau.Controllers
         public string getBooking(double lon,double lat,int order)
         {
             string query="select * from ";
-            query += "(select car_from,car_to, car_type,car_hire_type,car_who_hire,from_datetime,to_datetime,datebook,lon1,lat1,lon2,lat2,ACOS(SIN(PI()*" + lat + "/180.0)*SIN(PI()*lat1/180.0)+COS(PI()*" + lat + "/180.0)*COS(PI()*lat1/180.0)*COS(PI()*lon1/180.0-PI()*" + lon + "/180.0))*6371 As D from booking) as A where D<300 ";
+            query += "(select car_from,car_to, car_type,car_hire_type,car_who_hire,from_datetime,to_datetime,datebook,book_price,book_price_max,time_to_reduce,lon1,lat1,lon2,lat2,ACOS(SIN(PI()*" + lat + "/180.0)*SIN(PI()*lat1/180.0)+COS(PI()*" + lat + "/180.0)*COS(PI()*lat1/180.0)*COS(PI()*lon1/180.0-PI()*" + lon + "/180.0))*6371 As D from booking) as A where D<300 ";
             if (order == null || order == 0)
             {
                 query += " order by D ";

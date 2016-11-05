@@ -31,5 +31,6 @@ namespace ThueXeToanCau.Models
         public Nullable<int> book_price { get; set; }
         public Nullable<int> book_price_max { get; set; }
         public Nullable<System.DateTime> datebook { get; set; }
+        public Nullable<int> time_to_reduce { get; set; }
     }
 }
