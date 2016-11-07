@@ -61,5 +61,18 @@ namespace ThueXeToanCau
             // Return the hexadecimal string. 
             return sBuilder.ToString();
         }
+        public static int dateDiff(DateTime date1, DateTime date2)
+        {
+            try
+            {
+                if (date1 == null || date2 == null) return 0;
+                TimeSpan TS = new System.TimeSpan(date1.Ticks - date2.Ticks);
+                return (int)Math.Abs(TS.TotalDays);
+            }
+            catch (Exception ex)
+            {
+                return 100;
+            }
+        }
     }
 }

@@ -16,7 +16,7 @@
     <!-- Input Your Home Content Here -->
     <div class="row text-center" style="min-height:667px;">
         <div class="col-sm-12">
-            <div class="col-sm-12" id="dv1" style="background-color:white;color:black;border-radius:25px;min-height:567px;border-right:1px solid #808080;">
+            <div class="col-sm-12" id="dv1" style="background-color:white;color:black;border-radius:25px;min-height:567px;border-right:1px solid #808080;opacity: 0.9;filter: alpha(opacity=50);">
                 <h2 style="color:#337ab7;">Đặt xe trực tuyến Grab - Uber đường dài</h2>
                 <div class="col-sm-6">
                     <p style="text-align:left;margin-top:5px;">Điểm đi *</p>
@@ -70,7 +70,34 @@
             center: latlng,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         }
-        map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        //map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        //var map = new google.maps.Map(document.getElementById('map'), {
+        //    center: { lat: 21.0333, lng: 105.85 },
+        //    zoom: 6
+        //});
+        //var infoWindow = new google.maps.InfoWindow({ map: map });
+
+        //// Try HTML5 geolocation.
+        //if (navigator.geolocation) {
+            
+        //    navigator.geolocation.getCurrentPosition(function (position) {
+        //        var pos = {
+        //            lat: position.coords.latitude,
+        //            lng: position.coords.longitude
+        //        };
+                
+        //        infoWindow.setPosition(pos);
+        //        infoWindow.setContent('Location found.');
+        //        map.setCenter(pos);
+               
+        //    }, function () {
+        //        handleLocationError(true, infoWindow, map.getCenter());
+               
+        //    });
+        //} else {
+        //    // Browser doesn't support Geolocation
+        //    handleLocationError(false, infoWindow, map.getCenter());
+        //}
 
         var options = {
             map: ".map_canvas"
@@ -100,6 +127,14 @@
               $.log("Multiple: " + results.length + " results found");
           });
     });
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        //alert("0k");
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+    }
+
     function booking() {
         var formdata = new FormData(); //FormData object
         var from_datetime = document.getElementById("from_datetime").value;
@@ -155,9 +190,9 @@
     }
     function CreateLine() {
         geocoder = new google.maps.Geocoder();
-        var latlng = new google.maps.LatLng(21.0333,105.85);
+        var latlng = new google.maps.LatLng(document.getElementById('lat1').value, document.getElementById('lon1').value);
         var mapOptions = {
-            zoom: 8,
+            zoom: 10,
             center: latlng,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         }

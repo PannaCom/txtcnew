@@ -20,12 +20,12 @@ namespace ThueXeToanCau.Controllers
             return View();
         }
         [HttpPost]
-        public string booking(string car_from, string car_to, int? car_type, string car_hire_type, string car_who_hire, DateTime? from_datetime, DateTime? to_datetime, double lon1,double lat1,double lon2,double lat2)
+        public string booking(string car_from, string car_to, int? car_type, string car_hire_type, string car_who_hire, DateTime from_datetime, DateTime to_datetime, double lon1,double lat1,double lon2,double lat2)
         {
             try
             {
                 //get km distance
-                int price_max = getD(lon1, lat1, lon2, lat2, car_hire_type, car_type, from_datetime);
+                int price_max = getD(lon1, lat1, lon2, lat2, car_hire_type, car_type, from_datetime, to_datetime);
                 int reduce = Config.reduct1;
                 int price = price_max - price_max * reduce / 100;
 
@@ -93,7 +93,7 @@ namespace ThueXeToanCau.Controllers
             public string status { get; set; }
         }
         //Hà Nội - Ninh Bình http://localhost:58046/api/getD?lat1=20.9740873&lon1=105.3724793&lat2=20.1877591&lon2=105.5745668
-        public int getD(double lon1, double lat1, double lon2, double lat2, string car_hire_type,int? car_type,DateTime? date)
+        public int getD(double lon1, double lat1, double lon2, double lat2, string car_hire_type,int? car_type,DateTime from_date,DateTime to_date)
         {
             //get km distance
             try { 
@@ -112,7 +112,63 @@ namespace ThueXeToanCau.Controllers
                 int total = price*factor*km;
                 if (car_hire_type.ToLowerInvariant().Contains("một chiều"))
                 {
-                    if (Config.isHoliDay(date))
+                    if (Config.isHoliDay(from_date))
+                    {
+                        if (car_type == 5) { 
+                            factor = Config.factorHoliday1;
+                            price = Config.price1*130/100;
+                        }
+                        if (car_type == 8) { 
+                            factor = Config.factorHoliday2;
+                            price = Config.price2*130/100;
+                        }
+                        if (car_type == 16) { 
+                            factor = Config.factorHoliday3;
+                            price = Config.price3*130/100;
+                        }
+                        if (car_type == 30) { 
+                            factor = Config.factorHoliday4;
+                            price = Config.price4*130/100;
+                        }
+                        if (car_type == 45) { 
+                            factor = Config.factorHoliday5;
+                            price = Config.price5*130/100;
+                        }
+                    }
+                    else
+                    {
+                        if (car_type == 5)
+                        {
+                            factor = 100;
+                            price = Config.price1*130/100;
+                        }
+                        if (car_type == 8)
+                        {
+                            factor = 100;
+                            price = Config.price2*130/100;
+                        }
+                        if (car_type == 16)
+                        {
+                            factor = 100;
+                            price = Config.price3*130/100;
+                        }
+                        if (car_type == 30)
+                        {
+                            factor = 100;
+                            price = Config.price4*130/100;
+                        }
+                        if (car_type == 45)
+                        {
+                            factor = 100;
+                            price = Config.price5*130/100;
+                        }
+                    }
+                    total = price * factor * km/100;
+                    return total;
+                }
+                if (car_hire_type.ToLowerInvariant().Contains("khứ hồi"))
+                { 
+                    if (Config.isHoliDay(from_date))
                     {
                         if (car_type == 5) { 
                             factor = Config.factorHoliday1;
@@ -139,32 +195,34 @@ namespace ThueXeToanCau.Controllers
                     {
                         if (car_type == 5)
                         {
-                            factor = Config.factor1;
+                            factor = 100;
                             price = Config.price1;
                         }
                         if (car_type == 8)
                         {
-                            factor = Config.factor2;
+                            factor = 100;
                             price = Config.price2;
                         }
                         if (car_type == 16)
                         {
-                            factor = Config.factor3;
+                            factor = 100;
                             price = Config.price3;
                         }
                         if (car_type == 30)
                         {
-                            factor = Config.factor4;
+                            factor = 100;
                             price = Config.price4;
                         }
                         if (car_type == 45)
                         {
-                            factor = Config.factor5;
+                            factor = 100;
                             price = Config.price5;
                         }
                     }
-                    total = price * factor * km/100;
-                    return total;
+                    if (Config.dateDiff(from_date, to_date) >= 2)
+                    {
+
+                    }
                 }
                 return 1;
              }catch(Exception ex){
@@ -223,7 +281,7 @@ namespace ThueXeToanCau.Controllers
         {
             public string car_from { get; set; }
             public string car_to { get; set; }
-            public string car_type { get; set; }
+            public int? car_type { get; set; }
             public string car_hire_type { get; set; }
             public string car_who_hire { get; set; }
             public DateTime? from_datetime { get; set; }
