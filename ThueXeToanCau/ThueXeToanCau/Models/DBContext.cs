@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -71,6 +72,47 @@ namespace ThueXeToanCau.Models
             catch (Exception ex)
             {
                 return "Đăng ký thất bại: " + ex.Message;
+            }
+        }
+
+        public static string addUpdateCarPrice(car_price cp)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    if(cp.ID == 0)
+                    {
+                        db.car_price.Add(cp);
+                    } else
+                    {
+                        db.Entry(cp).State = EntityState.Modified;
+                    }
+                    db.SaveChanges();
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return "Thất bại: " + ex.Message;
+            }
+        }
+
+        public static string deleteCarPrice(int cpId)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    var cp = new car_price() { ID = cpId };
+                    db.Entry(cp).State = EntityState.Deleted;
+                    db.SaveChanges();
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return "Thất bại: " + ex.Message;
             }
         }
     }
