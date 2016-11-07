@@ -18,5 +18,6 @@ namespace ThueXeToanCau.Models
         public Nullable<int> car_size { get; set; }
         public Nullable<double> price { get; set; }
         public Nullable<double> multiple { get; set; }
+        public Nullable<double> multiple2 { get; set; }
     }
 }

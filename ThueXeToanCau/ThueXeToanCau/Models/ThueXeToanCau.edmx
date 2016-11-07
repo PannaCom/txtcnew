@@ -36,6 +36,7 @@
           <Property Name="car_size" Type="int" />
           <Property Name="price" Type="float" />
           <Property Name="multiple" Type="float" />
+          <Property Name="multiple2" Type="float" />
         </EntityType>
         <EntityType Name="drivers">
           <Key>
@@ -206,9 +207,9 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
           <EntitySet Name="TinhThanhs" EntityType="Self.TinhThanh" />
           <EntitySet Name="users" EntityType="Self.user" />
           <EntitySet Name="bookings" EntityType="thuexetoancauModel.booking" />
+          <EntitySet Name="drivers" EntityType="thuexetoancauModel.driver" />
           <EntitySet Name="car_price" EntityType="thuexetoancauModel.car_price" />
           <EntitySet Name="NationalDays" EntityType="thuexetoancauModel.NationalDay" />
-          <EntitySet Name="drivers" EntityType="thuexetoancauModel.driver" />
         </EntityContainer>
         <EntityType Name="booking">
           <Key>
@@ -233,24 +234,6 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
           <Property Name="datebook" Type="DateTime" Precision="3" />
           <Property Name="time_to_reduce" Type="Int32" />
         </EntityType>
-        <EntityType Name="car_price">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="car_size" Type="Int32" />
-          <Property Name="price" Type="Double" />
-          <Property Name="multiple" Type="Double" />
-        </EntityType>
-        <EntityType Name="NationalDay">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DayName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="StartDate" Type="DateTime" Precision="0" />
-          <Property Name="EndDate" Type="DateTime" Precision="0" />
-        </EntityType>
         <EntityType Name="driver">
           <Key>
             <PropertyRef Name="id" />
@@ -274,6 +257,25 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
           <Property Name="address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="card_identify" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="license" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="car_price">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="car_size" Type="Int32" />
+          <Property Name="price" Type="Double" />
+          <Property Name="multiple" Type="Double" />
+          <Property Name="multiple2" Type="Double" />
+        </EntityType>
+        <EntityType Name="NationalDay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DayName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -348,26 +350,6 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="car_price">
-            <EntityTypeMapping TypeName="thuexetoancauModel.car_price">
-              <MappingFragment StoreEntitySet="car_price">
-                <ScalarProperty Name="multiple" ColumnName="multiple" />
-                <ScalarProperty Name="price" ColumnName="price" />
-                <ScalarProperty Name="car_size" ColumnName="car_size" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="NationalDays">
-            <EntityTypeMapping TypeName="thuexetoancauModel.NationalDay">
-              <MappingFragment StoreEntitySet="NationalDay">
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="DayName" ColumnName="DayName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="drivers">
             <EntityTypeMapping TypeName="thuexetoancauModel.driver">
               <MappingFragment StoreEntitySet="drivers">
@@ -390,6 +372,27 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
                 <ScalarProperty Name="pass" ColumnName="pass" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="car_price">
+            <EntityTypeMapping TypeName="thuexetoancauModel.car_price">
+              <MappingFragment StoreEntitySet="car_price">
+                <ScalarProperty Name="multiple2" ColumnName="multiple2" />
+                <ScalarProperty Name="multiple" ColumnName="multiple" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="car_size" ColumnName="car_size" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NationalDays">
+            <EntityTypeMapping TypeName="thuexetoancauModel.NationalDay">
+              <MappingFragment StoreEntitySet="NationalDay">
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="DayName" ColumnName="DayName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

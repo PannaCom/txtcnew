@@ -11,9 +11,9 @@
         <EntityTypeShape EntityType="thuexetoancauModel.TinhThanh" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="thuexetoancauModel.user" Width="1.5" PointX="2.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="thuexetoancauModel.booking" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="thuexetoancauModel.car_price" Width="1.5" PointX="7.75" PointY="3.75" />
-        <EntityTypeShape EntityType="thuexetoancauModel.NationalDay" Width="1.5" PointX="8.75" PointY="6.75" />
         <EntityTypeShape EntityType="thuexetoancauModel.driver" Width="1.5" PointX="5.375" PointY="6.75" />
+        <EntityTypeShape EntityType="thuexetoancauModel.car_price" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="thuexetoancauModel.NationalDay" Width="1.5" PointX="7.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

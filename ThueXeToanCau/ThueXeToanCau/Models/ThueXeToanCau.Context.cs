@@ -31,8 +31,8 @@ namespace ThueXeToanCau.Models
         public virtual DbSet<TinhThanh> TinhThanhs { get; set; }
         public virtual DbSet<user> users { get; set; }
         public virtual DbSet<booking> bookings { get; set; }
+        public virtual DbSet<driver> drivers { get; set; }
         public virtual DbSet<car_price> car_price { get; set; }
         public virtual DbSet<NationalDay> NationalDays { get; set; }
-        public virtual DbSet<driver> drivers { get; set; }
     }
 }
