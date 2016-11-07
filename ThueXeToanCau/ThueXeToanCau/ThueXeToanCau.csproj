@@ -164,6 +164,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -172,6 +173,9 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\booking.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\car_price.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBContext.cs" />
@@ -189,6 +193,9 @@
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\NationalDay.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ThueXeToanCau.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -896,6 +903,7 @@
     <Content Include="Models\ThueXeToanCau.edmx.diagram">
       <DependentUpon>ThueXeToanCau.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\thuexetoancau.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\driver.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -945,6 +953,8 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\RegisterDriver.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
