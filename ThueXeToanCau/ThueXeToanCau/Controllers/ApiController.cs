@@ -329,6 +329,21 @@ namespace ThueXeToanCau.Controllers
             var p = db.Database.SqlQuery<gbol>(query);
             return JsonConvert.SerializeObject(p.ToList());
         }
+        public string getCarHireType()
+        {
+            var p = (from q in db.car_hire_type select q.name);
+            return JsonConvert.SerializeObject(p.ToList());
+        }
+        public string getCarType()
+        {
+            var p = (from q in db.car_type select q.name);
+            return JsonConvert.SerializeObject(p.ToList());
+        }
+        public string getCarWhoHire()
+        {
+            var p = (from q in db.car_who_hire select q.name);
+            return JsonConvert.SerializeObject(p.ToList());
+        }
 
         #region Drivers - duyvt
 
