@@ -49,12 +49,11 @@ namespace ThueXeToanCau.Controllers
                 bo.time_to_reduce = 15 * 60;
                 db.bookings.Add(bo);
                 db.SaveChanges();
-                
-                return "1";
+                return price_max.ToString();
             }
             catch (Exception ex)
             {
-                return "0";
+                return "-1";
             }
         }
         //Class for "distance" and "duration" which has the "text" and "value" properties.
@@ -116,23 +115,23 @@ namespace ThueXeToanCau.Controllers
                     {
                         if (car_type == 5) { 
                             factor = Config.factorHoliday1;
-                            price = Config.price1*130/100;
+                            price = Config.price1 * Config.factor1/100;
                         }
                         if (car_type == 8) { 
                             factor = Config.factorHoliday2;
-                            price = Config.price2*130/100;
+                            price = Config.price2 * Config.factor2/100;
                         }
                         if (car_type == 16) { 
                             factor = Config.factorHoliday3;
-                            price = Config.price3*130/100;
+                            price = Config.price3 * Config.factor3/100;
                         }
                         if (car_type == 30) { 
                             factor = Config.factorHoliday4;
-                            price = Config.price4*130/100;
+                            price = Config.price4 * Config.factor4/100;
                         }
                         if (car_type == 45) { 
                             factor = Config.factorHoliday5;
-                            price = Config.price5*130/100;
+                            price = Config.price5 * Config.factor5/100;
                         }
                     }
                     else
@@ -140,27 +139,27 @@ namespace ThueXeToanCau.Controllers
                         if (car_type == 5)
                         {
                             factor = 100;
-                            price = Config.price1*130/100;
+                            price = Config.price1 * Config.factor1 / 100;
                         }
                         if (car_type == 8)
                         {
                             factor = 100;
-                            price = Config.price2*130/100;
+                            price = Config.price2 * Config.factor2/ 100;
                         }
                         if (car_type == 16)
                         {
                             factor = 100;
-                            price = Config.price3*130/100;
+                            price = Config.price3 * Config.factor3/ 100;
                         }
                         if (car_type == 30)
                         {
                             factor = 100;
-                            price = Config.price4*130/100;
+                            price = Config.price4 * Config.factor4/ 100;
                         }
                         if (car_type == 45)
                         {
                             factor = 100;
-                            price = Config.price5*130/100;
+                            price = Config.price5 * Config.factor5/ 100;
                         }
                     }
                     total = price * factor * km/100;
@@ -168,6 +167,7 @@ namespace ThueXeToanCau.Controllers
                 }
                 if (car_hire_type.ToLowerInvariant().Contains("khứ hồi"))
                 { 
+                    
                     if (Config.isHoliDay(from_date))
                     {
                         if (car_type == 5) { 
@@ -219,9 +219,27 @@ namespace ThueXeToanCau.Controllers
                             price = Config.price5;
                         }
                     }
-                    if (Config.dateDiff(from_date, to_date) >= 2)
+                    int days=Config.dateDiff(from_date, to_date);
+                    if (to_date.Day - from_date.Day==1) days=2;
+                    if (days >= 2)//Đi dưới 2 ngày, về trong ngày
                     {
-
+                        km = km * 2;
+                        if (km <= 200)
+                        {
+                            if (km < 200) km = 200;
+                        }
+                        total = price * factor * km*days / 100;//6000*100*200*3/100=3600000, Hà Nội, Ninh Bình 3 ngày, 100km khứ hồi
+                        return total;
+                    }
+                    else
+                    {
+                        km = km * 2;
+                        if (km <= 200)
+                        {
+                            if (km < 100) km = 100;
+                        }
+                        total = price * factor * km / 100;
+                        return total;
                     }
                 }
                 return 1;

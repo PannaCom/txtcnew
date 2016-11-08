@@ -28,15 +28,37 @@
           <Property Name="datebook" Type="datetime" />
           <Property Name="time_to_reduce" Type="int" />
         </EntityType>
+        <EntityType Name="car_hire_type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="150" />
+        </EntityType>
         <EntityType Name="car_price">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="car_size" Type="int" />
-          <Property Name="price" Type="float" />
-          <Property Name="multiple" Type="float" />
-          <Property Name="multiple2" Type="float" />
+          <Property Name="price" Type="int" />
+          <Property Name="price2" Type="int" />
+          <Property Name="multiple" Type="int" />
+          <Property Name="multiple2" Type="int" />
+        </EntityType>
+        <EntityType Name="car_type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="car_who_hire">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="drivers">
           <Key>
@@ -99,6 +121,13 @@ warning 6002: The table/view 'thuexetoancau.dbo.list_car_type' does not have a p
           <Property Name="StartDate" Type="date" />
           <Property Name="EndDate" Type="date" />
         </EntityType>
+        <EntityType Name="notice">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="150" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TinhThanh">
@@ -121,9 +150,13 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
         </EntityType>
         <EntityContainer Name="thuexetoancauModelStoreContainer">
           <EntitySet Name="booking" EntityType="Self.booking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="car_hire_type" EntityType="Self.car_hire_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_price" EntityType="Self.car_price" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="car_type" EntityType="Self.car_type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="car_who_hire" EntityType="Self.car_who_hire" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="drivers" EntityType="Self.drivers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NationalDay" EntityType="Self.NationalDay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="notice" EntityType="Self.notice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="list_car" EntityType="Self.list_car" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [list_car].[id] AS [id], 
@@ -208,8 +241,12 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
           <EntitySet Name="users" EntityType="Self.user" />
           <EntitySet Name="bookings" EntityType="thuexetoancauModel.booking" />
           <EntitySet Name="drivers" EntityType="thuexetoancauModel.driver" />
-          <EntitySet Name="car_price" EntityType="thuexetoancauModel.car_price" />
           <EntitySet Name="NationalDays" EntityType="thuexetoancauModel.NationalDay" />
+          <EntitySet Name="car_hire_type" EntityType="thuexetoancauModel.car_hire_type" />
+          <EntitySet Name="car_price" EntityType="thuexetoancauModel.car_price" />
+          <EntitySet Name="car_type" EntityType="thuexetoancauModel.car_type" />
+          <EntitySet Name="car_who_hire" EntityType="thuexetoancauModel.car_who_hire" />
+          <EntitySet Name="notices" EntityType="thuexetoancauModel.notice" />
         </EntityContainer>
         <EntityType Name="booking">
           <Key>
@@ -258,16 +295,6 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
           <Property Name="card_identify" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="license" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="car_price">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="car_size" Type="Int32" />
-          <Property Name="price" Type="Double" />
-          <Property Name="multiple" Type="Double" />
-          <Property Name="multiple2" Type="Double" />
-        </EntityType>
         <EntityType Name="NationalDay">
           <Key>
             <PropertyRef Name="ID" />
@@ -276,6 +303,45 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
           <Property Name="DayName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="StartDate" Type="DateTime" Precision="0" />
           <Property Name="EndDate" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="car_hire_type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="car_price">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="car_size" Type="Int32" />
+          <Property Name="price" Type="Int32" />
+          <Property Name="price2" Type="Int32" />
+          <Property Name="multiple" Type="Int32" />
+          <Property Name="multiple2" Type="Int32" />
+        </EntityType>
+        <EntityType Name="car_type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="car_who_hire">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="notice">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -375,17 +441,6 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="car_price">
-            <EntityTypeMapping TypeName="thuexetoancauModel.car_price">
-              <MappingFragment StoreEntitySet="car_price">
-                <ScalarProperty Name="multiple2" ColumnName="multiple2" />
-                <ScalarProperty Name="multiple" ColumnName="multiple" />
-                <ScalarProperty Name="price" ColumnName="price" />
-                <ScalarProperty Name="car_size" ColumnName="car_size" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="NationalDays">
             <EntityTypeMapping TypeName="thuexetoancauModel.NationalDay">
               <MappingFragment StoreEntitySet="NationalDay">
@@ -393,6 +448,50 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="DayName" ColumnName="DayName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="car_hire_type">
+            <EntityTypeMapping TypeName="thuexetoancauModel.car_hire_type">
+              <MappingFragment StoreEntitySet="car_hire_type">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="car_price">
+            <EntityTypeMapping TypeName="thuexetoancauModel.car_price">
+              <MappingFragment StoreEntitySet="car_price">
+                <ScalarProperty Name="multiple2" ColumnName="multiple2" />
+                <ScalarProperty Name="multiple" ColumnName="multiple" />
+                <ScalarProperty Name="price2" ColumnName="price2" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="car_size" ColumnName="car_size" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="car_type">
+            <EntityTypeMapping TypeName="thuexetoancauModel.car_type">
+              <MappingFragment StoreEntitySet="car_type">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="car_who_hire">
+            <EntityTypeMapping TypeName="thuexetoancauModel.car_who_hire">
+              <MappingFragment StoreEntitySet="car_who_hire">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="notices">
+            <EntityTypeMapping TypeName="thuexetoancauModel.notice">
+              <MappingFragment StoreEntitySet="notice">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

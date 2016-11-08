@@ -12,13 +12,9 @@ namespace ThueXeToanCau.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class car_price
+    public partial class car_who_hire
     {
-        public int ID { get; set; }
-        public Nullable<int> car_size { get; set; }
-        public Nullable<int> price { get; set; }
-        public Nullable<int> price2 { get; set; }
-        public Nullable<int> multiple { get; set; }
-        public Nullable<int> multiple2 { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
     }
 }

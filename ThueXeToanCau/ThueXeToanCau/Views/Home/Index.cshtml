@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="/Scripts/jquery-ui.css">*@
 <script src="/Scripts/jquery.datetimepicker.js"></script>
 <link rel="stylesheet" type="text/css" href="/Content/jquery.datetimepicker.css" />
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places" type="text/javascript"></script>
+<script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places" type="text/javascript"></script>
 <script src="/Scripts/jquery.geocomplete.js"></script>
 
 @*<h2>Đặt xe trực tuyến Grab - Uber đường dài</h2>*@
@@ -30,7 +30,7 @@
                     <p style="text-align:left;margin-top:5px;">Hình thức thuê *</p>
                     <select id="car_hire_type" class="form-control"><option value="Khứ hồi">Khứ hồi</option><option value="Một chiều">Một chiều</option><option value="Sân bay">Sân bay</option><option value="Chiều về">Chiều về</option><option value="Đi chung">Đi chung</option></select>
                     <p style="text-align:left;margin-top:5px;">Đối tượng thuê *</p>
-                    <select id="car_who_hire" class="form-control"><option value="Khách thuê xe">Khách thuê xe</option><option value="Văn phòng xe">Văn phòng xe</option><option value="Nhà xe,Lái xe">Nhà xe,Lái xe</option><option value="Lễ tân/Công ty du lịch">Lễ tân/Công ty du lịch</option><option value="Doanh nghiệp/Tổ chức">Doanh nghiệp/Tổ chức</option></select>
+                    <select id="car_who_hire" class="form-control"><option value="Khách thuê xe">Khách thuê xe</option><option value="Văn phòng xe">Văn phòng xe</option><option value="Nhà xe/Lái xe">Nhà xe/Lái xe</option><option value="Lễ tân/Công ty du lịch">Lễ tân/Công ty du lịch</option><option value="Doanh nghiệp/Tổ chức">Doanh nghiệp/Tổ chức</option></select>
                     <p style="text-align:left;margin-top:5px;">Ngày giờ đi *</p>
                     <input class="form-control" id="from_datetime" placeholder="Chọn ngày giờ" type="text">
                     <p style="text-align:left;margin-top:5px;">Ngày giờ về *</p>
@@ -42,10 +42,21 @@
                 </div>
                 <input type="button" value="XÁC NHẬN" class="btn btn-primary btn-block" onclick="booking();" style="margin-bottom:5px;" id="btnregister1" />
             </div>
-
         </div><!-- end col 10 with offset 1 to centered -->
     </div> <!-- end contact form outer row with centered text-->
 </div><!-- End Input Your Home Content Here -->
+<div class="row" style="background:#ffffff;color:#000000;position:fixed;width:100%;top:25%;padding-left:5px;padding-right:5px;text-align:left;width:auto;display:none;z-index:1001;" id="detail">
+    <div style="width:100%;text-align:center;color:#000000;" class="standardcss"><h2>Bạn đã đặt xe thành công! Lái xe của chúng tôi sẽ liên hệ lại sớm nhất.</h2></div>
+    @*<div style="text-align:center;" id="loading" class="standardcss"><img src="/Content/Images/loading.gif" style="height:50px;width:50px;" /></div>*@
+    <div style="border-bottom:1px solid #cecece;" class="standardcss"><b>Điểm đi:</b> <span id="f1"></span></div>
+    <div style="border-bottom:1px solid #cecece;" class="standardcss"><b>Điểm đến:</b> <span id="f2"></span></div>
+    <div style="border-bottom:1px solid #cecece;" class="standardcss"><b>Loại xe:</b> <span id="f3"></span></div>
+    <div style="border-bottom:1px solid #cecece;" class="standardcss"><b>Hình thức thuê:</b> <span id="f4"></span></div>
+    <div style="border-bottom:1px solid #cecece;" class="standardcss"><b>Đối tượng thuê:</b> <span id="f5"></span></div>
+    <div style="border-bottom:1px solid #cecece;" class="standardcss"><b>Ngày giờ:</b> <span id="f6"></span></div>
+    <div style="border-bottom:1px solid #cecece;" class="standardcss"><b>GIÁ ƯỚC TÍNH:</b> <span id="f7"></span> đồng</div>
+    <div style="text-align:center;padding-top:25px;" class="standardcss"><a href="#" style="text-decoration:none;background-color:#4e612a;color:#c2bd3a;padding-left:15px;padding-bottom:5px;padding-top:5px;padding-right:15px;" onclick="$('#detail').hide();" id="hotlinephone3">THOÁT</a></div>
+</div>     
 <script>
     $('#from_datetime').datetimepicker({
         dayOfWeekStart: 1,
@@ -64,41 +75,12 @@
     $('#from_datetime').datetimepicker({ value: s, step: 10 });
     $('#to_datetime').datetimepicker({ value: s, step: 10 });
     $(function () {
-        var latlng = new google.maps.LatLng(21.0333, 105.85);
-        var mapOptions = {
-            zoom: 8,
-            center: latlng,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        }
-        //map = new google.maps.Map(document.getElementById("map"), mapOptions);
-        //var map = new google.maps.Map(document.getElementById('map'), {
-        //    center: { lat: 21.0333, lng: 105.85 },
-        //    zoom: 6
-        //});
-        //var infoWindow = new google.maps.InfoWindow({ map: map });
-
-        //// Try HTML5 geolocation.
-        //if (navigator.geolocation) {
-            
-        //    navigator.geolocation.getCurrentPosition(function (position) {
-        //        var pos = {
-        //            lat: position.coords.latitude,
-        //            lng: position.coords.longitude
-        //        };
-                
-        //        infoWindow.setPosition(pos);
-        //        infoWindow.setContent('Location found.');
-        //        map.setCenter(pos);
-               
-        //    }, function () {
-        //        handleLocationError(true, infoWindow, map.getCenter());
-               
-        //    });
-        //} else {
-        //    // Browser doesn't support Geolocation
-        //    handleLocationError(false, infoWindow, map.getCenter());
+        //var latlng = new google.maps.LatLng(21.0333, 105.85);
+        //var mapOptions = {
+        //    zoom: 8,
+        //    center: latlng,
+        //    mapTypeId: google.maps.MapTypeId.ROADMAP
         //}
-
         var options = {
             map: ".map_canvas"
         };
@@ -126,6 +108,7 @@
           .bind("geocode:multiple", function (event, results) {
               $.log("Multiple: " + results.length + " results found");
           });
+        initmap();
     });
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         //alert("0k");
@@ -134,7 +117,41 @@
                               'Error: The Geolocation service failed.' :
                               'Error: Your browser doesn\'t support geolocation.');
     }
+    function initmap() {
+        //var mapOptions = {
+        //    zoom: 8,
+        //    center: latlng,
+        //    mapTypeId: google.maps.MapTypeId.ROADMAP
+        //}
+        //var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 21.0333, lng: 105.85 },
+            zoom: 10
+        });
+        var infoWindow = new google.maps.InfoWindow({ map: map });
 
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                infoWindow.setPosition(pos);
+                infoWindow.setContent('Vị trí của bạn.');
+                map.setCenter(pos);
+
+            }, function () {
+                handleLocationError(true, infoWindow, map.getCenter());
+
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+    }
     function booking() {
         var formdata = new FormData(); //FormData object
         var from_datetime = document.getElementById("from_datetime").value;
@@ -178,8 +195,15 @@
         var content = "";
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                if (xhr.responseText == "1") {
-                    alert("Bạn đã đặt xe thành công! Lái xe của chúng tôi sẽ liên hệ lại sớm nhất!");
+                if (xhr.responseText != "0") {
+                    $("#detail").show();
+                    $("#f1").html(document.getElementById("car_from").value);
+                    $("#f2").html(document.getElementById("car_to").value);
+                    $("#f3").html(document.getElementById("car_type").value);
+                    $("#f4").html(document.getElementById("car_hire_type").value);
+                    $("#f5").html(document.getElementById("car_who_hire").value);
+                    $("#f6").html("Giờ đi " + document.getElementById("from_datetime").value + ", giờ về " + document.getElementById("to_datetime").value);
+                    $("#f7").html(xhr.responseText);
                 } else {
                     alert("Hiện tổng đài đang bận, xin quay lại sau!");
                 }
@@ -224,138 +248,37 @@
             });
         });
     }
-    //function register() {
-    //    var formdata = new FormData(); //FormData object
-    //    var datetimepicker = document.getElementById("datetimepicker").value;
-    //    if (document.getElementById("tname").value == "") {
-    //        alert("Nhập tên lái xe!");
-    //        document.getElementById("tname").focus();
-    //        return;
-    //    }
-    //    if (document.getElementById("tphone").value == "") {
-    //        alert("Nhập số điện thoại lái xe!");
-    //        document.getElementById("tphone").focus();
-    //        return;
-    //    }
-    //    if (document.getElementById("address").value == "") {
-    //        alert("Nhập địa chỉ!");
-    //        document.getElementById("address").focus();
-    //        return;
-    //    }
-    //    if (document.getElementById("car_number").value == "") {
-    //        alert("Nhập biển số xe!");
-    //        document.getElementById("car_number").focus();
-    //        return;
-    //    }
-    //    if (document.getElementById("car_made").value == "") {
-    //        alert("Nhập hãng xe!");
-    //        document.getElementById("car_made").focus();
-    //        return;
-    //    }
-    //    if (document.getElementById("car_model").value == "") {
-    //        alert("Nhập loại xe model!");
-    //        document.getElementById("car_model").focus();
-    //        return;
-    //    }
-    //    if (document.getElementById("car_size").value == "") {
-    //        alert("Nhập số chỗ!");
-    //        document.getElementById("car_size").focus();
-    //        return;
-    //    }
-    //    if (document.getElementById("car_year").value == "") {
-    //        alert("Nhập năm sản xuất!");
-    //        document.getElementById("car_year").focus();
-    //        return;
-    //    }
-    //    if (document.getElementById("car_type").value == "") {
-    //        alert("Nhập loại xe!");
-    //        document.getElementById("car_type").focus();
-    //        return;
-    //    }
-    //    if (document.getElementById("car_price").value == "") {
-    //        alert("Nhập bảng giá!");
-    //        document.getElementById("car_price").focus();
-    //        return;
-    //    }
-    //    formdata.append("name", document.getElementById("tname").value);
-    //    formdata.append("phone", document.getElementById("tphone").value);
-    //    //formdata.append("province", document.getElementById("province").value);
-    //    formdata.append("car_number", document.getElementById("car_number").value);
-    //    formdata.append("car_made", document.getElementById("car_made").value);
-    //    formdata.append("car_model", document.getElementById("car_model").value);
-    //    formdata.append("car_size", document.getElementById("car_size").value);
-    //    formdata.append("car_year", document.getElementById("car_year").value);
-    //    formdata.append("car_type", document.getElementById("car_type").value);
-    //    formdata.append("car_price", document.getElementById("car_price").value);
-    //    formdata.append("address", document.getElementById("address").value);
-    //    formdata.append("lon", document.getElementById("lon").value);
-    //    formdata.append("lat", document.getElementById("lat").value);
-    //    document.getElementById("btnregister2").value = "Đang đăng ký xin chờ...";
-    //    document.getElementById("btnregister2").disabled = true;
-    //    var xhr = new XMLHttpRequest();
-    //    xhr.open('POST', '/Home/Register');
-    //    xhr.send(formdata);
-    //    var content = "";
-    //    xhr.onreadystatechange = function () {
-    //        if (xhr.readyState == 4 && xhr.status == 200) {
-    //            if (xhr.responseText == "1") {
-    //                alert("Bạn đã đăng ký thành công! Khi có khách chúng tôi sẽ liên hệ với bạn!");
-    //            } else {
-    //                alert("Chương trình đang cập nhật, xin quay lại sau!");
-    //            }
-    //            document.getElementById("btnregister2").value = "ĐĂNG KÝ XE";
-    //            document.getElementById("btnregister2").disabled = false;
-    //        }
-    //    }
-    //}
-    //$.ajax({
-    //    url: "/Home/getTinhThanh",
-    //    cache: false
-    //}).done(function (html) {
-    //    $("#province").html("" + html);
-    //});
-    //$.ajax({
-    //    url: "/Home/getHangXe",
-    //    cache: false
-    //}).done(function (html) {
-    //    $("#car_made").html("" + html);
-    //});
-    //$.ajax({
-    //    url: "/Home/getLoaiXe",
-    //    cache: false
-    //}).done(function (html) {
-    //    $("#car_type").html("" + html);
-    //});
-    //function getQuanHuyen() {
-    //    $.ajax({
-    //        url: "/Home/getQuanHuyen?keyword=" + $("#province").val(),
-    //        cache: false
-    //    }).done(function (html) {
-    //        $("#province2").html("" + html);
-    //    });
-    //}
-    //function show(id) {
-    //    if (id == 1) {
-    //        $("#dv1").show();
-    //        $("#dv2").hide();
-    //    } else {
-    //        $("#dv2").show();
-    //        $("#dv1").hide();
-    //    }
-    //}
-    //function autosearchmodel() {
-    //    //var tags = ["c++", "java", "php", "coldfusion", "javascript", "asp", "ruby"];
-    //    var keyword = document.getElementById("car_model").value;
-    //    var urlSearch = '/Api/getCarModelList2?keyword=';
-    //    $('#car_model').autocomplete({
-    //        source: urlSearch + keyword,
-    //        select: function (event, ui) {
-    //            //alert(ui.item.value);
-    //            //console.log(ui.item.value);
-    //            $(event.target).val(ui.item.value);
-    //            return false;
-    //        },
-    //        minLength: 1
-    //    });
-    //}
+    
 </script>
+
+@*<script>
+    $(function () {
+        var options = {
+            map: ".map_canvas"
+        };
+        $("#car_from").geocomplete(options)
+          .bind("geocode:result", function (event, result) {
+              $("#lon1").val(result.geometry.location.lng());
+              $("#lat1").val(result.geometry.location.lat());
+              //alert("long" + result.geometry.location.lng() + ", lat=" + result.geometry.location.lat());
+          })
+          .bind("geocode:error", function (event, status) {
+              $.log("ERROR: " + status);
+          })
+          .bind("geocode:multiple", function (event, results) {
+              $.log("Multiple: " + results.length + " results found");
+          });
+        $("#car_to").geocomplete(options)
+          .bind("geocode:result", function (event, result) {
+              $("#lon2").val(result.geometry.location.lng());
+              $("#lat2").val(result.geometry.location.lat());
+              //alert("long" + result.geometry.location.lng() + ", lat=" + result.geometry.location.lat());
+          })
+          .bind("geocode:error", function (event, status) {
+              $.log("ERROR: " + status);
+          })
+          .bind("geocode:multiple", function (event, results) {
+              $.log("Multiple: " + results.length + " results found");
+          });
+    });
+</script>*@

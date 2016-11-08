@@ -218,6 +218,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ApiController.cs" />
+    <Compile Include="Controllers\CarPriceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -227,7 +228,16 @@
     <Compile Include="Models\booking.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\car_hire_type.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\car_price.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\car_type.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\car_who_hire.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBContext.cs" />
@@ -246,6 +256,9 @@
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\NationalDay.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\notice.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThueXeToanCau.Context.cs">
@@ -957,6 +970,7 @@
     </Content>
     <None Include="Properties\PublishProfiles\thuexetoancau.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\carPrice.js" />
     <Content Include="Scripts\driver.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -1007,6 +1021,7 @@
     <Content Include="Views\Home\RegisterDriver.cshtml" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\CarPrice\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
