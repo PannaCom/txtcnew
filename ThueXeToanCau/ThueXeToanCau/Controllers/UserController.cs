@@ -5,15 +5,15 @@ using ThueXeToanCau.Models;
 
 namespace ThueXeToanCau.Controllers
 {
-    public class CarPriceController : Controller
+    public class UserController : Controller
     {
         public ActionResult Index(int? page)
         {
             using (var db = new thuexetoancauEntities())
             {
-                var carPrices = db.car_price;
+                var users = db.users;
                 var pageNumber = page ?? 1;
-                var onePage = carPrices.OrderBy(f => f.car_size).ToPagedList(pageNumber, 20);
+                var onePage = users.OrderBy(f => f.name).ToPagedList(pageNumber, 20);
 
                 ViewBag.onePage = onePage;
             }                
@@ -21,15 +21,15 @@ namespace ThueXeToanCau.Controllers
         }
 
         [HttpPost]
-        public string addUpdateCarPrice(car_price cp)
+        public string addUpdateUser(user u)
         {
-            return DBContext.addUpdateCarPrice(cp);
+            return DBContext.addUpdateUser(u);
         }
 
         [HttpPost]
-        public string deleteCarPrice(int cpId)
+        public string deleteUser(int uId)
         {
-            return DBContext.deleteCarPrice(cpId);
+            return DBContext.deleteUser(uId);
         }
     }
 }

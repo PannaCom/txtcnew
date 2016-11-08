@@ -1,0 +1,44 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@using ThueXeToanCau.Models;
+@{
+    ViewBag.Title = "Quản Lý Users";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<button type="button" class="btn btn-primary" onclick="openUser(0)">Thêm Mới</button><br /><br />
+<table class="table marginBottom0">
+    <tr><th>Tên Đăng Nhập</th><th></th><th></th></tr>
+    @foreach (var item in (PagedList<user>)ViewBag.OnePage)
+    {
+        <tr>
+            <td>@item.name</td>
+            <td><a href="#" onclick="openUser(@item.id, '@item.name')">Sửa</a></td>
+            <td><a href="#" onclick="confirmDelUser(@item.id, '@item.name')">Xóa</a></td>
+        </tr>
+    }
+</table>
+@Html.PagedListPager((IPagedList)ViewBag.OnePage, page => Url.Action("Index", new { page }))
+
+<div id="userDialog" style="display:none;" class="col-sm-4 dDialog">
+    <div class="dTitle">Thêm/Sửa User</div>
+    <div class="dDialogContent">
+        <input type="hidden" id="userId" />
+        <p>Tên</p>
+        <input id="u_Name" type="text" class="form-control" placeholder="Nhập tên">        
+        <p>Mật Khẩu Mới</p>
+        <input id="u_Pasword" type="password" class="form-control" placeholder="Nhập mật khẩu">
+        <p>Xác Nhận Mật Khẩu Mới</p>
+        <input id="u_PaswordConfirm" type="password" class="form-control" placeholder="Nhập lại mật khẩu">
+        <div class="divBtn">
+            <button type="button" class="btn btn-primary" onclick="saveUser()">Đồng Ý</button>
+            <button type="button" class="btn btn-primary" onclick="closeDDialog('#userDialog')">Hủy</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var url_addUpdateUser = '@Url.Action("addUpdateUser","User")', url_deleteUser = '@Url.Action("deleteUser","User")';
+</script>
+<script type="text/javascript" src="~/Scripts/user.js"></script>
