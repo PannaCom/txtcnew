@@ -10,7 +10,6 @@
         <EntityTypeShape EntityType="thuexetoancauModel.list_car_type" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="thuexetoancauModel.TinhThanh" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="thuexetoancauModel.user" Width="1.5" PointX="2.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="thuexetoancauModel.booking" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="thuexetoancauModel.driver" Width="1.5" PointX="5.375" PointY="6.75" />
         <EntityTypeShape EntityType="thuexetoancauModel.NationalDay" Width="1.5" PointX="7.375" PointY="6.75" />
         <EntityTypeShape EntityType="thuexetoancauModel.car_hire_type" Width="1.5" PointX="7.75" PointY="3.75" />
@@ -18,6 +17,7 @@
         <EntityTypeShape EntityType="thuexetoancauModel.car_type" Width="1.5" PointX="0.75" PointY="9.75" />
         <EntityTypeShape EntityType="thuexetoancauModel.car_who_hire" Width="1.5" PointX="2.75" PointY="9.75" />
         <EntityTypeShape EntityType="thuexetoancauModel.notice" Width="1.5" PointX="9.75" PointY="3.75" />
+        <EntityTypeShape EntityType="thuexetoancauModel.booking" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

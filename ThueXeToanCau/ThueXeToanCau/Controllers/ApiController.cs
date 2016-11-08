@@ -20,7 +20,7 @@ namespace ThueXeToanCau.Controllers
             return View();
         }
         [HttpPost]
-        public string booking(string car_from, string car_to, int? car_type, string car_hire_type, string car_who_hire, DateTime from_datetime, DateTime to_datetime, double lon1,double lat1,double lon2,double lat2)
+        public string booking(string car_from, string car_to, int? car_type, string car_hire_type, string car_who_hire, DateTime from_datetime, DateTime to_datetime, double lon1,double lat1,double lon2,double lat2,string name,string phone)
         {
             try
             {
@@ -47,6 +47,8 @@ namespace ThueXeToanCau.Controllers
                 bo.book_price = price;
                 bo.book_price_max = price_max;
                 bo.time_to_reduce = 15 * 60;
+                bo.name = name;
+                bo.phone = phone;
                 db.bookings.Add(bo);
                 db.SaveChanges();
                 return price_max.ToString();
