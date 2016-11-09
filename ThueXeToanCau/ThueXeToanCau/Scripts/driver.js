@@ -56,6 +56,7 @@ function registerDriver() {
         contentType: 'application/json',
         data: JSON.stringify(driverObj),
         success: function (rs) {
+            if (rs = '') rs = 'Đăng ký thành công';
             alert(rs);
         }
     })

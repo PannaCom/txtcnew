@@ -14,7 +14,15 @@ function saveUser() {
     }
     $("#u_Name").css("border", "1px solid #ccc");
     
-    if ($("#u_Pasword").val() != $("#u_PaswordConfirm").val()) {
+    var uId = $("#userId").val(), validPass = true;
+    if (uId == 0) {
+        if ($("#u_Pasword").val() == '' || $("#u_Pasword").val() != $("#u_PaswordConfirm").val()) {
+            validPass = false;
+        }
+    } else if ($("#u_Pasword").val() != $("#u_PaswordConfirm").val()) {
+        validPass = false;
+    }
+    if(!validPass) {
         $("#u_Pasword").css("border", "1px solid red");
         $("#u_Pasword").val('');
         $("#u_PaswordConfirm").css("border", "1px solid red");
@@ -25,7 +33,7 @@ function saveUser() {
     $.ajax({
         url: url_addUpdateUser, type: 'post',
         contentType: 'application/json',
-        data: JSON.stringify({ id: $("#userId").val(), name: uName, pass: $("#u_Pasword").val() }),
+        data: JSON.stringify({ id: uId, name: uName, pass: $("#u_Pasword").val() }),
         success: function (rs) {
             if (rs == '') {
                 location.reload();

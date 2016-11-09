@@ -9,12 +9,12 @@
 <h2>@ViewBag.Title</h2>
 <button type="button" class="btn btn-primary" onclick="openCarPrice(0)">Thêm Mới</button><br /><br />
 <table class="table marginBottom0">
-    <tr><th>Loại Xe</th><th>Giá/1Km khứ hồi (Đồng)</th><th>Giá Khác</th><th>Nhân Ngày Lễ</th><th>Nhân Một Chiều</th><th></th><th></th></tr>
+    <tr><th>Loại Xe</th><th>Giá/1Km khứ hồi (Đồng)</th><th>Nhân Ngày Lễ</th><th>Nhân Một Chiều</th><th></th><th></th></tr>
     @foreach (var item in (PagedList<car_price>)ViewBag.OnePage)
     {
         <tr>
-            <td>@item.car_size chỗ</td><td>@item.price</td><td>@item.price2</td><td>@item.multiple</td><td>@item.multiple2</td>
-            <td><a href="#" onclick="openCarPrice(@item.ID, @item.car_size, @item.price, @(item.price2 == null ? 5000 : item.price2), @item.multiple, @item.multiple2)">Sửa</a></td>
+            <td>@item.car_size chỗ</td><td>@item.price</td><td>@item.multiple</td><td>@item.multiple2</td>
+            <td><a href="#" onclick="openCarPrice(@item.ID, @item.car_size, @item.price, @item.multiple, @item.multiple2)">Sửa</a></td>
             <td><a href="#" onclick="confirmDelCarPrice(@item.ID, '@(item.car_size.ToString() + " chỗ")')">Xóa</a></td>
         </tr>
     }
@@ -29,8 +29,9 @@
         <select id="cp_car_type" class="form-control"><option value="5">5 chỗ</option><option value="8">8 chỗ</option><option value="16">16 chỗ</option><option value="30">30 chỗ</option><option value="45">45 chỗ</option></select>
         <p>Giá/1Km khứ hồi (Đồng)</p>
         <input id="cp_Price" type="number" class="form-control" placeholder="Nhập giá">
+        @*<th>Giá Khác</th><td>@item.price2</td>, @(item.price2 == null ? 5000 : item.price2)
         <p>Giá Khác</p>
-        <input id="cp_Price2" type="number" class="form-control" placeholder="Nhập giá khác">
+        <input id="cp_Price2" type="number" class="form-control" placeholder="Nhập giá khác">*@
         <p>Nhân Ngày Lễ</p>
         <input id="cp_Multiple" type="number" class="form-control" placeholder="Nhập tỷ số nhân khi đặt xe ngày lễ">
         <p>Nhân Một Chiều</p>

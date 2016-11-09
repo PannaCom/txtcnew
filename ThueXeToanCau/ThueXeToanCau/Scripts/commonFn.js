@@ -22,6 +22,8 @@ function notifyOK() {
         deleteNotice();
     } else if (action == "delUser") {
         deleteUser();
-    }    
+    } else if (action == "delDriver") {
+        deleteDriver();
+    }
     closeDDialog("#notificationDialog");
 }

@@ -60,20 +60,85 @@ namespace ThueXeToanCau.Models
             }
         }
 
+        //public static string addUpdateDriver(driver dri)
+        //{
+        //    try
+        //    {
+        //        using (var db = new thuexetoancauEntities())
+        //        {
+        //            db.drivers.Add(dri);
+        //            db.SaveChanges();
+        //        }
+        //        return "Đăng ký thành công";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return "Đăng ký thất bại: " + ex.Message;
+        //    }
+        //}
+
         public static string addUpdateDriver(driver dri)
         {
             try
             {
                 using (var db = new thuexetoancauEntities())
                 {
-                    db.drivers.Add(dri);
+                    if (dri.id == 0)
+                    {
+                        using (MD5 md5Hash = MD5.Create())
+                        {
+                            string hash = GetMd5Hash(md5Hash, dri.pass);
+                            dri.pass = hash;
+                            db.drivers.Add(dri);
+                        }
+                    }
+                    else
+                    {
+                        // Keep old password
+                        if (string.IsNullOrEmpty(dri.pass))
+                        {
+                            var existEntity = db.drivers.Find(dri.id);
+                            if (existEntity == null) return "Thất bại: Không tìm thấy thông tin tài xế";
+                            dri.pass = existEntity.pass;
+                            db.Entry(existEntity).CurrentValues.SetValues(dri);
+                            //db.Entry(existU).State = EntityState.Modified;
+                        }
+                        else
+                        {
+                            // change new pass
+                            using (MD5 md5Hash = MD5.Create())
+                            {
+                                string hash = GetMd5Hash(md5Hash, dri.pass);
+                                dri.pass = hash;
+                                db.Entry(dri).State = EntityState.Modified;
+                            }
+                        }
+                    }
                     db.SaveChanges();
                 }
-                return "Đăng ký thành công";
+                return string.Empty;
             }
             catch (Exception ex)
             {
-                return "Đăng ký thất bại: " + ex.Message;
+                return "Thất bại: " + ex.Message;
+            }
+        }
+
+        public static string deleteDriver(int dId)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    var cp = new driver() { id = dId };
+                    db.Entry(cp).State = EntityState.Deleted;
+                    db.SaveChanges();
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return "Thất bại: " + ex.Message;
             }
         }
 
@@ -107,6 +172,48 @@ namespace ThueXeToanCau.Models
                 using (var db = new thuexetoancauEntities())
                 {
                     var cp = new car_price() { ID = cpId };
+                    db.Entry(cp).State = EntityState.Deleted;
+                    db.SaveChanges();
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return "Thất bại: " + ex.Message;
+            }
+        }
+
+        public static string addUpdateCarPriceAirport(car_price_airport cp)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    if (cp.id == 0)
+                    {
+                        db.car_price_airport.Add(cp);
+                    }
+                    else
+                    {
+                        db.Entry(cp).State = EntityState.Modified;
+                    }
+                    db.SaveChanges();
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return "Thất bại: " + ex.Message;
+            }
+        }
+
+        public static string deleteCarPriceAirport(int cpId)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    var cp = new car_price_airport() { id = cpId };
                     db.Entry(cp).State = EntityState.Deleted;
                     db.SaveChanges();
                 }
@@ -182,17 +289,18 @@ namespace ThueXeToanCau.Models
                         {
                             var existU = db.users.Find(u.id);
                             if (existU == null) return "Thất bại: Không tìm thấy user";
-                            u.pass = existU.pass;                            
+                            existU.name = u.name;
+                            db.Entry(existU).State = EntityState.Modified;
                         } else
                         {
                             // change new pass
                             using (MD5 md5Hash = MD5.Create())
                             {
                                 string hash = GetMd5Hash(md5Hash, u.pass);
-                                u.pass = hash;                                
+                                u.pass = hash;
+                                db.Entry(u).State = EntityState.Modified;
                             }
-                        }
-                        db.Entry(u).State = EntityState.Modified;
+                        }                        
                     }
                     db.SaveChanges();
                 }
