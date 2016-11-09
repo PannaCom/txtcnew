@@ -48,6 +48,7 @@
 <div class="row" style="background:#ffffff;color:#000000;position:fixed;width:100%;top:25%;padding-left:5px;padding-right:5px;text-align:left;width:auto;display:none;z-index:1001;" id="detail">
     <div style="width:100%;text-align:center;color:#000000;" class="standardcss"><h2>Bạn đã đặt xe thành công! Lái xe của chúng tôi sẽ liên hệ lại sớm nhất.</h2></div>
     @*<div style="text-align:center;" id="loading" class="standardcss"><img src="/Content/Images/loading.gif" style="height:50px;width:50px;" /></div>*@
+    <div style="border-bottom:1px solid #cecece;" class="standardcss"><b>Thông tin khách:</b> <span id="f01"></span>, <span id="f02"></span></div>
     <div style="border-bottom:1px solid #cecece;" class="standardcss"><b>Điểm đi:</b> <span id="f1"></span></div>
     <div style="border-bottom:1px solid #cecece;" class="standardcss"><b>Điểm đến:</b> <span id="f2"></span></div>
     <div style="border-bottom:1px solid #cecece;" class="standardcss"><b>Loại xe:</b> <span id="f3"></span></div>
@@ -57,7 +58,7 @@
     <div style="border-bottom:1px solid #cecece;" class="standardcss"><b>GIÁ ƯỚC TÍNH:</b> <span id="f7"></span> đồng</div>
     <div style="text-align:center;padding-top:25px;" class="standardcss"><a href="#" style="text-decoration:none;background-color:#4e612a;color:#c2bd3a;padding-left:15px;padding-bottom:5px;padding-top:5px;padding-right:15px;" onclick="$('#detail').hide();" id="hotlinephone3">THOÁT</a></div>
 </div>  
-<div class="row" style="background:#ffffff;color:#000000;position:fixed;width:100%;top:25%;padding-left:5px;padding-right:5px;text-align:left;width:auto;display:none;z-index:1001;" id="confirm">
+<div class="row" style="width:75%;top:25%;background:#ffffff;color:#000000;position:fixed;padding-left:5px;padding-right:5px;text-align:left;width:auto;display:none;z-index:1001;" id="confirm">
     <div style="width:100%;text-align:center;color:#000000;" class="standardcss"><h2>Thông tin khách hàng</h2></div>
     <p style="text-align:left;margin-top:5px;">Họ tên *</p>
     <input id="name" name="name" class="form-control" placeholder="nhập họ tên" type="text" value="@ViewBag.name"/>
@@ -160,6 +161,13 @@
             handleLocationError(false, infoWindow, map.getCenter());
         }
     }
+    function confirm() {
+        if (document.getElementById("name").value != "" && document.getElementById("phone").value != "") {
+            booking();
+        } else {
+            $("#confirm").show();
+        }
+    }
     function booking() {
         var formdata = new FormData(); //FormData object
         var from_datetime = document.getElementById("from_datetime").value;
@@ -189,7 +197,7 @@
             return;
         }
         if (document.getElementById("phone").value == "") {
-            alert("Nhập phone!");
+            alert("Nhập số điện thoại!");
             document.getElementById("phone").focus();
             return;
         }
@@ -214,14 +222,22 @@
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 if (xhr.responseText != "0") {
+                    $("#confirm").hide();
                     $("#detail").show();
+                    $("#f01").html(document.getElementById("name").value); $("#f02").html(document.getElementById("phone").value);
                     $("#f1").html(document.getElementById("car_from").value);
                     $("#f2").html(document.getElementById("car_to").value);
                     $("#f3").html(document.getElementById("car_type").value);
                     $("#f4").html(document.getElementById("car_hire_type").value);
                     $("#f5").html(document.getElementById("car_who_hire").value);
                     $("#f6").html("Giờ đi " + document.getElementById("from_datetime").value + ", giờ về " + document.getElementById("to_datetime").value);
-                    $("#f7").html(xhr.responseText);
+                    $("#f7").html($.number(xhr.responseText, 3, ',' ));
+                    $.ajax({
+                        url: "/Api/setcookie?name=" + document.getElementById("name").value + "&phone=" + document.getElementById("phone").value,
+                            cache: false
+                        }).done(function( html ) {
+                            
+                    });
                 } else {
                     alert("Hiện tổng đài đang bận, xin quay lại sau!");
                 }
