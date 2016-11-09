@@ -140,13 +140,11 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <Property Name="quanhuyen" Type="nvarchar" MaxLength="255" />
           <Property Name="tinhthanhpho" Type="nvarchar" MaxLength="255" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="users">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="50" />
           <Property Name="pass" Type="nvarchar" MaxLength="50" />
         </EntityType>
@@ -159,6 +157,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
           <EntitySet Name="drivers" EntityType="Self.drivers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NationalDay" EntityType="Self.NationalDay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="notice" EntityType="Self.notice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="list_car" EntityType="Self.list_car" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [list_car].[id] AS [id], 
@@ -184,13 +183,6 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
     [TinhThanh].[quanhuyen] AS [quanhuyen], 
     [TinhThanh].[tinhthanhpho] AS [tinhthanhpho]
     FROM [dbo].[TinhThanh] AS [TinhThanh]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="users" EntityType="Self.users" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [users].[id] AS [id], 
-    [users].[name] AS [name], 
-    [users].[pass] AS [pass]
-    FROM [dbo].[users] AS [users]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -227,20 +219,11 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
           <Property Name="quanhuyen" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="tinhthanhpho" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="user">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="pass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityContainer Name="thuexetoancauEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="list_car" EntityType="Self.list_car" />
           <EntitySet Name="list_car_model" EntityType="Self.list_car_model" />
           <EntitySet Name="list_car_type" EntityType="Self.list_car_type" />
           <EntitySet Name="TinhThanhs" EntityType="Self.TinhThanh" />
-          <EntitySet Name="users" EntityType="Self.user" />
           <EntitySet Name="drivers" EntityType="thuexetoancauModel.driver" />
           <EntitySet Name="NationalDays" EntityType="thuexetoancauModel.NationalDay" />
           <EntitySet Name="car_hire_type" EntityType="thuexetoancauModel.car_hire_type" />
@@ -249,6 +232,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
           <EntitySet Name="car_who_hire" EntityType="thuexetoancauModel.car_who_hire" />
           <EntitySet Name="notices" EntityType="thuexetoancauModel.notice" />
           <EntitySet Name="bookings" EntityType="thuexetoancauModel.booking" />
+          <EntitySet Name="users" EntityType="thuexetoancauModel.user" />
         </EntityContainer>
         <EntityType Name="driver">
           <Key>
@@ -347,6 +331,14 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
           <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="pass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -384,15 +376,6 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="quanhuyen" ColumnName="quanhuyen" />
                 <ScalarProperty Name="tinhthanhpho" ColumnName="tinhthanhpho" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="users">
-            <EntityTypeMapping TypeName="thuexetoancauModel.user">
-              <MappingFragment StoreEntitySet="users">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="pass" ColumnName="pass" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -497,6 +480,15 @@ warning 6002: The table/view 'thuexetoancau.dbo.users' does not have a primary k
                 <ScalarProperty Name="car_type" ColumnName="car_type" />
                 <ScalarProperty Name="car_to" ColumnName="car_to" />
                 <ScalarProperty Name="car_from" ColumnName="car_from" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="thuexetoancauModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

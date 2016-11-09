@@ -20,10 +20,10 @@
                 <h2 style="color:#337ab7;">Đặt xe trực tuyến Grab - Uber đường dài</h2>
                 <div class="col-sm-6">
                     <p style="text-align:left;margin-top:5px;">Điểm đi *</p>
-                    <input id="car_from" name="car_from" class="form-control" placeholder="quận huyện, đường phố, thị trấn..." />
+                    <input id="car_from" name="car_from" class="form-control" placeholder="quận huyện, đường phố, thị trấn..." type="text"/>
                     <input id="lon1" name="lon1" value="" type="hidden"><input id="lat1" name="lat1" value="" type="hidden">
                     <p style="text-align:left;margin-top:5px;">Điểm đến *</p>
-                    <input id="car_to" name="car_to" class="form-control" placeholder="quận huyện, đường phố, thị trấn..." onblur="CreateLine();"/>
+                    <input id="car_to" name="car_to" class="form-control" placeholder="quận huyện, đường phố, thị trấn..." onblur="CreateLine();" type="text" />
                     <input id="lon2" name="lon2" value="" type="hidden"><input id="lat2" name="lat2" value="" type="hidden">
                     <p style="text-align:left;margin-top:5px;">Loại xe *</p>
                     <select id="car_type" class="form-control"><option value="5">5 chỗ</option><option value="8">8 chỗ</option><option value="16">16 chỗ</option><option value="30">30 chỗ</option><option value="45">45 chỗ</option></select>
@@ -40,7 +40,7 @@
                     <div class="map_canvas" id="map" style="width:100%;height:550px;border:0"></div>
                     @*<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29768.399237825946!2d105.82972151548583!3d21.15041217448257!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135011877263c29%3A0xfed63a1860e09572!2zdHQuIMSQw7RuZyBBbmgsIMSQw7RuZyBBbmgsIEhhbm9pLCBWaWV0bmFt!5e0!3m2!1sen!2s!4v1470755312032" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>*@
                 </div>
-                <input type="button" value="XÁC NHẬN" class="btn btn-primary btn-block" onclick="booking();" style="margin-bottom:5px;" id="btnregister1" />
+                <input type="button" value="XÁC NHẬN" onclick="confirm();"  class="btn btn-primary btn-block" style="margin-bottom:5px;" id="btnregister111" />
             </div>
         </div><!-- end col 10 with offset 1 to centered -->
     </div> <!-- end contact form outer row with centered text-->
@@ -56,7 +56,15 @@
     <div style="border-bottom:1px solid #cecece;" class="standardcss"><b>Ngày giờ:</b> <span id="f6"></span></div>
     <div style="border-bottom:1px solid #cecece;" class="standardcss"><b>GIÁ ƯỚC TÍNH:</b> <span id="f7"></span> đồng</div>
     <div style="text-align:center;padding-top:25px;" class="standardcss"><a href="#" style="text-decoration:none;background-color:#4e612a;color:#c2bd3a;padding-left:15px;padding-bottom:5px;padding-top:5px;padding-right:15px;" onclick="$('#detail').hide();" id="hotlinephone3">THOÁT</a></div>
-</div>     
+</div>  
+<div class="row" style="background:#ffffff;color:#000000;position:fixed;width:100%;top:25%;padding-left:5px;padding-right:5px;text-align:left;width:auto;display:none;z-index:1001;" id="confirm">
+    <div style="width:100%;text-align:center;color:#000000;" class="standardcss"><h2>Thông tin khách hàng</h2></div>
+    <p style="text-align:left;margin-top:5px;">Họ tên *</p>
+    <input id="name" name="name" class="form-control" placeholder="nhập họ tên" type="text" value="@ViewBag.name"/>
+    <p style="text-align:left;margin-top:5px;">Số điện thoại *</p>
+    <input id="phone" name="phone" class="form-control" placeholder="nhập" type="text" value="@ViewBag.phone" />
+    <input type="button" value="ĐẶT XE" class="btn btn-primary btn-block" onclick="booking();" style="margin-bottom:5px;" id="btnregister1" />
+</div>    
 <script>
     $('#from_datetime').datetimepicker({
         dayOfWeekStart: 1,
@@ -173,6 +181,16 @@
         if (document.getElementById("to_datetime").value == "") {
             alert("Ngày giờ về!");
             document.getElementById("to_datetime").focus();
+            return;
+        }
+        if (document.getElementById("name").value == "") {
+            alert("Nhập họ tên!");
+            document.getElementById("name").focus();
+            return;
+        }
+        if (document.getElementById("phone").value == "") {
+            alert("Nhập phone!");
+            document.getElementById("phone").focus();
             return;
         }
         formdata.append("car_from", document.getElementById("car_from").value);

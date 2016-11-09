@@ -58,6 +58,12 @@ namespace ThueXeToanCau.Controllers
                 return "-1";
             }
         }
+        public string setcookie(string name,string phone)
+        {
+            Config.setCookie("name", name);
+            Config.setCookie("phone", phone);
+            return "1";
+        }
         //Class for "distance" and "duration" which has the "text" and "value" properties.
         public class CepElementNode
         {

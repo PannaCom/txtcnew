@@ -74,5 +74,24 @@ namespace ThueXeToanCau
                 return 100;
             }
         }
+        public static void setCookie(string field, string value)
+        {
+            HttpCookie MyCookie = new HttpCookie(field);
+            MyCookie.Value = value;
+            MyCookie.Expires = DateTime.Now.AddDays(365);
+            HttpContext.Current.Response.Cookies.Add(MyCookie);
+            //Response.Cookies.Add(MyCookie);           
+        }
+        public static string getCookie(string v)
+        {
+            try
+            {
+                return HttpContext.Current.Request.Cookies[v].Value.ToString();
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
+        }
     }
 }

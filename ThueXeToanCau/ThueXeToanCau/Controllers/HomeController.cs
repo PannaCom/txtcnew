@@ -11,6 +11,8 @@ namespace ThueXeToanCau.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.name = Config.getCookie("name");
+            ViewBag.phone = Config.getCookie("phone");
             return View();
         }
 
