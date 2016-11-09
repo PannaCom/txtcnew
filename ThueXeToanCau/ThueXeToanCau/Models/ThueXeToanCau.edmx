@@ -48,6 +48,17 @@
           <Property Name="multiple" Type="int" />
           <Property Name="multiple2" Type="int" />
         </EntityType>
+        <EntityType Name="car_price_airport">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="airport_name" Type="nvarchar" MaxLength="150" />
+          <Property Name="car_size" Type="int" />
+          <Property Name="price_go_way" Type="int" />
+          <Property Name="price_back_way" Type="int" />
+          <Property Name="price_two_way" Type="int" />
+        </EntityType>
         <EntityType Name="car_type">
           <Key>
             <PropertyRef Name="id" />
@@ -152,6 +163,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="booking" EntityType="Self.booking" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_hire_type" EntityType="Self.car_hire_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_price" EntityType="Self.car_price" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="car_price_airport" EntityType="Self.car_price_airport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_type" EntityType="Self.car_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_who_hire" EntityType="Self.car_who_hire" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="drivers" EntityType="Self.drivers" Schema="dbo" store:Type="Tables" />
@@ -233,6 +245,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="notices" EntityType="thuexetoancauModel.notice" />
           <EntitySet Name="bookings" EntityType="thuexetoancauModel.booking" />
           <EntitySet Name="users" EntityType="thuexetoancauModel.user" />
+          <EntitySet Name="car_price_airport" EntityType="thuexetoancauModel.car_price_airport" />
         </EntityContainer>
         <EntityType Name="driver">
           <Key>
@@ -338,6 +351,17 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="pass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="car_price_airport">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="airport_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="car_size" Type="Int32" />
+          <Property Name="price_go_way" Type="Int32" />
+          <Property Name="price_back_way" Type="Int32" />
+          <Property Name="price_two_way" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -489,6 +513,18 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
               <MappingFragment StoreEntitySet="users">
                 <ScalarProperty Name="pass" ColumnName="pass" />
                 <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="car_price_airport">
+            <EntityTypeMapping TypeName="thuexetoancauModel.car_price_airport">
+              <MappingFragment StoreEntitySet="car_price_airport">
+                <ScalarProperty Name="price_two_way" ColumnName="price_two_way" />
+                <ScalarProperty Name="price_back_way" ColumnName="price_back_way" />
+                <ScalarProperty Name="price_go_way" ColumnName="price_go_way" />
+                <ScalarProperty Name="car_size" ColumnName="car_size" />
+                <ScalarProperty Name="airport_name" ColumnName="airport_name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
