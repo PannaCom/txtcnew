@@ -1,5 +1,6 @@
 ﻿using PagedList;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using ThueXeToanCau.Models;
 
@@ -9,6 +10,11 @@ namespace ThueXeToanCau.Controllers
     {
         public ActionResult Index(int? page)
         {
+            var user = Session["user"];
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Admin");
+            }
             using (var db = new thuexetoancauEntities())
             {
                 var carPrices = db.car_price;

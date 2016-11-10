@@ -59,24 +59,7 @@ namespace ThueXeToanCau.Models
                 return carTypes;
             }
         }
-
-        //public static string addUpdateDriver(driver dri)
-        //{
-        //    try
-        //    {
-        //        using (var db = new thuexetoancauEntities())
-        //        {
-        //            db.drivers.Add(dri);
-        //            db.SaveChanges();
-        //        }
-        //        return "Đăng ký thành công";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return "Đăng ký thất bại: " + ex.Message;
-        //    }
-        //}
-
+       
         public static string addUpdateDriver(driver dri)
         {
             try
@@ -493,6 +476,26 @@ namespace ThueXeToanCau.Models
             else
             {
                 return false;
+            }
+        }
+
+        public static user validateLogin(LoginModel model)
+        {
+            user u = null;
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    using (MD5 md5Hash = MD5.Create())
+                    {
+                        string hash = GetMd5Hash(md5Hash, model.Password);
+                        u = db.users.Where(f => f.name.Equals(model.Username) && f.pass.Equals(hash)).FirstOrDefault();                                                
+                    }
+                }
+                return u;
+            } catch (Exception ex)
+            {
+                return u;
             }
         }
     }
