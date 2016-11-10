@@ -218,9 +218,13 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ApiController.cs" />
+    <Compile Include="Controllers\CarPriceAirPortController.cs" />
     <Compile Include="Controllers\CarPriceController.cs" />
+    <Compile Include="Controllers\DriverController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NoticeController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -232,6 +236,9 @@
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\car_price.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\car_price_airport.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\car_type.cs">
@@ -971,17 +978,23 @@
     <None Include="Properties\PublishProfiles\thuexetoancau.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\carPrice.js" />
+    <Content Include="Scripts\carPriceAirport.js" />
+    <Content Include="Scripts\commonFn.js" />
     <Content Include="Scripts\driver.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.number.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\manageDriver.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\notice.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\user.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -1022,6 +1035,11 @@
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\CarPrice\Index.cshtml" />
+    <Content Include="Views\Shared\_commonView.cshtml" />
+    <Content Include="Views\CarPriceAirport\Index.cshtml" />
+    <Content Include="Views\Driver\Index.cshtml" />
+    <Content Include="Views\Notice\Index.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

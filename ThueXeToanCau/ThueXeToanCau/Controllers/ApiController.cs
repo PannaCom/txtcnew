@@ -255,7 +255,7 @@ namespace ThueXeToanCau.Controllers
                  return 0;
              }
         }
-        public string driverRegister(int? id, string name, string phone, string pass,string car_made, string car_model, int car_size, int car_year, string car_type, string card_identify, string license)
+        public string driverRegister(int? id, string name, string phone, string pass, string car_made, string car_model, int car_size, int car_year, string car_number, string car_type, string card_identify, string license)
         {
             try
             {
@@ -271,6 +271,7 @@ namespace ThueXeToanCau.Controllers
                     r.car_model = car_model;
                     r.car_size = car_size;
                     r.car_years = car_year;
+                    r.car_number = car_number;
                     r.car_type = car_type;
                     r.date_time = DateTime.Now;
                     r.card_identify = card_identify;
@@ -289,6 +290,7 @@ namespace ThueXeToanCau.Controllers
                     r.car_model = car_model;
                     r.car_size = car_size;
                     r.car_years = car_year;
+                    r.car_number = car_number;
                     r.car_type = car_type;
                     r.date_time = DateTime.Now;
                     r.card_identify = card_identify;
