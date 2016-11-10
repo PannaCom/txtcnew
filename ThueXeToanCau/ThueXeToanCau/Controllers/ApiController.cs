@@ -117,7 +117,7 @@ namespace ThueXeToanCau.Controllers
                 int factor = 100;
                 int price=6000;
                 int total = price*factor*km;
-                if (car_hire_type.ToLowerInvariant().Contains("một chiều"))
+                if (!car_hire_type.ToLowerInvariant().Contains("sân bay") && (car_hire_type.ToLowerInvariant().Contains("một chiều") || car_hire_type.ToLowerInvariant().Contains("chiều về") || car_hire_type.ToLowerInvariant().Contains("đi chung")))
                 {
                     if (Config.isHoliDay(from_date))
                     {
@@ -171,6 +171,10 @@ namespace ThueXeToanCau.Controllers
                         }
                     }
                     total = price * factor * km/100;
+                    if (car_hire_type.ToLowerInvariant().Contains("chiều về") || car_hire_type.ToLowerInvariant().Contains("đi chung"))
+                    {
+                        total = total * Config.factorBackWay_GoWith / 100;
+                    }
                     return total;
                 }
                 if (car_hire_type.ToLowerInvariant().Contains("khứ hồi"))
@@ -227,7 +231,7 @@ namespace ThueXeToanCau.Controllers
                             price = Config.price5;
                         }
                     }
-                    int days=Config.dateDiff(from_date, to_date);
+                    int days=Config.dateDiff(from_date, to_date)+1;
                     if (to_date.Day - from_date.Day==1) days=2;
                     if (days >= 2)//Đi dưới 2 ngày, về trong ngày
                     {
@@ -236,7 +240,8 @@ namespace ThueXeToanCau.Controllers
                         {
                             if (km < 200) km = 200;
                         }
-                        total = price * factor * km*days / 100;//6000*100*200*3/100=3600000, Hà Nội, Ninh Bình 3 ngày, 100km khứ hồi
+                        total = price * factor * km / 100 + Config.pricePerDay * factor * (days-1) / 100;
+                        //6000*100*200*3/100=3600000, Hà Nội, Ninh Bình 3 ngày, 100km khứ hồi
                         return total;
                     }
                     else
@@ -254,6 +259,15 @@ namespace ThueXeToanCau.Controllers
              }catch(Exception ex){
                  return 0;
              }
+        }
+        public int getKm(double lon1, double lat1, double lon2, double lat2)
+        {
+            string address = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + lat1 + "," + lon1 + "&destinations=" + lat2 + "," + lon2 + "&key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY";
+            string result = new System.Net.WebClient().DownloadString(address);
+            var viewModel = new JavaScriptSerializer().Deserialize<RequestCepViewModel>(result);
+            var dt = viewModel.rows[0].elements[0].distance.value;
+            int km = int.Parse(dt) / 1000;
+            return km;
         }
         public string driverRegister(int? id, string name, string phone, string pass, string car_made, string car_model, int car_size, int car_year, string car_number, string car_type, string card_identify, string license)
         {

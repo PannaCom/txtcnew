@@ -26,11 +26,17 @@
                     <input id="car_to" name="car_to" class="form-control" placeholder="quận huyện, đường phố, thị trấn..." onblur="CreateLine();" type="text" />
                     <input id="lon2" name="lon2" value="" type="hidden"><input id="lat2" name="lat2" value="" type="hidden">
                     <p style="text-align:left;margin-top:5px;">Loại xe *</p>
-                    <select id="car_type" class="form-control"><option value="5">5 chỗ</option><option value="8">8 chỗ</option><option value="16">16 chỗ</option><option value="30">30 chỗ</option><option value="45">45 chỗ</option></select>
+                    <select id="car_type" class="form-control">
+                          @*<option value="5">5 chỗ</option><option value="8">8 chỗ</option><option value="16">16 chỗ</option><option value="30">30 chỗ</option><option value="45">45 chỗ</option>*@
+                    </select>
                     <p style="text-align:left;margin-top:5px;">Hình thức thuê *</p>
-                    <select id="car_hire_type" class="form-control"><option value="Khứ hồi">Khứ hồi</option><option value="Một chiều">Một chiều</option><option value="Sân bay">Sân bay</option><option value="Chiều về">Chiều về</option><option value="Đi chung">Đi chung</option></select>
+                    <select id="car_hire_type" class="form-control">
+                        @*<option value="Khứ hồi">Khứ hồi</option><option value="Một chiều">Một chiều</option><option value="Sân bay">Sân bay</option><option value="Chiều về">Chiều về</option><option value="Đi chung">Đi chung</option>*@
+                    </select>
                     <p style="text-align:left;margin-top:5px;">Đối tượng thuê *</p>
-                    <select id="car_who_hire" class="form-control"><option value="Khách thuê xe">Khách thuê xe</option><option value="Văn phòng xe">Văn phòng xe</option><option value="Nhà xe/Lái xe">Nhà xe/Lái xe</option><option value="Lễ tân/Công ty du lịch">Lễ tân/Công ty du lịch</option><option value="Doanh nghiệp/Tổ chức">Doanh nghiệp/Tổ chức</option></select>
+                    <select id="car_who_hire" class="form-control">
+                        @*<option value="Khách thuê xe">Khách thuê xe</option><option value="Văn phòng xe">Văn phòng xe</option><option value="Nhà xe/Lái xe">Nhà xe/Lái xe</option><option value="Lễ tân/Công ty du lịch">Lễ tân/Công ty du lịch</option><option value="Doanh nghiệp/Tổ chức">Doanh nghiệp/Tổ chức</option>*@
+                    </select>
                     <p style="text-align:left;margin-top:5px;">Ngày giờ đi *</p>
                     <input class="form-control" id="from_datetime" placeholder="Chọn ngày giờ" type="text">
                     <p style="text-align:left;margin-top:5px;">Ngày giờ về *</p>
@@ -45,8 +51,10 @@
         </div><!-- end col 10 with offset 1 to centered -->
     </div> <!-- end contact form outer row with centered text-->
 </div><!-- End Input Your Home Content Here -->
-<div class="row" style="background:#ffffff;color:#000000;position:fixed;width:100%;top:25%;padding-left:5px;padding-right:5px;text-align:left;width:auto;display:none;z-index:1001;" id="detail">
-    <div style="width:100%;text-align:center;color:#000000;" class="standardcss"><h2>Bạn đã đặt xe thành công! Lái xe của chúng tôi sẽ liên hệ lại sớm nhất.</h2></div>
+<div class="row" style="background:#ffffff;color:#000000;position:fixed;width:75%;top:25%;padding-left:5px;padding-right:5px;text-align:left;display:none;z-index:1001;" id="detail">
+    <div style="width:100%;text-align:center;color:#000000;" class="standardcss">
+        <h2>Cám ơn quý khách đặt xe, thông tin đặt xe sẽ được lái xe đấu giá và liên hệ sớm nhất để quý khách có chuyến đi rẻ nhất và an toàn nhất</h2>
+    </div>
     @*<div style="text-align:center;" id="loading" class="standardcss"><img src="/Content/Images/loading.gif" style="height:50px;width:50px;" /></div>*@
     <div style="border-bottom:1px solid #cecece;" class="standardcss"><b>Thông tin khách:</b> <span id="f01"></span>, <span id="f02"></span></div>
     <div style="border-bottom:1px solid #cecece;" class="standardcss"><b>Điểm đi:</b> <span id="f1"></span></div>
@@ -56,9 +64,13 @@
     <div style="border-bottom:1px solid #cecece;" class="standardcss"><b>Đối tượng thuê:</b> <span id="f5"></span></div>
     <div style="border-bottom:1px solid #cecece;" class="standardcss"><b>Ngày giờ:</b> <span id="f6"></span></div>
     <div style="border-bottom:1px solid #cecece;" class="standardcss"><b>GIÁ ƯỚC TÍNH:</b> <span id="f7"></span> đồng</div>
+    <div style="border-bottom:1px solid #cecece;" class="standardcss"><b>Số Km ước tính:</b> <span id="fkm"></span> km</div>
+    <div style="border-bottom:1px solid #cecece;" class="standardcss">
+        <b>Ghi chú:</b><span id="notice" style="font-style:italic;">- Mỗi ngày khách không đi quá 200km, giá phụ trội km là 50.000/1h, mỗi ngày đi thêm tính 1.200.000 đồng đi ngoại tỉnh đường dài.</span>
+    </div>
     <div style="text-align:center;padding-top:25px;" class="standardcss"><a href="#" style="text-decoration:none;background-color:#4e612a;color:#c2bd3a;padding-left:15px;padding-bottom:5px;padding-top:5px;padding-right:15px;" onclick="$('#detail').hide();" id="hotlinephone3">THOÁT</a></div>
 </div>  
-<div class="row" style="width:75%;top:25%;background:#ffffff;color:#000000;position:fixed;padding-left:5px;padding-right:5px;text-align:left;width:auto;display:none;z-index:1001;" id="confirm">
+<div class="row" style="width:75%;top:25%;background:#ffffff;color:#000000;position:fixed;padding-left:5px;padding-right:5px;text-align:left;display:none;z-index:1002;" id="confirm">
     <div style="width:100%;text-align:center;color:#000000;" class="standardcss"><h2>Thông tin khách hàng</h2></div>
     <p style="text-align:left;margin-top:5px;">Họ tên *</p>
     <input id="name" name="name" class="form-control" placeholder="nhập họ tên" type="text" value="@ViewBag.name"/>
@@ -67,6 +79,7 @@
     <input type="button" value="ĐẶT XE" class="btn btn-primary btn-block" onclick="booking();" style="margin-bottom:5px;" id="btnregister1" />
 </div>    
 <script>
+    //alert($.number(1000000, 0, ','));
     $('#from_datetime').datetimepicker({
         dayOfWeekStart: 1,
         lang: 'en',
@@ -118,6 +131,57 @@
               $.log("Multiple: " + results.length + " results found");
           });
         initmap();
+    });
+    $.ajax({
+        url: "/Api/getCarType",
+        cache: false
+    }).done(function (html) {
+        var news = '{"news":' + html + '}';
+        var json_parsed = $.parseJSON(news);
+        var preProvin = json_parsed.news[0].provin;
+        $("#car_type").html("");
+        for (var i = 0; i < json_parsed.news.length; i++) {
+            if (json_parsed.news[i]) {
+                var name = json_parsed.news[i];
+                //alert(name);
+                $("#car_type").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i]+ " chỗ</option>");
+            }
+        }
+        
+    });
+    $.ajax({
+        url: "/Api/getCarHireType",
+        cache: false
+    }).done(function (html) {
+        var news = '{"news":' + html + '}';
+        var json_parsed = $.parseJSON(news);
+        var preProvin = json_parsed.news[0].provin;
+        $("#car_hire_type").html("");
+        for (var i = 0; i < json_parsed.news.length; i++) {
+            if (json_parsed.news[i]) {
+                var name = json_parsed.news[i];
+                //alert(name);
+                $("#car_hire_type").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + "</option>");
+            }
+        }
+
+    });
+    $.ajax({
+        url: "/Api/getCarWhoHire",
+        cache: false
+    }).done(function (html) {
+        var news = '{"news":' + html + '}';
+        var json_parsed = $.parseJSON(news);
+        var preProvin = json_parsed.news[0].provin;
+        $("#car_who_hire").html("");
+        for (var i = 0; i < json_parsed.news.length; i++) {
+            if (json_parsed.news[i]) {
+                var name = json_parsed.news[i];
+                //alert(name);
+                $("#car_who_hire").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + "</option>");
+            }
+        }
+
     });
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         //alert("0k");
@@ -222,6 +286,7 @@
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 if (xhr.responseText != "0") {
+                    $("#f7").html("Đang tính...");
                     $("#confirm").hide();
                     $("#detail").show();
                     $("#f01").html(document.getElementById("name").value); $("#f02").html(document.getElementById("phone").value);
@@ -231,7 +296,7 @@
                     $("#f4").html(document.getElementById("car_hire_type").value);
                     $("#f5").html(document.getElementById("car_who_hire").value);
                     $("#f6").html("Giờ đi " + document.getElementById("from_datetime").value + ", giờ về " + document.getElementById("to_datetime").value);
-                    $("#f7").html($.number(xhr.responseText, 3, ',' ));
+                    $("#f7").html($.number(xhr.responseText, 0, ',' ));
                     $.ajax({
                         url: "/Api/setcookie?name=" + document.getElementById("name").value + "&phone=" + document.getElementById("phone").value,
                             cache: false
@@ -280,6 +345,26 @@
 
                 polyline.setMap(map);
             });
+        });
+        var lat1=document.getElementById('lat1').value;
+        var lon1=document.getElementById('lon1').value;
+        var lat2=document.getElementById('lat2').value;
+        var lon2=document.getElementById('lon2').value;
+        //var infoWindow = new google.maps.InfoWindow({ map: map });
+        //var pos = {
+        //    lat: lat1,
+        //    lng: lon1
+        //};
+        //infoWindow.setPosition(pos);
+        document.getElementById('fkm').innerHTML = "Đang tính ";
+        $.ajax({
+            url: "/Api/getKm?lon1=" + lon1 + "&lat1="+lat1+"&lon2=" + lon2 + "&lat2=" + lat2,
+            cache: false
+        }).done(function (html) {
+            //alert(html);
+            document.getElementById('fkm').innerHTML = html;
+            //infoWindow.setContent('Số km'+html);
+
         });
     }
     

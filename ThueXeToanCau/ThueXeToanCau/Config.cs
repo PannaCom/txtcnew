@@ -29,7 +29,8 @@ namespace ThueXeToanCau
         public static int reduct2 = 10;
         public static int reduct3 = 15;
         public static int reduct4 = 20;
-        
+        public static int factorBackWay_GoWith = 30;
+        public static int pricePerDay = 1200000;
         //convert longitude latitude to geography
         public static DbGeography CreatePoint(double? latitude, double? longitude)
         {
