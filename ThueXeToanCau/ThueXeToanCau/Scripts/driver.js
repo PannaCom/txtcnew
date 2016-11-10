@@ -1,5 +1,5 @@
-﻿$(function () {
-    $("#address").geocomplete();
+﻿$(function () {    
+    $("#address").geocomplete();    
     //var options = {
     //    map: ".map_canvas"
     //};

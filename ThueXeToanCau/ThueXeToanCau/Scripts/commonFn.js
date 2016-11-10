@@ -24,6 +24,12 @@ function notifyOK() {
         deleteUser();
     } else if (action == "delDriver") {
         deleteDriver();
+    } else if (action == "delCarType") {
+        deleteCarType();
+    } else if (action == "delHireType") {
+        deleteHireType();
+    } else if (action == "delWhoType") {
+        deleteWhoType();
     }
     closeDDialog("#notificationDialog");
 }

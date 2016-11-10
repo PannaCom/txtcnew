@@ -270,10 +270,8 @@
 
 /*DuyVT*/
     .dDialog {
-        position: absolute;top: 50px;left: 400px;
-        border: 1px solid #c5c5c5;background-color: rgb(250,250,250);
-        z-index: 9999;padding: 10px;        
-        max-height:500px; overflow-y:auto;
+        position: absolute;top: 50px;left: 400px;display:block;height:auto;
+        border: 1px solid #c5c5c5;background-color: rgb(250,250,250);padding: 10px;                
     }
     .dDialog .dTitle {
         border: 1px solid #dddddd;
@@ -284,6 +282,8 @@
         padding: 3px;
     }
     .dDialog .dDialogContent {
+        position:relative;width:auto;height:auto;
+        max-height:500px; overflow-y:auto;
     }
     .dDialog p {
         text-align:left;margin: 12px 0px 0px 0;

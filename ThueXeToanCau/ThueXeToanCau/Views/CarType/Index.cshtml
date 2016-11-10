@@ -1,0 +1,41 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@using ThueXeToanCau.Models;
+
+@{
+    ViewBag.Title = "Quản Lý Loại Xe";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<button type="button" class="btn btn-primary" onclick="openCarType(0)">Thêm Mới</button><br /><br />
+<table class="table marginBottom0">
+    <tr><th>Số Chỗ</th><th></th><th></th></tr>
+    @foreach (var item in (PagedList<car_type>)ViewBag.OnePage)
+    {
+        <tr>
+            <td>@item.name chỗ</td>
+            <td><a href="#" onclick="openCarType(@item.id, '@item.name')">Sửa</a></td>
+            <td><a href="#" onclick="confirmDelCarType(@item.id, '@item.name')">Xóa</a></td>
+        </tr>
+    }
+</table>
+@Html.PagedListPager((IPagedList)ViewBag.OnePage, page => Url.Action("Index", new { page }))
+
+<div id="carTypeDialog" style="display:none;" class="col-sm-4 dDialog">
+    <div class="dTitle">Thêm/Sửa Loại Xe</div>
+    <div class="dDialogContent">
+        <input type="hidden" id="carTypeId" />
+        <p>Số Chỗ</p>
+        <input id="n_Name" type="number" class="form-control" placeholder="Nhập số lượng chỗ">
+        <div class="divBtn">
+            <button type="button" class="btn btn-primary" onclick="saveCarType()">Đồng Ý</button>
+            <button type="button" class="btn btn-primary" onclick="closeDDialog('#carTypeDialog')">Hủy</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var url_addUpdateCarType = '@Url.Action("addUpdateCarType", "CarType")', url_deleteCarType = '@Url.Action("deleteCarType", "CarType")';
+</script>
+<script type="text/javascript" src="~/Scripts/cartype.js"></script>

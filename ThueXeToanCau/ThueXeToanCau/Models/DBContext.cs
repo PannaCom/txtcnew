@@ -267,6 +267,132 @@ namespace ThueXeToanCau.Models
             }
         }
 
+        public static string addUpdateCarType(car_type ct)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    if (ct.id == 0)
+                    {
+                        db.car_type.Add(ct);
+                    }
+                    else
+                    {
+                        db.Entry(ct).State = EntityState.Modified;
+                    }
+                    db.SaveChanges();
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return "Thất bại: " + ex.Message;
+            }
+        }
+
+        public static string deleteCarType(int id)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    var ct = new car_type() { id = id };
+                    db.Entry(ct).State = EntityState.Deleted;
+                    db.SaveChanges();
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return "Thất bại: " + ex.Message;
+            }
+        }
+
+        public static string addUpdateHireType(car_hire_type ht)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    if (ht.id == 0)
+                    {
+                        db.car_hire_type.Add(ht);
+                    }
+                    else
+                    {
+                        db.Entry(ht).State = EntityState.Modified;
+                    }
+                    db.SaveChanges();
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return "Thất bại: " + ex.Message;
+            }
+        }
+
+        public static string deleteHireType(int id)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    var ct = new car_hire_type() { id = id };
+                    db.Entry(ct).State = EntityState.Deleted;
+                    db.SaveChanges();
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return "Thất bại: " + ex.Message;
+            }
+        }
+
+        public static string addUpdateWhoType(car_who_hire wh)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    if (wh.id == 0)
+                    {
+                        db.car_who_hire.Add(wh);
+                    }
+                    else
+                    {
+                        db.Entry(wh).State = EntityState.Modified;
+                    }
+                    db.SaveChanges();
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return "Thất bại: " + ex.Message;
+            }
+        }
+
+        public static string deleteWhoType(int id)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    var wh = new car_who_hire() { id = id };
+                    db.Entry(wh).State = EntityState.Deleted;
+                    db.SaveChanges();
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return "Thất bại: " + ex.Message;
+            }
+        }
+
         public static string addUpdateUser(user u)
         {
             try
