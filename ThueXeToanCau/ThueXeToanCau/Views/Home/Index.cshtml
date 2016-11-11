@@ -30,7 +30,7 @@
                           @*<option value="5">5 chỗ</option><option value="8">8 chỗ</option><option value="16">16 chỗ</option><option value="30">30 chỗ</option><option value="45">45 chỗ</option>*@
                     </select>
                     <p style="text-align:left;margin-top:5px;">Hình thức thuê *</p>
-                    <select id="car_hire_type" class="form-control">
+                    <select id="car_hire_type" class="form-control" onchange="showairport();">
                         @*<option value="Khứ hồi">Khứ hồi</option><option value="Một chiều">Một chiều</option><option value="Sân bay">Sân bay</option><option value="Chiều về">Chiều về</option><option value="Đi chung">Đi chung</option>*@
                     </select>
                     <p style="text-align:left;margin-top:5px;">Đối tượng thuê *</p>
@@ -78,6 +78,19 @@
     <input id="phone" name="phone" class="form-control" placeholder="nhập" type="text" value="@ViewBag.phone" />
     <input type="button" value="ĐẶT XE" class="btn btn-primary btn-block" onclick="booking();" style="margin-bottom:5px;" id="btnregister1" />
 </div>    
+<div class="row" style="width:75%;top:25%;background:#ffffff;color:#000000;position:fixed;padding-left:5px;padding-right:5px;text-align:left;display:none;z-index:1002;" id="airport">
+    <div style="width:100%;text-align:center;color:#000000;" class="standardcss"><h2>Chọn sân bay</h2></div>
+    <p style="text-align:left;margin-top:5px;">Chọn sân bay *</p>
+    <select id="sairport" class="form-control"></select>
+    <p style="text-align:left;margin-top:5px;">Chọn kiểu đi sân bay (đi/về/khứ hồi?) *</p>
+    <select id="sairporttype" class="form-control">
+        <option value="" selected>Chọn</option>
+        <option value="thành phố đi sân bay">thành phố đi sân bay</option>
+        <option value="sân bay về thành phố">sân bay về thành phố</option>
+        <option value="khứ hồi">khứ hồi</option>
+    </select>
+    <input type="button" value="ĐẶT XE" class="btn btn-primary btn-block" onclick="setairport();" style="margin-bottom:5px;" id="btnregister2" />
+</div>  
 <script>
     //alert($.number(1000000, 0, ','));
     $('#from_datetime').datetimepicker({
@@ -183,6 +196,36 @@
         }
 
     });
+    $.ajax({
+        url: "/Api/getAirportName",
+        cache: false
+    }).done(function (html) {
+        var news = '{"news":' + html + '}';
+        var json_parsed = $.parseJSON(news);
+        var preProvin = json_parsed.news[0].provin;
+        $("#sairport").html("<option value=''>Chọn</option>");
+        for (var i = 0; i < json_parsed.news.length; i++) {
+            if (json_parsed.news[i]) {
+                var name = json_parsed.news[i];
+                //alert(name);
+                $("#sairport").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + "</option>");
+            }
+        }
+
+    });
+    function showairport() {
+        if ($("#car_hire_type").val().toString().toLowerCase().indexOf("sân bay") >= 0) {
+            $("#airport").show();
+        }
+    }
+    function setairport() {
+        if ($("#sairport").val() == "") {
+            alert("Chọn sân bay!");
+            $("#sairport").focus();
+            return;
+        }
+        booking();
+    }
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         //alert("0k");
         infoWindow.setPosition(pos);
@@ -276,8 +319,8 @@
         formdata.append("lon1", document.getElementById("lon1").value);
         formdata.append("lat2", document.getElementById("lat2").value);
         formdata.append("lon2", document.getElementById("lon2").value);
-        document.getElementById("btnregister1").value = "Đang đăng ký xin chờ....";
-        document.getElementById("btnregister1").disabled = true;
+        document.getElementById("btnregister111").value = "Đang đăng ký xin chờ....";
+        document.getElementById("btnregister111").disabled = true;
 
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/Api/Booking');
@@ -306,8 +349,8 @@
                 } else {
                     alert("Hiện tổng đài đang bận, xin quay lại sau!");
                 }
-                document.getElementById("btnregister1").value = "XÁC NHẬN";
-                document.getElementById("btnregister1").disabled = false;
+                document.getElementById("btnregister111").value = "XÁC NHẬN";
+                document.getElementById("btnregister111").disabled = false;
             }
         }
     }

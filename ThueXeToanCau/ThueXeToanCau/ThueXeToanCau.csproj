@@ -220,11 +220,14 @@
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\CarPriceAirPortController.cs" />
     <Compile Include="Controllers\CarPriceController.cs" />
+    <Compile Include="Controllers\CarTypeController.cs" />
     <Compile Include="Controllers\DriverController.cs" />
+    <Compile Include="Controllers\HireTypeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NoticeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\WhoTypeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -261,6 +264,7 @@
     <Compile Include="Models\list_car_type.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\NationalDay.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
@@ -979,8 +983,10 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\carPrice.js" />
     <Content Include="Scripts\carPriceAirport.js" />
+    <Content Include="Scripts\cartype.js" />
     <Content Include="Scripts\commonFn.js" />
     <Content Include="Scripts\driver.js" />
+    <Content Include="Scripts\hiretype.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -995,6 +1001,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\user.js" />
+    <Content Include="Scripts\whotype.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -1040,6 +1047,11 @@
     <Content Include="Views\Driver\Index.cshtml" />
     <Content Include="Views\Notice\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Admin\Login.cshtml" />
+    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
+    <Content Include="Views\CarType\Index.cshtml" />
+    <Content Include="Views\HireType\Index.cshtml" />
+    <Content Include="Views\WhoType\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

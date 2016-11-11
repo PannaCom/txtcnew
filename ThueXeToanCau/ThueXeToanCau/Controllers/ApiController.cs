@@ -353,6 +353,16 @@ namespace ThueXeToanCau.Controllers
             var p = db.Database.SqlQuery<gbol>(query);
             return JsonConvert.SerializeObject(p.ToList());
         }
+        public class cname
+        {
+            public string name { get; set; }
+        }
+        public string getAirportName()
+        {
+            string query = "select distinct airport_name as name from car_price_airport order by name";
+            var p = db.Database.SqlQuery<cname>(query);
+            return JsonConvert.SerializeObject(p.ToList());
+        }
         public string getCarHireType()
         {
             var p = (from q in db.car_hire_type select q.name);
