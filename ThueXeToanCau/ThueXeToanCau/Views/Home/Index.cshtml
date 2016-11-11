@@ -183,6 +183,7 @@
         url: "/Api/getCarWhoHire",
         cache: false
     }).done(function (html) {
+        
         var news = '{"news":' + html + '}';
         var json_parsed = $.parseJSON(news);
         var preProvin = json_parsed.news[0].provin;
@@ -190,7 +191,6 @@
         for (var i = 0; i < json_parsed.news.length; i++) {
             if (json_parsed.news[i]) {
                 var name = json_parsed.news[i];
-                //alert(name);
                 $("#car_who_hire").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + "</option>");
             }
         }
@@ -200,15 +200,16 @@
         url: "/Api/getAirportName",
         cache: false
     }).done(function (html) {
+        //alert(html);
         var news = '{"news":' + html + '}';
         var json_parsed = $.parseJSON(news);
         var preProvin = json_parsed.news[0].provin;
         $("#sairport").html("<option value=''>Chọn</option>");
         for (var i = 0; i < json_parsed.news.length; i++) {
             if (json_parsed.news[i]) {
-                var name = json_parsed.news[i];
+                var name = json_parsed.news[i].name;
                 //alert(name);
-                $("#sairport").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + "</option>");
+                $("#sairport").append("<option value='" + name + "'>" + name + "</option>");
             }
         }
 
@@ -224,6 +225,13 @@
             $("#sairport").focus();
             return;
         }
+        if ($("#sairporttype").val() == "") {
+            alert("Chọn kiểu đi sân bay!");
+            $("#sairporttype").focus();
+            return;
+        }
+        document.getElementById("car_from").value = $("#sairport").val();
+        document.getElementById("car_to").value = $("#sairporttype").val();
         booking();
     }
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -278,12 +286,12 @@
     function booking() {
         var formdata = new FormData(); //FormData object
         var from_datetime = document.getElementById("from_datetime").value;
-        if (document.getElementById("car_from").value == "" || document.getElementById("lon1").value == "") {
+        if (document.getElementById("car_hire_type").value.indexOf("sân bay")<0 && (document.getElementById("car_from").value == "" || document.getElementById("lon1").value == "")) {
             alert("Nhập điểm đi!");
             document.getElementById("car_from").focus();
             return;
         }
-        if (document.getElementById("car_to").value == "" || document.getElementById("lon2").value == "") {
+        if (document.getElementById("car_hire_type").value.indexOf("sân bay")<0 && (document.getElementById("car_to").value == "" || document.getElementById("lon2").value == "")) {
             alert("Nhập điểm đến!");
             document.getElementById("car_to").focus();
             return;
