@@ -1,6 +1,37 @@
-﻿$(function () {
+﻿var isExistInfo = false;
+$(function () {
+    $("#tCMND_err").hide();
+    $("#car_number_err").hide();
     $("#address").geocomplete();
 });
+
+function validateExistInfo(cmnd, carNumber) {    
+    $.ajax({
+        url: url_validateExistInfo, type: 'get',
+        data: { card_identify: cmnd, car_number: carNumber },
+        success: function (result) {
+            if (result != '') {
+                isExistInfo = true;
+                if (cmnd != '') {
+                    $("#tCMND").css("border", "1px solid red");
+                    $("#tCMND_err").show();
+                } else {
+                    $("#car_number").css("border", "1px solid red");
+                    $("#car_number_err").show();
+                }
+            } else {
+                isExistInfo = false;
+                if (cmnd != '') {
+                    $("#tCMND").css("border", "1px solid #ccc");
+                    $("#tCMND_err").hide();
+                } else {
+                    $("#car_number").css("border", "1px solid #ccc");
+                    $("#car_number_err").hide();
+                }
+            }
+        }
+    });
+}
 
 function autosearchmodel() {
     var urlSearch = '/Api/getCarModelList?keyword=';
@@ -75,6 +106,7 @@ function saveDriver() {
         return false;
     }
 
+    if (isExistInfo) return false;
     var driverObj = {
         id: dId, name: $("#tname").val(), pass: $("#tPass").val(), phone: $("#tphone").val(), car_model: $("#car_model").val(),
         card_identify: $("#tCMND").val(), car_years: $("#car_year").val(), car_size: $("#car_size").val(), car_number: $("#car_number").val(),

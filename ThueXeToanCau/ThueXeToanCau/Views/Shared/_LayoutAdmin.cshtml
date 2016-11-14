@@ -126,6 +126,9 @@
     <script src="~/Content/Theme/admin/js/sb-admin-2.min.js"></script>
     @Html.Partial("_commonView")
     @RenderSection("Scripts", required: false)
+    <script type="text/javascript">
+        var url_uploadFile = '@Url.Action("uploadFile", "Admin")';
+    </script>
 </body>
 
 </html>

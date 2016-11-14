@@ -33,3 +33,34 @@ function notifyOK() {
     }
     closeDDialog("#notificationDialog");
 }
+
+function uploadFile() {
+    var files = document.getElementById("fileUpload").files;
+    if (files.length == 0) {
+        alert('Xin hãy chọn 1 bảng kê!');
+    } else {
+        if (window.FormData !== undefined) {
+            var data = new FormData();
+            for (var x = 0; x < files.length; x++) {
+                data.append("file" + x, files[x]);
+            }
+
+            $.ajax({                
+                url: url_uploadFile, type: "POST",
+                contentType: false, processData: false,
+                data: data,
+                success: function (result) {
+                    console.log(result);
+                },
+                error: function (xhr, status, p3, p4) {
+                    //var err = "Lỗi: " + " " + status + " " + p3 + " " + p4;
+                    //if (xhr.responseText)
+                    //    err = ;
+                    alert(xhr.responseText);
+                }
+            });
+        } else {
+            alert("Trình duyệt của bạn không hỗ trợ HTML5");
+        }
+    }
+}

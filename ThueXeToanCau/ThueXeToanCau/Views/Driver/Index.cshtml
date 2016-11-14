@@ -39,13 +39,15 @@
         <p>Xác Nhận Mật Khẩu</p>
         <input id="tPassConfirm" type="password" class="form-control" placeholder="Nhập lại mật khẩu">
         <p>Chứng Minh Nhân Dân</p>
-        <input id="tCMND" type="text" class="form-control" placeholder="Nhập chứng minh nhân dân">
+        <input id="tCMND" type="text" class="form-control" placeholder="Nhập chứng minh nhân dân" onblur="validateExistInfo(this.value,'')" >
+        <span id="tCMND_err" class="text-danger">Số CMND đã tồn tại!</span>
         <p>Số bằng lái xe</p>
         <input id="tLicense" type="text" class="form-control" placeholder="Nhập số bằng lái xe">
         <p>Địa chỉ (thường trú hoặc hay đón khách)</p>
         <input id="address" class="form-control" placeholder="Nhập địa chỉ chính xác" autocomplete="off">
         <p>Biển số</p>
-        <input id="car_number" type="text" class="form-control" placeholder="Nhập biển số">
+        <input id="car_number" type="text" class="form-control" placeholder="Nhập biển số" onblur="validateExistInfo('', this.value)">
+        <span id="car_number_err" class="text-danger">Biển Số Xe đã tồn tại!</span>
         <p>Hãng xe</p>
         <select id="car" class="form-control">
             @{
@@ -79,6 +81,7 @@
 
 <script type="text/javascript">
     var url_addUpdateDriver = '@Url.Action("addUpdateDriver", "Driver")', url_deleteDriver = '@Url.Action("deleteDriver", "Driver")';
+    var url_validateExistInfo = '@Url.Action("validateExistInfo", "Driver")';
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places" type="text/javascript"></script>
 <script src="~/Content/Theme/1a/js/jquery.geocomplete.js"></script>

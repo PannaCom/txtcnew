@@ -26,7 +26,8 @@
     <div class="dDialogContent">
         <input type="hidden" id="userId" />
         <p>Tên</p>
-        <input id="u_Name" type="text" class="form-control" placeholder="Nhập tên">        
+        <input id="u_Name" type="text" class="form-control" placeholder="Nhập tên" onblur="validateExistInfo(this.value)">     
+        <span id="u_Name_err" class="text-danger">Tên Đăng Nhập đã tồn tại!</span>   
         <p>Mật Khẩu Mới</p>
         <input id="u_Pasword" type="password" class="form-control" placeholder="Nhập mật khẩu">
         <p>Xác Nhận Mật Khẩu Mới</p>
@@ -40,5 +41,6 @@
 
 <script type="text/javascript">
     var url_addUpdateUser = '@Url.Action("addUpdateUser","User")', url_deleteUser = '@Url.Action("deleteUser","User")';
+    var url_validateExistInfo = '@Url.Action("validateExistInfo", "User")';
 </script>
 <script type="text/javascript" src="~/Scripts/user.js"></script>

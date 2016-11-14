@@ -10,11 +10,7 @@ namespace ThueXeToanCau.Controllers
     {
         public ActionResult Index(int? page)
         {
-            var user = Session["user"];
-            if (user == null)
-            {
-                return RedirectToAction("Login", "Admin");
-            }
+            if (Config.getCookie("logged") == "") return RedirectToAction("Login", "Admin");
             using (var db = new thuexetoancauEntities())
             {
                 var carPrices = db.car_price;

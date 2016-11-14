@@ -9,6 +9,7 @@ namespace ThueXeToanCau.Controllers
     {
         public ActionResult Index(int? page)
         {
+            if (Config.getCookie("logged") == "") return RedirectToAction("Login", "Admin");
             using (var db = new thuexetoancauEntities())
             {
                 var notices = db.notices;

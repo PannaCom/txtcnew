@@ -1,4 +1,27 @@
-﻿function openUser(uId, name) {
+﻿$(function () {
+    $("#u_Name_err").hide();
+});
+
+var isExistInfo = false;
+function validateExistInfo(uName) {
+    $.ajax({
+        url: url_validateExistInfo, type: 'get',
+        data: { name: uName },
+        success: function (result) {
+            if (result != '') {
+                isExistInfo = true;
+                $("#u_Name").css("border", "1px solid red");
+                $("#u_Name_err").show();
+            } else {
+                isExistInfo = false;
+                $("#u_Name").css("border", "1px solid #ccc");
+                $("#u_Name_err").hide();
+            }
+        }
+    });
+}
+
+function openUser(uId, name) {
     name = resetValue(name, "");
     
     $("#userId").val(uId);
@@ -29,6 +52,7 @@ function saveUser() {
         $("#u_PaswordConfirm").val('');
         return false;
     }
+    if (isExistInfo) return false;
 
     $.ajax({
         url: url_addUpdateUser, type: 'post',
