@@ -232,6 +232,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\airport_way.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\booking.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
@@ -252,6 +255,9 @@
     </Compile>
     <Compile Include="Models\DBContext.cs" />
     <Compile Include="Models\driver.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\factor.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />

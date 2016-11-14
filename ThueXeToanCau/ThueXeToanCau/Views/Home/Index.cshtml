@@ -230,9 +230,28 @@
             $("#sairporttype").focus();
             return;
         }
-        document.getElementById("car_from").value = $("#sairport").val();
-        document.getElementById("car_to").value = $("#sairporttype").val();
-        booking();
+        
+        $.ajax({
+            url: "/Api/getLonLatAirport?airport="+$("#sairport").val(),
+            cache: false
+        }).done(function (html) {
+            var news = '{"news":' + html + '}';
+            var json_parsed = $.parseJSON(news);
+            var lon1 = json_parsed.news[0].lon1;
+            var lat1 = json_parsed.news[0].lat1;
+            var lon2 = json_parsed.news[0].lon2;
+            var lat2 = json_parsed.news[0].lat2;
+            document.getElementById("lon1").value = lon1;
+            document.getElementById("lat1").value = lat1;
+            document.getElementById("lon2").value = lon2;
+            document.getElementById("lat2").value = lat2;
+            document.getElementById("car_from").value = $("#sairport").val();
+            document.getElementById("car_to").value = $("#sairporttype").val();
+            booking();
+            $("#airport").hide();
+        });
+       
+        
     }
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         //alert("0k");
@@ -286,16 +305,19 @@
     function booking() {
         var formdata = new FormData(); //FormData object
         var from_datetime = document.getElementById("from_datetime").value;
-        if (document.getElementById("car_hire_type").value.indexOf("sân bay")<0 && (document.getElementById("car_from").value == "" || document.getElementById("lon1").value == "")) {
+        
+        if (document.getElementById("car_hire_type").value.toLowerCase().indexOf("sân bay")<0 && (document.getElementById("car_from").value == "" || document.getElementById("lon1").value == "")) {
             alert("Nhập điểm đi!");
             document.getElementById("car_from").focus();
             return;
         }
-        if (document.getElementById("car_hire_type").value.indexOf("sân bay")<0 && (document.getElementById("car_to").value == "" || document.getElementById("lon2").value == "")) {
+       
+        if (document.getElementById("car_hire_type").value.toLowerCase().indexOf("sân bay") < 0 && (document.getElementById("car_to").value == "" || document.getElementById("lon2").value == "")) {
             alert("Nhập điểm đến!");
             document.getElementById("car_to").focus();
             return;
         }
+       
         if (document.getElementById("from_datetime").value == "") {
             alert("Ngày giờ đi!");
             document.getElementById("from_datetime").focus();
@@ -316,6 +338,7 @@
             document.getElementById("phone").focus();
             return;
         }
+      
         formdata.append("car_from", document.getElementById("car_from").value);
         formdata.append("car_to", document.getElementById("car_to").value);
         formdata.append("car_type", document.getElementById("car_type").value);
@@ -327,9 +350,13 @@
         formdata.append("lon1", document.getElementById("lon1").value);
         formdata.append("lat2", document.getElementById("lat2").value);
         formdata.append("lon2", document.getElementById("lon2").value);
+        formdata.append("name", document.getElementById("name").value);
+        formdata.append("phone", document.getElementById("phone").value);
+        formdata.append("airport_name", document.getElementById("sairport").value);
+        formdata.append("airport_way", document.getElementById("sairporttype").value);
         document.getElementById("btnregister111").value = "Đang đăng ký xin chờ....";
         document.getElementById("btnregister111").disabled = true;
-
+        
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/Api/Booking');
         xhr.send(formdata);
@@ -340,6 +367,7 @@
                     var info = xhr.responseText.split('_');
                     $("#f7").html("Đang tính...");
                     $("#confirm").hide();
+                    $("#airport").hide();
                     $("#detail").show();
                     $("#f01").html(document.getElementById("name").value); $("#f02").html(document.getElementById("phone").value);
                     $("#f1").html(document.getElementById("car_from").value);

@@ -5,6 +5,17 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="thuexetoancauModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="airport_way">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="airport_name" Type="nvarchar" MaxLength="150" />
+          <Property Name="lon1" Type="float" />
+          <Property Name="lat1" Type="float" />
+          <Property Name="lon2" Type="float" />
+          <Property Name="lat2" Type="float" />
+        </EntityType>
         <EntityType Name="booking">
           <Key>
             <PropertyRef Name="id" />
@@ -97,6 +108,14 @@
           <Property Name="card_identify" Type="nvarchar" MaxLength="50" />
           <Property Name="license" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="factor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="150" />
+          <Property Name="val" Type="int" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'thuexetoancau.dbo.list_car' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="list_car">
@@ -160,6 +179,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <Property Name="pass" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityContainer Name="thuexetoancauModelStoreContainer">
+          <EntitySet Name="airport_way" EntityType="Self.airport_way" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="booking" EntityType="Self.booking" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_hire_type" EntityType="Self.car_hire_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_price" EntityType="Self.car_price" Schema="dbo" store:Type="Tables" />
@@ -167,6 +187,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="car_type" EntityType="Self.car_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_who_hire" EntityType="Self.car_who_hire" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="drivers" EntityType="Self.drivers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="factor" EntityType="Self.factor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NationalDay" EntityType="Self.NationalDay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="notice" EntityType="Self.notice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
@@ -246,6 +267,8 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="bookings" EntityType="thuexetoancauModel.booking" />
           <EntitySet Name="users" EntityType="thuexetoancauModel.user" />
           <EntitySet Name="car_price_airport" EntityType="thuexetoancauModel.car_price_airport" />
+          <EntitySet Name="airport_way" EntityType="thuexetoancauModel.airport_way" />
+          <EntitySet Name="factors" EntityType="thuexetoancauModel.factor" />
         </EntityContainer>
         <EntityType Name="driver">
           <Key>
@@ -362,6 +385,25 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <Property Name="price_go_way" Type="Int32" />
           <Property Name="price_back_way" Type="Int32" />
           <Property Name="price_two_way" Type="Int32" />
+        </EntityType>
+        <EntityType Name="airport_way">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="airport_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="lon1" Type="Double" />
+          <Property Name="lat1" Type="Double" />
+          <Property Name="lon2" Type="Double" />
+          <Property Name="lat2" Type="Double" />
+        </EntityType>
+        <EntityType Name="factor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="val" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -525,6 +567,27 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
                 <ScalarProperty Name="price_go_way" ColumnName="price_go_way" />
                 <ScalarProperty Name="car_size" ColumnName="car_size" />
                 <ScalarProperty Name="airport_name" ColumnName="airport_name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="airport_way">
+            <EntityTypeMapping TypeName="thuexetoancauModel.airport_way">
+              <MappingFragment StoreEntitySet="airport_way">
+                <ScalarProperty Name="lat2" ColumnName="lat2" />
+                <ScalarProperty Name="lon2" ColumnName="lon2" />
+                <ScalarProperty Name="lat1" ColumnName="lat1" />
+                <ScalarProperty Name="lon1" ColumnName="lon1" />
+                <ScalarProperty Name="airport_name" ColumnName="airport_name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="factors">
+            <EntityTypeMapping TypeName="thuexetoancauModel.factor">
+              <MappingFragment StoreEntitySet="factor">
+                <ScalarProperty Name="val" ColumnName="val" />
+                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

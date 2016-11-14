@@ -20,7 +20,7 @@ namespace ThueXeToanCau.Controllers
             return View();
         }
         [HttpPost]
-        public string booking(string car_from, string car_to, int? car_type, string car_hire_type, string car_who_hire, DateTime from_datetime, DateTime to_datetime, double lon1,double lat1,double lon2,double lat2,string name,string phone,string airport_name,string airport_way)
+        public string booking(string car_from, string car_to, int? car_type, string car_hire_type, string car_who_hire, DateTime from_datetime, DateTime to_datetime, double? lon1,double? lat1,double? lon2,double? lat2,string name,string phone,string airport_name,string airport_way)
         {
             try
             {
@@ -36,12 +36,14 @@ namespace ThueXeToanCau.Controllers
                 bo.car_type = car_type;
                 bo.car_who_hire = car_who_hire;
                 bo.from_datetime = from_datetime;
-                bo.geo1 = Config.CreatePoint(lat1, lon1);
-                bo.geo2 = Config.CreatePoint(lat2, lon2);
-                bo.lat1 = lat1;
-                bo.lat2 = lat2;
-                bo.lon1 = lon1;
-                bo.lon2 = lon2;
+                if (!car_hire_type.ToLowerInvariant().Contains("sân bay")) { 
+                    bo.geo1 = Config.CreatePoint(lat1, lon1);
+                    bo.geo2 = Config.CreatePoint(lat2, lon2);
+                    bo.lat1 = lat1;
+                    bo.lat2 = lat2;
+                    bo.lon1 = lon1;
+                    bo.lon2 = lon2;
+                }
                 bo.to_datetime = to_datetime;
                 bo.datebook = DateTime.Now;
                 bo.book_price = price;
@@ -100,7 +102,7 @@ namespace ThueXeToanCau.Controllers
             public string status { get; set; }
         }
         //Hà Nội - Ninh Bình http://localhost:58046/api/getD?lat1=20.9740873&lon1=105.3724793&lat2=20.1877591&lon2=105.5745668
-        public int getD(double lon1, double lat1, double lon2, double lat2, string car_hire_type, int? car_type, DateTime from_date, DateTime to_date, string airport_name, string airport_way,ref int dts)
+        public int getD(double? lon1, double? lat1, double? lon2, double? lat2, string car_hire_type, int? car_type, DateTime from_date, DateTime to_date, string airport_name, string airport_way,ref int dts)
         {
             //get km distance
             try {
@@ -119,17 +121,17 @@ namespace ThueXeToanCau.Controllers
                 int price=6000;
                 int total = price*factor*km;
                 int pricePerDay = price*200;
-                int factorHoliday1 = (int)db.car_price.Where(o=>o.car_size==5).FirstOrDefault().multiple;
+                int factorHoliday1 = (int)db.car_price.Where(o=>o.car_size==5).FirstOrDefault().multiple;//Hệ số ngày lễ, Tết
                 int factorHoliday2 = (int)db.car_price.Where(o => o.car_size == 8).FirstOrDefault().multiple;
                 int factorHoliday3 = (int)db.car_price.Where(o => o.car_size == 16).FirstOrDefault().multiple;
                 int factorHoliday4 = (int)db.car_price.Where(o => o.car_size == 30).FirstOrDefault().multiple;
                 int factorHoliday5 = (int)db.car_price.Where(o => o.car_size == 45).FirstOrDefault().multiple;
-                int price1 = (int)db.car_price.Where(o => o.car_size == 5).FirstOrDefault().price;
+                int price1 = (int)db.car_price.Where(o => o.car_size == 5).FirstOrDefault().price;//bảng giá xe tương ứng số chỗ
                 int price2 = (int)db.car_price.Where(o => o.car_size == 8).FirstOrDefault().price;
                 int price3 = (int)db.car_price.Where(o => o.car_size == 16).FirstOrDefault().price;
                 int price4 = (int)db.car_price.Where(o => o.car_size == 30).FirstOrDefault().price;
                 int price5 = (int)db.car_price.Where(o => o.car_size == 45).FirstOrDefault().price;
-                int factor1 = (int)db.car_price.Where(o => o.car_size == 5).FirstOrDefault().multiple2;
+                int factor1 = (int)db.car_price.Where(o => o.car_size == 5).FirstOrDefault().multiple2;//Hệ số xe một chiều
                 int factor2 = (int)db.car_price.Where(o => o.car_size == 8).FirstOrDefault().multiple2;
                 int factor3 = (int)db.car_price.Where(o => o.car_size == 16).FirstOrDefault().multiple2;
                 int factor4 = (int)db.car_price.Where(o => o.car_size == 30).FirstOrDefault().multiple2;
@@ -194,7 +196,86 @@ namespace ThueXeToanCau.Controllers
                         total = total * factorBackWay_GoWith / 100;
                     }
                     return total;
+                } else
+                if (car_hire_type.ToLowerInvariant().Contains("sân bay"))
+                {
+                    if (Config.isHoliDay(from_date))
+                    {
+                        if (car_type == 5)
+                        {
+                            factor = factorHoliday1;
+                            
+                        }
+                        if (car_type == 8)
+                        {
+                            factor = factorHoliday2;
+                           
+                        }
+                        if (car_type == 16)
+                        {
+                            factor = factorHoliday3;
+                           
+                        }
+                        if (car_type == 30)
+                        {
+                            factor = factorHoliday4;
+                            
+                        }
+                        if (car_type == 45)
+                        {
+                            factor = factorHoliday5;
+                           
+                        }
+                    }
+                    else
+                    {
+                        if (car_type == 5)
+                        {
+                            factor = 100;
+                            
+                        }
+                        if (car_type == 8)
+                        {
+                            factor = 100;
+                           
+                        }
+                        if (car_type == 16)
+                        {
+                            factor = 100;
+                          
+                        }
+                        if (car_type == 30)
+                        {
+                            factor = 100;
+                          
+                        }
+                        if (car_type == 45)
+                        {
+                            factor = 100;
+                           
+                        }
+                    }
+                       
+                        if (airport_way.Contains("đi sân bay"))
+                        {
+                            price = (int)db.car_price_airport.Where(o => o.airport_name.Contains(airport_name)).Where(o => o.car_size == car_type).FirstOrDefault().price_go_way;
+                        }
+                        else
+                            if (airport_way.Contains("sân bay về"))
+                            {
+                                price = (int)db.car_price_airport.Where(o => o.airport_name.Contains(airport_name)).Where(o => o.car_size == car_type).FirstOrDefault().price_back_way;
+                            }
+                            else
+                                if (airport_way.Contains("khứ hồi"))
+                                {
+                                    price = (int)db.car_price_airport.Where(o => o.airport_name.Contains(airport_name)).Where(o => o.car_size == car_type).FirstOrDefault().price_two_way;
+                                }
+                   
+                    
+                    total = price * factor/ 100;
+                    return total;
                 }
+                else
                 if (car_hire_type.ToLowerInvariant().Contains("khứ hồi"))
                 { 
                     
@@ -281,12 +362,17 @@ namespace ThueXeToanCau.Controllers
         }
         public int getKm(double lon1, double lat1, double lon2, double lat2)
         {
-            string address = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + lat1 + "," + lon1 + "&destinations=" + lat2 + "," + lon2 + "&key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY";
+            string address = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + lat1 + "," + lon1 + "&destinations=" + lat2 + "," + lon2 + "&mode=driving&key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY";
             string result = new System.Net.WebClient().DownloadString(address);
             var viewModel = new JavaScriptSerializer().Deserialize<RequestCepViewModel>(result);
             var dt = viewModel.rows[0].elements[0].distance.value;
             int km = int.Parse(dt) / 1000;
             return km;
+        }
+        public string getLonLatAirport(string airport)
+        {
+            var p = (from q in db.airport_way select q).Where(o => o.airport_name.Contains(airport));
+            return JsonConvert.SerializeObject(p.ToList());
         }
         public string driverRegister(int? id, string name, string phone, string pass, string car_made, string car_model, int car_size, int car_year, string car_number, string car_type, string card_identify, string license)
         {
@@ -357,7 +443,7 @@ namespace ThueXeToanCau.Controllers
             public double lat2 { get; set; }
             public double D { get; set; }
         }
-        public string getBooking(double lon,double lat,int order)
+        public string getBooking(double lon,double lat,int? order)
         {
             string query="select * from ";
             query += "(select car_from,car_to, car_type,car_hire_type,car_who_hire,from_datetime,to_datetime,datebook,book_price,book_price_max,time_to_reduce,lon1,lat1,lon2,lat2,ACOS(SIN(PI()*" + lat + "/180.0)*SIN(PI()*lat1/180.0)+COS(PI()*" + lat + "/180.0)*COS(PI()*lat1/180.0)*COS(PI()*lon1/180.0-PI()*" + lon + "/180.0))*6371 As D from booking) as A where D<300 ";

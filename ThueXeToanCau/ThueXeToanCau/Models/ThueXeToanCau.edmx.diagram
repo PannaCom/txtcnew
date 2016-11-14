@@ -19,6 +19,8 @@
         <EntityTypeShape EntityType="thuexetoancauModel.booking" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="thuexetoancauModel.user" Width="1.5" PointX="9.375" PointY="6.75" />
         <EntityTypeShape EntityType="thuexetoancauModel.car_price_airport" Width="1.5" PointX="7.375" PointY="9.75" />
+        <EntityTypeShape EntityType="thuexetoancauModel.airport_way" Width="1.5" PointX="9.375" PointY="9.75" />
+        <EntityTypeShape EntityType="thuexetoancauModel.factor" Width="1.5" PointX="11.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
