@@ -237,9 +237,9 @@
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         //alert("0k");
         infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-                              'Error: The Geolocation service failed.' :
-                              'Error: Your browser doesn\'t support geolocation.');
+        //infoWindow.setContent(browserHasGeolocation ?
+        //                      'Error: The Geolocation service failed.' :
+        //                      'Error: Your browser doesn\'t support geolocation.');
     }
     function initmap() {
         //var mapOptions = {
@@ -336,7 +336,8 @@
         var content = "";
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                if (xhr.responseText != "0") {
+                if (xhr.responseText != "-1") {
+                    var info = xhr.responseText.split('_');
                     $("#f7").html("Đang tính...");
                     $("#confirm").hide();
                     $("#detail").show();
@@ -347,7 +348,8 @@
                     $("#f4").html(document.getElementById("car_hire_type").value);
                     $("#f5").html(document.getElementById("car_who_hire").value);
                     $("#f6").html("Giờ đi " + document.getElementById("from_datetime").value + ", giờ về " + document.getElementById("to_datetime").value);
-                    $("#f7").html($.number(xhr.responseText, 0, ',' ));
+                    $("#f7").html($.number(info[0], 0, ','));
+                    document.getElementById('fkm').innerHTML = info[1];
                     $.ajax({
                         url: "/Api/setcookie?name=" + document.getElementById("name").value + "&phone=" + document.getElementById("phone").value,
                             cache: false
@@ -363,62 +365,93 @@
         }
     }
     function CreateLine() {
-        geocoder = new google.maps.Geocoder();
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+        var directionsService = new google.maps.DirectionsService;
         var latlng = new google.maps.LatLng(document.getElementById('lat1').value, document.getElementById('lon1').value);
-        var mapOptions = {
-            zoom: 10,
-            center: latlng,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        }
-        map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-        var address = document.getElementById('car_from').value;
-        var address2 = document.getElementById('car_to').value;
-
-        var temp, temp2;
-
-        geocoder.geocode({'address': address }, function (results, status) {
-            temp = results[0].geometry.location;
-            geocoder.geocode({ 'address': address2 }, function (results, status) {
-                temp2 = results[0].geometry.location;
-
-                var route = [
-                  temp,
-                  temp2
-                ];
-
-                var polyline = new google.maps.Polyline({
-                    path: route,
-                    strokeColor: "#ff0000",
-                    strokeOpacity: 0.6,
-                    strokeWeight: 5
-                });
-
-                polyline.setMap(map);
-            });
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 14,
+            center: latlng
         });
-        var lat1=document.getElementById('lat1').value;
-        var lon1=document.getElementById('lon1').value;
-        var lat2=document.getElementById('lat2').value;
-        var lon2=document.getElementById('lon2').value;
-        //var infoWindow = new google.maps.InfoWindow({ map: map });
-        //var pos = {
-        //    lat: lat1,
-        //    lng: lon1
-        //};
-        //infoWindow.setPosition(pos);
-        document.getElementById('fkm').innerHTML = "Đang tính ";
-        $.ajax({
-            url: "/Api/getKm?lon1=" + lon1 + "&lat1="+lat1+"&lon2=" + lon2 + "&lat2=" + lat2,
-            cache: false
-        }).done(function (html) {
-            //alert(html);
-            document.getElementById('fkm').innerHTML = html;
-            //infoWindow.setContent('Số km'+html);
+        directionsDisplay.setMap(map);
 
+        calculateAndDisplayRoute(directionsService, directionsDisplay);
+        //document.getElementById('mode').addEventListener('change', function () {
+        //    calculateAndDisplayRoute(directionsService, directionsDisplay);
+        //});
+        //geocoder = new google.maps.Geocoder();
+        //var latlng = new google.maps.LatLng(document.getElementById('lat1').value, document.getElementById('lon1').value);
+        //var mapOptions = {
+        //    zoom: 10,
+        //    center: latlng,
+        //    mapTypeId: google.maps.MapTypeId.ROADMAP
+        //}
+        //map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+        //var address = document.getElementById('car_from').value;
+        //var address2 = document.getElementById('car_to').value;
+
+        //var temp, temp2;
+
+        //geocoder.geocode({'address': address }, function (results, status) {
+        //    temp = results[0].geometry.location;
+        //    geocoder.geocode({ 'address': address2 }, function (results, status) {
+        //        temp2 = results[0].geometry.location;
+
+        //        var route = [
+        //          temp,
+        //          temp2
+        //        ];
+
+        //        var polyline = new google.maps.Polyline({
+        //            path: route,
+        //            strokeColor: "#ff0000",
+        //            strokeOpacity: 0.6,
+        //            strokeWeight: 5
+        //        });
+
+        //        polyline.setMap(map);
+        //    });
+        //});
+        //var lat1=document.getElementById('lat1').value;
+        //var lon1=document.getElementById('lon1').value;
+        //var lat2=document.getElementById('lat2').value;
+        //var lon2=document.getElementById('lon2').value;
+        ////var infoWindow = new google.maps.InfoWindow({ map: map });
+        ////var pos = {
+        ////    lat: lat1,
+        ////    lng: lon1
+        ////};
+        ////infoWindow.setPosition(pos);
+        //document.getElementById('fkm').innerHTML = "Đang tính ";
+        //$.ajax({
+        //    url: "/Api/getKm?lon1=" + lon1 + "&lat1="+lat1+"&lon2=" + lon2 + "&lat2=" + lat2,
+        //    cache: false
+        //}).done(function (html) {
+        //    //alert(html);
+        //    document.getElementById('fkm').innerHTML = html;
+        //    //infoWindow.setContent('Số km'+html);
+
+        //});
+    }
+    function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        var selectedMode = "DRIVING";
+        var latlng1 = new google.maps.LatLng(document.getElementById('lat1').value, document.getElementById('lon1').value);
+        var latlng2 = new google.maps.LatLng(document.getElementById('lat2').value, document.getElementById('lon2').value);
+        directionsService.route({
+            origin: latlng1,  // Diem di.
+            destination: latlng2,  // Diem den
+            // Note that Javascript allows us to access the constant
+            // using square brackets and a string value as its
+            // "property."
+            travelMode: google.maps.TravelMode[selectedMode]
+        }, function (response, status) {
+            if (status == 'OK') {
+                directionsDisplay.setDirections(response);
+            } else {
+                //window.alert('Directions request failed due to ' + status);
+            }
         });
     }
-    
 </script>
 
 @*<script>

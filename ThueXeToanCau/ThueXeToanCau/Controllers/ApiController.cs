@@ -20,15 +20,15 @@ namespace ThueXeToanCau.Controllers
             return View();
         }
         [HttpPost]
-        public string booking(string car_from, string car_to, int? car_type, string car_hire_type, string car_who_hire, DateTime from_datetime, DateTime to_datetime, double lon1,double lat1,double lon2,double lat2,string name,string phone)
+        public string booking(string car_from, string car_to, int? car_type, string car_hire_type, string car_who_hire, DateTime from_datetime, DateTime to_datetime, double lon1,double lat1,double lon2,double lat2,string name,string phone,string airport_name,string airport_way)
         {
             try
             {
                 //get km distance
-                int price_max = getD(lon1, lat1, lon2, lat2, car_hire_type, car_type, from_datetime, to_datetime);
+                int dts = 0;
+                int price_max = getD(lon1, lat1, lon2, lat2, car_hire_type, car_type, from_datetime, to_datetime, airport_name, airport_way,ref dts);
                 int reduce = Config.reduct1;
                 int price = price_max - price_max * reduce / 100;
-
                 booking bo = new booking();
                 bo.car_from = car_from;
                 bo.car_hire_type = car_hire_type;
@@ -51,7 +51,7 @@ namespace ThueXeToanCau.Controllers
                 bo.phone = phone;
                 db.bookings.Add(bo);
                 db.SaveChanges();
-                return price_max.ToString();
+                return price_max.ToString() + "_" + dts;
             }
             catch (Exception ex)
             {
@@ -100,11 +100,11 @@ namespace ThueXeToanCau.Controllers
             public string status { get; set; }
         }
         //Hà Nội - Ninh Bình http://localhost:58046/api/getD?lat1=20.9740873&lon1=105.3724793&lat2=20.1877591&lon2=105.5745668
-        public int getD(double lon1, double lat1, double lon2, double lat2, string car_hire_type,int? car_type,DateTime from_date,DateTime to_date)
+        public int getD(double lon1, double lat1, double lon2, double lat2, string car_hire_type, int? car_type, DateTime from_date, DateTime to_date, string airport_name, string airport_way,ref int dts)
         {
             //get km distance
-            try { 
-                string address = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + lat1 + "," + lon1 + "&destinations=" + lat2 + "," + lon2 + "&key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY";
+            try {
+                string address = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + lat1 + "," + lon1 + "&destinations=" + lat2 + "," + lon2 + "&mode=driving&key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY";
                 string result = new System.Net.WebClient().DownloadString(address);
                 var viewModel = new JavaScriptSerializer().Deserialize<RequestCepViewModel>(result);
                 var dt = viewModel.rows[0].elements[0].distance.value;
@@ -114,32 +114,50 @@ namespace ThueXeToanCau.Controllers
                 //var a=rs["rows"][0]["elements"][0]["distance"];//[0][1].ToString()
                 //return a[1];
                 int km= int.Parse(dt)/1000;
+                dts = km;
                 int factor = 100;
                 int price=6000;
                 int total = price*factor*km;
+                int pricePerDay = price*200;
+                int factorHoliday1 = (int)db.car_price.Where(o=>o.car_size==5).FirstOrDefault().multiple;
+                int factorHoliday2 = (int)db.car_price.Where(o => o.car_size == 8).FirstOrDefault().multiple;
+                int factorHoliday3 = (int)db.car_price.Where(o => o.car_size == 16).FirstOrDefault().multiple;
+                int factorHoliday4 = (int)db.car_price.Where(o => o.car_size == 30).FirstOrDefault().multiple;
+                int factorHoliday5 = (int)db.car_price.Where(o => o.car_size == 45).FirstOrDefault().multiple;
+                int price1 = (int)db.car_price.Where(o => o.car_size == 5).FirstOrDefault().price;
+                int price2 = (int)db.car_price.Where(o => o.car_size == 8).FirstOrDefault().price;
+                int price3 = (int)db.car_price.Where(o => o.car_size == 16).FirstOrDefault().price;
+                int price4 = (int)db.car_price.Where(o => o.car_size == 30).FirstOrDefault().price;
+                int price5 = (int)db.car_price.Where(o => o.car_size == 45).FirstOrDefault().price;
+                int factor1 = (int)db.car_price.Where(o => o.car_size == 5).FirstOrDefault().multiple2;
+                int factor2 = (int)db.car_price.Where(o => o.car_size == 8).FirstOrDefault().multiple2;
+                int factor3 = (int)db.car_price.Where(o => o.car_size == 16).FirstOrDefault().multiple2;
+                int factor4 = (int)db.car_price.Where(o => o.car_size == 30).FirstOrDefault().multiple2;
+                int factor5 = (int)db.car_price.Where(o => o.car_size == 45).FirstOrDefault().multiple2;
+                int factorBackWay_GoWith = Config.factorBackWay_GoWith;
                 if (!car_hire_type.ToLowerInvariant().Contains("sân bay") && (car_hire_type.ToLowerInvariant().Contains("một chiều") || car_hire_type.ToLowerInvariant().Contains("chiều về") || car_hire_type.ToLowerInvariant().Contains("đi chung")))
                 {
                     if (Config.isHoliDay(from_date))
                     {
                         if (car_type == 5) { 
-                            factor = Config.factorHoliday1;
-                            price = Config.price1 * Config.factor1/100;
+                            factor = factorHoliday1;
+                            price = price1 * factor1/100;
                         }
                         if (car_type == 8) { 
-                            factor = Config.factorHoliday2;
-                            price = Config.price2 * Config.factor2/100;
+                            factor = factorHoliday2;
+                            price = price2 * factor2/100;
                         }
                         if (car_type == 16) { 
-                            factor = Config.factorHoliday3;
-                            price = Config.price3 * Config.factor3/100;
+                            factor = factorHoliday3;
+                            price = price3 * factor3/100;
                         }
                         if (car_type == 30) { 
-                            factor = Config.factorHoliday4;
-                            price = Config.price4 * Config.factor4/100;
+                            factor = factorHoliday4;
+                            price = price4 * factor4/100;
                         }
                         if (car_type == 45) { 
-                            factor = Config.factorHoliday5;
-                            price = Config.price5 * Config.factor5/100;
+                            factor = factorHoliday5;
+                            price = price5 * factor5/100;
                         }
                     }
                     else
@@ -147,33 +165,33 @@ namespace ThueXeToanCau.Controllers
                         if (car_type == 5)
                         {
                             factor = 100;
-                            price = Config.price1 * Config.factor1 / 100;
+                            price = price1 * factor1 / 100;
                         }
                         if (car_type == 8)
                         {
                             factor = 100;
-                            price = Config.price2 * Config.factor2/ 100;
+                            price = price2 * factor2/ 100;
                         }
                         if (car_type == 16)
                         {
                             factor = 100;
-                            price = Config.price3 * Config.factor3/ 100;
+                            price = price3 * factor3/ 100;
                         }
                         if (car_type == 30)
                         {
                             factor = 100;
-                            price = Config.price4 * Config.factor4/ 100;
+                            price = price4 * factor4/ 100;
                         }
                         if (car_type == 45)
                         {
                             factor = 100;
-                            price = Config.price5 * Config.factor5/ 100;
+                            price = price5 * factor5/ 100;
                         }
                     }
                     total = price * factor * km/100;
                     if (car_hire_type.ToLowerInvariant().Contains("chiều về") || car_hire_type.ToLowerInvariant().Contains("đi chung"))
                     {
-                        total = total * Config.factorBackWay_GoWith / 100;
+                        total = total * factorBackWay_GoWith / 100;
                     }
                     return total;
                 }
@@ -183,24 +201,24 @@ namespace ThueXeToanCau.Controllers
                     if (Config.isHoliDay(from_date))
                     {
                         if (car_type == 5) { 
-                            factor = Config.factorHoliday1;
-                            price = Config.price1;
+                            factor = factorHoliday1;
+                            price = price1;                            
                         }
                         if (car_type == 8) { 
-                            factor = Config.factorHoliday2;
-                            price = Config.price2;
+                            factor = factorHoliday2;
+                            price = price2;
                         }
                         if (car_type == 16) { 
-                            factor = Config.factorHoliday3;
-                            price = Config.price3;
+                            factor = factorHoliday3;
+                            price = price3;
                         }
                         if (car_type == 30) { 
-                            factor = Config.factorHoliday4;
-                            price = Config.price4;
+                            factor = factorHoliday4;
+                            price = price4;
                         }
                         if (car_type == 45) { 
-                            factor = Config.factorHoliday5;
-                            price = Config.price5;
+                            factor = factorHoliday5;
+                            price = price5;
                         }
                     }
                     else
@@ -208,31 +226,32 @@ namespace ThueXeToanCau.Controllers
                         if (car_type == 5)
                         {
                             factor = 100;
-                            price = Config.price1;
+                            price = price1;
                         }
                         if (car_type == 8)
                         {
                             factor = 100;
-                            price = Config.price2;
+                            price = price2;
                         }
                         if (car_type == 16)
                         {
                             factor = 100;
-                            price = Config.price3;
+                            price = price3;
                         }
                         if (car_type == 30)
                         {
                             factor = 100;
-                            price = Config.price4;
+                            price = price4;
                         }
                         if (car_type == 45)
                         {
                             factor = 100;
-                            price = Config.price5;
+                            price = price5;
                         }
                     }
                     int days=Config.dateDiff(from_date, to_date)+1;
                     if (to_date.Day - from_date.Day==1) days=2;
+                    pricePerDay = price * 200;
                     if (days >= 2)//Đi dưới 2 ngày, về trong ngày
                     {
                         km = km * 2;
@@ -240,7 +259,7 @@ namespace ThueXeToanCau.Controllers
                         {
                             if (km < 200) km = 200;
                         }
-                        total = price * factor * km / 100 + Config.pricePerDay * factor * (days-1) / 100;
+                        total = price * factor * km / 100 + pricePerDay * factor * (days-1) / 100;
                         //6000*100*200*3/100=3600000, Hà Nội, Ninh Bình 3 ngày, 100km khứ hồi
                         return total;
                     }
