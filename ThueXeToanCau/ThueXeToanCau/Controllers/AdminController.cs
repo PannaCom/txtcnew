@@ -1,12 +1,10 @@
-﻿using Excel;
-using System;
-using System.Data;
-using System.Globalization;
-using System.IO;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System;
 using System.Web.Mvc;
 using ThueXeToanCau.Models;
+using Excel;
+using System.IO;
+using System.Linq;
+using System.Globalization;
 
 namespace ThueXeToanCau.Controllers
 {
@@ -15,7 +13,7 @@ namespace ThueXeToanCau.Controllers
         [HttpGet]
         public ActionResult Login()
         {
-            if (Config.getCookie("logged") != "") return RedirectToAction("Index");
+            if (Config.getCookie("logged") != "") return RedirectToAction("Index");            
             return View();
         }
 
@@ -32,12 +30,7 @@ namespace ThueXeToanCau.Controllers
                 ModelState.AddModelError("error", "Bạn đã nhập sai Tên hoặc Mật Khẩu, vui lòng thử lại!");
                 return View(model);
             }
-            Session["user"] = u;
-            //// create a cookie
-            //HttpCookie newCookie = new HttpCookie("userName", u.name);
-            //newCookie.Expires = DateTime.Today.AddMinutes(30);
-            //Request.Cookies.Add(newCookie);
-            //Response.Cookies.Add(newCookie);
+            Session["user"] = u;           
             return RedirectToAction("Index");
         }
 
@@ -63,6 +56,7 @@ namespace ThueXeToanCau.Controllers
         public ActionResult Index()
         {
             if (Config.getCookie("logged") == "") return RedirectToAction("Login", "Admin");
+            //readExcelFile();
             return View();
         }
 
@@ -78,67 +72,107 @@ namespace ThueXeToanCau.Controllers
             var dStr = string.Empty;
             try
             {
-                foreach (string file in Request.Files)
+                var folder = Server.MapPath("~/App_Data");
+                using (var db = new thuexetoancauEntities())
                 {
-                    var fileContent = Request.Files[file];
-                    if (fileContent != null && fileContent.ContentLength > 0)
+                    foreach (string file in Request.Files)
                     {
-                        IExcelDataReader excelReader = null;
-                        // get a stream
-                        var stream = fileContent.InputStream;
-                        var fileName = fileContent.FileName.ToLower();
-                        if (fileName.EndsWith(".xls"))
+                        var fileContent = Request.Files[file];
+                        var filePath = Path.Combine(folder, file);
+                        fileContent.SaveAs(filePath);
+                        foreach (var worksheet in Workbook.Worksheets(filePath))
                         {
-                            excelReader = ExcelReaderFactory.CreateBinaryReader(stream);
-                        } else if (fileName.EndsWith(".xlsx"))
-                        {
-                            excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
-                        }
-                        if (excelReader != null)
-                        {
-                            excelReader.IsFirstRowAsColumnNames = true;
-                            DataSet result = excelReader.AsDataSet();
-                            var sheet1 = result.Tables["HTX GT VT TOÀN CẦU"];
-                            using (var db = new thuexetoancauEntities())
+                            foreach (var row in worksheet.Rows)
                             {
-                                foreach (DataRow row in sheet1.Rows)
+                                if(rowNumber == 0 || row.Cells.Length < 5)
                                 {
-                                    var tran = new transaction();
-                                    tran.type = row["NỘI DUNG"].ToString();
-                                    dStr = row["NGÀY/THÁNG"].ToString();
-                                    DateTime dt;
-                                    bool isValidDate = true;
-                                    if (!DateTime.TryParse(dStr, out dt))
-                                    {
-                                        if (!DateTime.TryParseExact(dStr,"dd/MM/yyyy",CultureInfo.InstalledUICulture,DateTimeStyles.None ,out dt))
-                                        {
-                                            isValidDate = false;
-                                        }
-                                    }
-                                    if(isValidDate)
-                                    {
-                                        tran.date = dt;
-                                    }
-                                    tran.car_number = row["BIỂN SỐ XE"].ToString();
-                                    tran.money = float.Parse(row["TỔNG TIỀN"].ToString());
-                                    tran.note = row["GHI CHÚ"].ToString();
                                     rowNumber++;
-                                    db.transactions.Add(tran);
+                                    continue;
                                 }
-                                db.SaveChanges();
+                                var tran = new transaction();
+                                tran.type = row.Cells[0] == null ? "" : row.Cells[0].Text;
+                                dStr = row.Cells[1] == null ? "" : row.Cells[1].Text;
+                                DateTime dt = DateTime.MinValue;                               
+                                if (!string.IsNullOrEmpty(dStr))
+                                {
+                                    double dbDate;
+                                    if (double.TryParse(dStr, out dbDate))
+                                    {
+                                        dt = DateTime.FromOADate(dbDate);
+                                    } else
+                                    {
+                                        DateTime.TryParseExact(dStr, "dd/MM/yyyy", CultureInfo.InstalledUICulture, DateTimeStyles.None, out dt);
+                                    }
+                                }
+                                tran.date = dt;
+                                tran.car_number = row.Cells[2] == null ? "" : row.Cells[2].Text;
+                                tran.money = row.Cells[3] == null ? 0 : float.Parse(row.Cells[3].Text);
+                                tran.note = row.Cells[4] == null ? "" : row.Cells[4].Text;
+                                var tr = db.transactions.Where(f => f.type == tran.type && f.money == tran.money && f.car_number == tran.car_number
+                                    && f.date.Day == tran.date.Day && f.date.Month == tran.date.Month && f.date.Year == tran.date.Year).FirstOrDefault();
+                                if(tr == null)
+                                {
+                                    db.transactions.Add(tran);
+                                    db.SaveChanges();
+                                }
+                                rowNumber++;
                             }
                         }
-                        else {
-                            return "Lỗi: Xin hãy tải lên tệp tin Excel (.xls, .xlsx)!";
-                        }                                                
                     }
-                }
-                return string.Empty;
+                }                                              
+                return "Thêm dữ liệu thành công!";
             }
             catch (Exception ex)
             {
                 return "Lỗi: " + rowNumber + ":" + dStr + " - " + ex.Message;
             }
         }
+
+        //public string readExcelFile()
+        //{
+        //    try
+        //    {
+        //        var filePath = Server.MapPath("~/Content/new.xlsx");
+        //        using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(filePath, false))
+        //        {
+        //            WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
+        //            WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
+        //            SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
+        //            string text = string.Empty;
+        //            foreach (Row r in sheetData.Elements<Row>())
+        //            {
+        //                foreach (Cell c in r.Elements<Cell>())
+        //                {
+        //                    text = "Not Found";
+        //                    if (c != null && c.CellValue != null)
+        //                    {
+        //                        text = c.CellValue.Text;
+        //                    }
+        //                    Console.Write(text + " ");
+        //                }
+        //            }
+        //        }
+        //        //using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(filePath, false))
+        //        //{
+        //        //    WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
+        //        //    WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
+
+        //        //    OpenXmlReader reader = OpenXmlReader.Create(worksheetPart);
+        //        //    string text;
+        //        //    while (reader.Read())
+        //        //    {
+        //        //        if (reader.ElementType == typeof(CellValue))
+        //        //        {
+        //        //            text = reader.GetText();
+        //        //            Console.Write(text + " ");
+        //        //        }
+        //        //    }
+        //        //}
+        //        return string.Empty;
+        //    } catch(Exception ex)
+        //    {
+        //        return "Lỗi: " + ex.Message;
+        //    }
+        //}
     }
 }

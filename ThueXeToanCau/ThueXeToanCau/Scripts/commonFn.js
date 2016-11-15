@@ -49,14 +49,8 @@ function uploadFile() {
                 url: url_uploadFile, type: "POST",
                 contentType: false, processData: false,
                 data: data,
-                success: function (result) {
-                    console.log(result);
-                },
-                error: function (xhr, status, p3, p4) {
-                    //var err = "Lỗi: " + " " + status + " " + p3 + " " + p4;
-                    //if (xhr.responseText)
-                    //    err = ;
-                    alert(xhr.responseText);
+                success: function (result) {                    
+                    alert(result);
                 }
             });
         } else {
