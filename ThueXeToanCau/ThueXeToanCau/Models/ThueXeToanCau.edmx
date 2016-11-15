@@ -5,6 +5,17 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="thuexetoancauModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="transactions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="car_number" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="money" Type="float" />
+          <Property Name="note" Type="nvarchar" MaxLength="200" />
+        </EntityType>
         <EntityType Name="airport_way">
           <Key>
             <PropertyRef Name="id" />
@@ -179,6 +190,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <Property Name="pass" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityContainer Name="thuexetoancauModelStoreContainer">
+          <EntitySet Name="transactions" EntityType="Self.transactions" Schema="db_datareader" store:Type="Tables" />
           <EntitySet Name="airport_way" EntityType="Self.airport_way" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="booking" EntityType="Self.booking" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_hire_type" EntityType="Self.car_hire_type" Schema="dbo" store:Type="Tables" />
@@ -269,6 +281,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="car_price_airport" EntityType="thuexetoancauModel.car_price_airport" />
           <EntitySet Name="airport_way" EntityType="thuexetoancauModel.airport_way" />
           <EntitySet Name="factors" EntityType="thuexetoancauModel.factor" />
+          <EntitySet Name="transactions" EntityType="thuexetoancauModel.transaction" />
         </EntityContainer>
         <EntityType Name="driver">
           <Key>
@@ -404,6 +417,17 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="val" Type="Int32" />
+        </EntityType>
+        <EntityType Name="transaction">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="car_number" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="money" Type="Double" />
+          <Property Name="note" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -588,6 +612,18 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
               <MappingFragment StoreEntitySet="factor">
                 <ScalarProperty Name="val" ColumnName="val" />
                 <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="transactions">
+            <EntityTypeMapping TypeName="thuexetoancauModel.transaction">
+              <MappingFragment StoreEntitySet="transactions">
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="money" ColumnName="money" />
+                <ScalarProperty Name="car_number" ColumnName="car_number" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="type" ColumnName="type" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

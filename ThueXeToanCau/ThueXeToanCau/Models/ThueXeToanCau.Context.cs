@@ -41,5 +41,6 @@ namespace ThueXeToanCau.Models
         public virtual DbSet<car_price_airport> car_price_airport { get; set; }
         public virtual DbSet<airport_way> airport_way { get; set; }
         public virtual DbSet<factor> factors { get; set; }
+        public virtual DbSet<transaction> transactions { get; set; }
     }
 }
