@@ -12,15 +12,13 @@ namespace ThueXeToanCau.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class airport_way
+    public partial class noticeso
     {
         public int id { get; set; }
-        public string airport_name { get; set; }
-        public string car_from { get; set; }
-        public string car_to { get; set; }
-        public Nullable<double> lon1 { get; set; }
-        public Nullable<double> lat1 { get; set; }
-        public Nullable<double> lon2 { get; set; }
-        public Nullable<double> lat2 { get; set; }
+        public Nullable<int> tobject { get; set; }
+        public string regid { get; set; }
+        public Nullable<int> os { get; set; }
+        public string title { get; set; }
+        public string body { get; set; }
     }
 }

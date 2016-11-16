@@ -121,17 +121,20 @@ namespace ThueXeToanCau.Controllers
                 int price=6000;
                 int total = price*factor*km;
                 int pricePerDay = price*200;
-                int factorHoliday1 = (int)db.car_price.Where(o=>o.car_size==5).FirstOrDefault().multiple;//Hệ số ngày lễ, Tết
+                int factorHoliday0 = (int)db.car_price.Where(o => o.car_size == car_type).FirstOrDefault().multiple;//Hệ số ngày lễ, Tết
+                int factorHoliday1 = (int)db.car_price.Where(o=>o.car_size==5).FirstOrDefault().multiple;
                 int factorHoliday2 = (int)db.car_price.Where(o => o.car_size == 8).FirstOrDefault().multiple;
                 int factorHoliday3 = (int)db.car_price.Where(o => o.car_size == 16).FirstOrDefault().multiple;
                 int factorHoliday4 = (int)db.car_price.Where(o => o.car_size == 30).FirstOrDefault().multiple;
                 int factorHoliday5 = (int)db.car_price.Where(o => o.car_size == 45).FirstOrDefault().multiple;
-                int price1 = (int)db.car_price.Where(o => o.car_size == 5).FirstOrDefault().price;//bảng giá xe tương ứng số chỗ
+                int price0 = (int)db.car_price.Where(o => o.car_size == car_type).FirstOrDefault().price;//bảng giá xe tương ứng số chỗ khứ hồi
+                int price1 = (int)db.car_price.Where(o => o.car_size == 5).FirstOrDefault().price;
                 int price2 = (int)db.car_price.Where(o => o.car_size == 8).FirstOrDefault().price;
                 int price3 = (int)db.car_price.Where(o => o.car_size == 16).FirstOrDefault().price;
                 int price4 = (int)db.car_price.Where(o => o.car_size == 30).FirstOrDefault().price;
                 int price5 = (int)db.car_price.Where(o => o.car_size == 45).FirstOrDefault().price;
-                int factor1 = (int)db.car_price.Where(o => o.car_size == 5).FirstOrDefault().multiple2;//Hệ số xe một chiều
+                int factor0 = (int)db.car_price.Where(o => o.car_size == car_type).FirstOrDefault().multiple2;//Hệ số xe một chiều
+                int factor1 = (int)db.car_price.Where(o => o.car_size == 5).FirstOrDefault().multiple2;
                 int factor2 = (int)db.car_price.Where(o => o.car_size == 8).FirstOrDefault().multiple2;
                 int factor3 = (int)db.car_price.Where(o => o.car_size == 16).FirstOrDefault().multiple2;
                 int factor4 = (int)db.car_price.Where(o => o.car_size == 30).FirstOrDefault().multiple2;
@@ -141,54 +144,58 @@ namespace ThueXeToanCau.Controllers
                 {
                     if (Config.isHoliDay(from_date))
                     {
-                        if (car_type == 5) { 
-                            factor = factorHoliday1;
-                            price = price1 * factor1/100;
-                        }
-                        if (car_type == 8) { 
-                            factor = factorHoliday2;
-                            price = price2 * factor2/100;
-                        }
-                        if (car_type == 16) { 
-                            factor = factorHoliday3;
-                            price = price3 * factor3/100;
-                        }
-                        if (car_type == 30) { 
-                            factor = factorHoliday4;
-                            price = price4 * factor4/100;
-                        }
-                        if (car_type == 45) { 
-                            factor = factorHoliday5;
-                            price = price5 * factor5/100;
-                        }
+                        factor = factorHoliday0;
+                        price = price0 * factor0 / 100;
+                        //if (car_type == 5) { 
+                        //    factor = factorHoliday1;
+                        //    price = price1 * factor1/100;
+                        //}
+                        //if (car_type == 8) { 
+                        //    factor = factorHoliday2;
+                        //    price = price2 * factor2/100;
+                        //}
+                        //if (car_type == 16) { 
+                        //    factor = factorHoliday3;
+                        //    price = price3 * factor3/100;
+                        //}
+                        //if (car_type == 30) { 
+                        //    factor = factorHoliday4;
+                        //    price = price4 * factor4/100;
+                        //}
+                        //if (car_type == 45) { 
+                        //    factor = factorHoliday5;
+                        //    price = price5 * factor5/100;
+                        //}
                     }
                     else
                     {
-                        if (car_type == 5)
-                        {
-                            factor = 100;
-                            price = price1 * factor1 / 100;
-                        }
-                        if (car_type == 8)
-                        {
-                            factor = 100;
-                            price = price2 * factor2/ 100;
-                        }
-                        if (car_type == 16)
-                        {
-                            factor = 100;
-                            price = price3 * factor3/ 100;
-                        }
-                        if (car_type == 30)
-                        {
-                            factor = 100;
-                            price = price4 * factor4/ 100;
-                        }
-                        if (car_type == 45)
-                        {
-                            factor = 100;
-                            price = price5 * factor5/ 100;
-                        }
+                        factor = 100;
+                        price = price0 * factor0 / 100;
+                        //if (car_type == 5)
+                        //{
+                        //    factor = 100;
+                        //    price = price1 * factor1 / 100;
+                        //}
+                        //if (car_type == 8)
+                        //{
+                        //    factor = 100;
+                        //    price = price2 * factor2/ 100;
+                        //}
+                        //if (car_type == 16)
+                        //{
+                        //    factor = 100;
+                        //    price = price3 * factor3/ 100;
+                        //}
+                        //if (car_type == 30)
+                        //{
+                        //    factor = 100;
+                        //    price = price4 * factor4/ 100;
+                        //}
+                        //if (car_type == 45)
+                        //{
+                        //    factor = 100;
+                        //    price = price5 * factor5/ 100;
+                        //}
                     }
                     total = price * factor * km/100;
                     if (car_hire_type.ToLowerInvariant().Contains("chiều về") || car_hire_type.ToLowerInvariant().Contains("đi chung"))
@@ -201,59 +208,61 @@ namespace ThueXeToanCau.Controllers
                 {
                     if (Config.isHoliDay(from_date))
                     {
-                        if (car_type == 5)
-                        {
-                            factor = factorHoliday1;
+                        factor = factorHoliday0;
+                        //if (car_type == 5)
+                        //{
+                        //    factor = factorHoliday1;
                             
-                        }
-                        if (car_type == 8)
-                        {
-                            factor = factorHoliday2;
+                        //}
+                        //if (car_type == 8)
+                        //{
+                        //    factor = factorHoliday2;
                            
-                        }
-                        if (car_type == 16)
-                        {
-                            factor = factorHoliday3;
+                        //}
+                        //if (car_type == 16)
+                        //{
+                        //    factor = factorHoliday3;
                            
-                        }
-                        if (car_type == 30)
-                        {
-                            factor = factorHoliday4;
+                        //}
+                        //if (car_type == 30)
+                        //{
+                        //    factor = factorHoliday4;
                             
-                        }
-                        if (car_type == 45)
-                        {
-                            factor = factorHoliday5;
+                        //}
+                        //if (car_type == 45)
+                        //{
+                        //    factor = factorHoliday5;
                            
-                        }
+                        //}
                     }
                     else
                     {
-                        if (car_type == 5)
-                        {
-                            factor = 100;
+                        factor = 100;
+                        //if (car_type == 5)
+                        //{
+                        //    factor = 100;
                             
-                        }
-                        if (car_type == 8)
-                        {
-                            factor = 100;
+                        //}
+                        //if (car_type == 8)
+                        //{
+                        //    factor = 100;
                            
-                        }
-                        if (car_type == 16)
-                        {
-                            factor = 100;
+                        //}
+                        //if (car_type == 16)
+                        //{
+                        //    factor = 100;
                           
-                        }
-                        if (car_type == 30)
-                        {
-                            factor = 100;
+                        //}
+                        //if (car_type == 30)
+                        //{
+                        //    factor = 100;
                           
-                        }
-                        if (car_type == 45)
-                        {
-                            factor = 100;
+                        //}
+                        //if (car_type == 45)
+                        //{
+                        //    factor = 100;
                            
-                        }
+                        //}
                     }
                        
                         if (airport_way.Contains("đi sân bay"))
@@ -281,54 +290,58 @@ namespace ThueXeToanCau.Controllers
                     
                     if (Config.isHoliDay(from_date))
                     {
-                        if (car_type == 5) { 
-                            factor = factorHoliday1;
-                            price = price1;                            
-                        }
-                        if (car_type == 8) { 
-                            factor = factorHoliday2;
-                            price = price2;
-                        }
-                        if (car_type == 16) { 
-                            factor = factorHoliday3;
-                            price = price3;
-                        }
-                        if (car_type == 30) { 
-                            factor = factorHoliday4;
-                            price = price4;
-                        }
-                        if (car_type == 45) { 
-                            factor = factorHoliday5;
-                            price = price5;
-                        }
+                        factor = factorHoliday0;
+                        price = price0;
+                        //if (car_type == 5) { 
+                        //    factor = factorHoliday1;
+                        //    price = price1;                            
+                        //}
+                        //if (car_type == 8) { 
+                        //    factor = factorHoliday2;
+                        //    price = price2;
+                        //}
+                        //if (car_type == 16) { 
+                        //    factor = factorHoliday3;
+                        //    price = price3;
+                        //}
+                        //if (car_type == 30) { 
+                        //    factor = factorHoliday4;
+                        //    price = price4;
+                        //}
+                        //if (car_type == 45) { 
+                        //    factor = factorHoliday5;
+                        //    price = price5;
+                        //}
                     }
                     else
                     {
-                        if (car_type == 5)
-                        {
-                            factor = 100;
-                            price = price1;
-                        }
-                        if (car_type == 8)
-                        {
-                            factor = 100;
-                            price = price2;
-                        }
-                        if (car_type == 16)
-                        {
-                            factor = 100;
-                            price = price3;
-                        }
-                        if (car_type == 30)
-                        {
-                            factor = 100;
-                            price = price4;
-                        }
-                        if (car_type == 45)
-                        {
-                            factor = 100;
-                            price = price5;
-                        }
+                        factor = 100;
+                        price = price0;
+                        //if (car_type == 5)
+                        //{
+                        //    factor = 100;
+                        //    price = price1;
+                        //}
+                        //if (car_type == 8)
+                        //{
+                        //    factor = 100;
+                        //    price = price2;
+                        //}
+                        //if (car_type == 16)
+                        //{
+                        //    factor = 100;
+                        //    price = price3;
+                        //}
+                        //if (car_type == 30)
+                        //{
+                        //    factor = 100;
+                        //    price = price4;
+                        //}
+                        //if (car_type == 45)
+                        //{
+                        //    factor = 100;
+                        //    price = price5;
+                        //}
                     }
                     int days=Config.dateDiff(from_date, to_date)+1;
                     if (to_date.Day - from_date.Day==1) days=2;
@@ -374,7 +387,7 @@ namespace ThueXeToanCau.Controllers
             var p = (from q in db.airport_way select q).Where(o => o.airport_name.Contains(airport));
             return JsonConvert.SerializeObject(p.ToList());
         }
-        public string driverRegister(int? id, string name, string phone, string pass, string car_made, string car_model, int car_size, int car_year, string car_number, string car_type, string card_identify, string license)
+        public string driverRegister(int? id, string name, string phone, string pass, string car_made, string car_model, int car_size, int car_year, string car_number, string car_type, string card_identify, string license,string regId,int? os)
         {
             try
             {
@@ -395,6 +408,8 @@ namespace ThueXeToanCau.Controllers
                     r.date_time = DateTime.Now;
                     r.card_identify = card_identify;
                     r.license = license;
+                    r.reg_id = regId;
+                    r.os = os;
                     db.drivers.Add(r);
                     db.SaveChanges();
                     return r.id.ToString();
@@ -443,10 +458,14 @@ namespace ThueXeToanCau.Controllers
             public double lat2 { get; set; }
             public double D { get; set; }
         }
-        public string getBooking(double lon,double lat,int? order)
+        public string getBooking(double lon,double lat,string car_hire_type,int? order)
         {
-            string query="select * from ";
+            string query="select top 100 * from ";
             query += "(select car_from,car_to, car_type,car_hire_type,car_who_hire,from_datetime,to_datetime,datebook,book_price,book_price_max,time_to_reduce,lon1,lat1,lon2,lat2,ACOS(SIN(PI()*" + lat + "/180.0)*SIN(PI()*lat1/180.0)+COS(PI()*" + lat + "/180.0)*COS(PI()*lat1/180.0)*COS(PI()*lon1/180.0-PI()*" + lon + "/180.0))*6371 As D from booking) as A where D<300 ";
+            if (car_hire_type != null && car_hire_type != "")
+            {
+                query += " and car_hire_type=N'" + car_hire_type+"' ";
+            }
             if (order == null || order == 0)
             {
                 query += " order by D ";
@@ -483,7 +502,23 @@ namespace ThueXeToanCau.Controllers
             var p = (from q in db.car_who_hire select q.name);
             return JsonConvert.SerializeObject(p.ToList());
         }
-
+        public class car_model_made
+        {
+            public string name { get; set; }
+        }
+        public string getCarMadeList()
+        {
+            string query = "SELECT  name FROM [thuexetoancau].[dbo].[list_car] where name is not null order by no";
+            var p = db.Database.SqlQuery<car_model_made>(query);
+            return JsonConvert.SerializeObject(p.ToList());
+        }
+        public string getCarModelListFromMade(string keyword)
+        {
+            if (keyword == null) keyword = "";
+            string query = "SELECT  distinct model as name FROM [thuexetoancau].[dbo].[car_made_model] where made is not null and made like N'%" + keyword + "%' order by model";
+            var p = db.Database.SqlQuery<car_model_made>(query);
+            return JsonConvert.SerializeObject(p.ToList());
+        }
         #region Drivers - duyvt
 
         public JsonResult getCarModelList(string keyword)

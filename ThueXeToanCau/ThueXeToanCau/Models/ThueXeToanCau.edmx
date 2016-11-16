@@ -22,10 +22,23 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="airport_name" Type="nvarchar" MaxLength="150" />
+          <Property Name="car_from" Type="nvarchar" MaxLength="150" />
+          <Property Name="car_to" Type="nvarchar" MaxLength="150" />
           <Property Name="lon1" Type="float" />
           <Property Name="lat1" Type="float" />
           <Property Name="lon2" Type="float" />
           <Property Name="lat2" Type="float" />
+        </EntityType>
+        <EntityType Name="auction">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_booking" Type="int" />
+          <Property Name="id_driver" Type="int" />
+          <Property Name="price" Type="int" />
+          <Property Name="date_time" Type="datetime" />
+          <Property Name="type" Type="int" />
         </EntityType>
         <EntityType Name="booking">
           <Key>
@@ -58,6 +71,14 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="car_made_model">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="made" Type="nvarchar" MaxLength="255" />
+          <Property Name="model" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="car_price">
           <Key>
@@ -118,6 +139,8 @@
           <Property Name="address" Type="nvarchar" MaxLength="250" />
           <Property Name="card_identify" Type="nvarchar" MaxLength="50" />
           <Property Name="license" Type="nvarchar" MaxLength="50" />
+          <Property Name="reg_id" Type="nvarchar" MaxLength="255" />
+          <Property Name="os" Type="int" />
         </EntityType>
         <EntityType Name="factor">
           <Key>
@@ -171,6 +194,26 @@ warning 6002: The table/view 'thuexetoancau.dbo.list_car_type' does not have a p
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="150" />
         </EntityType>
+        <EntityType Name="noticesos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tobject" Type="int" />
+          <Property Name="regid" Type="nvarchar(max)" />
+          <Property Name="os" Type="int" />
+          <Property Name="title" Type="nvarchar" MaxLength="505" />
+          <Property Name="body" Type="nvarchar" MaxLength="505" />
+        </EntityType>
+        <EntityType Name="notifies">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tobject" Type="int" />
+          <Property Name="reg_id" Type="nvarchar(max)" />
+          <Property Name="os" Type="int" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TinhThanh">
@@ -192,8 +235,10 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
         <EntityContainer Name="thuexetoancauModelStoreContainer">
           <EntitySet Name="transactions" EntityType="Self.transactions" Schema="db_datareader" store:Type="Tables" />
           <EntitySet Name="airport_way" EntityType="Self.airport_way" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="auction" EntityType="Self.auction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="booking" EntityType="Self.booking" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_hire_type" EntityType="Self.car_hire_type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="car_made_model" EntityType="Self.car_made_model" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_price" EntityType="Self.car_price" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_price_airport" EntityType="Self.car_price_airport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_type" EntityType="Self.car_type" Schema="dbo" store:Type="Tables" />
@@ -202,6 +247,8 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="factor" EntityType="Self.factor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NationalDay" EntityType="Self.NationalDay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="notice" EntityType="Self.notice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="noticesos" EntityType="Self.noticesos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="notifies" EntityType="Self.notifies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="list_car" EntityType="Self.list_car" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -269,7 +316,6 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="list_car_model" EntityType="Self.list_car_model" />
           <EntitySet Name="list_car_type" EntityType="Self.list_car_type" />
           <EntitySet Name="TinhThanhs" EntityType="Self.TinhThanh" />
-          <EntitySet Name="drivers" EntityType="thuexetoancauModel.driver" />
           <EntitySet Name="NationalDays" EntityType="thuexetoancauModel.NationalDay" />
           <EntitySet Name="car_hire_type" EntityType="thuexetoancauModel.car_hire_type" />
           <EntitySet Name="car_price" EntityType="thuexetoancauModel.car_price" />
@@ -279,34 +325,15 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="bookings" EntityType="thuexetoancauModel.booking" />
           <EntitySet Name="users" EntityType="thuexetoancauModel.user" />
           <EntitySet Name="car_price_airport" EntityType="thuexetoancauModel.car_price_airport" />
-          <EntitySet Name="airport_way" EntityType="thuexetoancauModel.airport_way" />
           <EntitySet Name="factors" EntityType="thuexetoancauModel.factor" />
           <EntitySet Name="transactions" EntityType="thuexetoancauModel.transaction" />
+          <EntitySet Name="airport_way" EntityType="thuexetoancauModel.airport_way" />
+          <EntitySet Name="car_made_model" EntityType="thuexetoancauModel.car_made_model" />
+          <EntitySet Name="noticesos" EntityType="thuexetoancauModel.noticeso" />
+          <EntitySet Name="notifies" EntityType="thuexetoancauModel.notify" />
+          <EntitySet Name="auctions" EntityType="thuexetoancauModel.auction" />
+          <EntitySet Name="drivers" EntityType="thuexetoancauModel.driver" />
         </EntityContainer>
-        <EntityType Name="driver">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="pass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="car_model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="car_made" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="car_years" Type="Int32" />
-          <Property Name="car_size" Type="Int32" />
-          <Property Name="car_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="car_type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="car_price" Type="Int32" />
-          <Property Name="total_moneys" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="province" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="date_time" Type="DateTime" Precision="3" />
-          <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="card_identify" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="license" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="NationalDay">
           <Key>
             <PropertyRef Name="ID" />
@@ -399,17 +426,6 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <Property Name="price_back_way" Type="Int32" />
           <Property Name="price_two_way" Type="Int32" />
         </EntityType>
-        <EntityType Name="airport_way">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="airport_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="lon1" Type="Double" />
-          <Property Name="lat1" Type="Double" />
-          <Property Name="lon2" Type="Double" />
-          <Property Name="lat2" Type="Double" />
-        </EntityType>
         <EntityType Name="factor">
           <Key>
             <PropertyRef Name="id" />
@@ -428,6 +444,84 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <Property Name="car_number" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="money" Type="Double" />
           <Property Name="note" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="airport_way">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="airport_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="car_from" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="car_to" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="lon1" Type="Double" />
+          <Property Name="lat1" Type="Double" />
+          <Property Name="lon2" Type="Double" />
+          <Property Name="lat2" Type="Double" />
+        </EntityType>
+        <EntityType Name="car_made_model">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="made" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="model" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="noticeso">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tobject" Type="Int32" />
+          <Property Name="regid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="os" Type="Int32" />
+          <Property Name="title" Type="String" MaxLength="505" FixedLength="false" Unicode="true" />
+          <Property Name="body" Type="String" MaxLength="505" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="notify">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tobject" Type="Int32" />
+          <Property Name="reg_id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="os" Type="Int32" />
+        </EntityType>
+        <EntityType Name="auction">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_booking" Type="Int32" />
+          <Property Name="id_driver" Type="Int32" />
+          <Property Name="price" Type="Int32" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
+          <Property Name="type" Type="Int32" />
+        </EntityType>
+        <EntityType Name="driver">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="pass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="car_model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="car_made" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="car_years" Type="Int32" />
+          <Property Name="car_size" Type="Int32" />
+          <Property Name="car_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="car_type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="car_price" Type="Int32" />
+          <Property Name="total_moneys" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="province" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
+          <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="card_identify" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="license" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="reg_id" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="os" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -466,31 +560,6 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="quanhuyen" ColumnName="quanhuyen" />
                 <ScalarProperty Name="tinhthanhpho" ColumnName="tinhthanhpho" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="drivers">
-            <EntityTypeMapping TypeName="thuexetoancauModel.driver">
-              <MappingFragment StoreEntitySet="drivers">
-                <ScalarProperty Name="license" ColumnName="license" />
-                <ScalarProperty Name="card_identify" ColumnName="card_identify" />
-                <ScalarProperty Name="address" ColumnName="address" />
-                <ScalarProperty Name="code" ColumnName="code" />
-                <ScalarProperty Name="date_time" ColumnName="date_time" />
-                <ScalarProperty Name="province" ColumnName="province" />
-                <ScalarProperty Name="total_moneys" ColumnName="total_moneys" />
-                <ScalarProperty Name="car_price" ColumnName="car_price" />
-                <ScalarProperty Name="car_type" ColumnName="car_type" />
-                <ScalarProperty Name="car_number" ColumnName="car_number" />
-                <ScalarProperty Name="car_size" ColumnName="car_size" />
-                <ScalarProperty Name="car_years" ColumnName="car_years" />
-                <ScalarProperty Name="car_made" ColumnName="car_made" />
-                <ScalarProperty Name="car_model" ColumnName="car_model" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="pass" ColumnName="pass" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -595,18 +664,6 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="airport_way">
-            <EntityTypeMapping TypeName="thuexetoancauModel.airport_way">
-              <MappingFragment StoreEntitySet="airport_way">
-                <ScalarProperty Name="lat2" ColumnName="lat2" />
-                <ScalarProperty Name="lon2" ColumnName="lon2" />
-                <ScalarProperty Name="lat1" ColumnName="lat1" />
-                <ScalarProperty Name="lon1" ColumnName="lon1" />
-                <ScalarProperty Name="airport_name" ColumnName="airport_name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="factors">
             <EntityTypeMapping TypeName="thuexetoancauModel.factor">
               <MappingFragment StoreEntitySet="factor">
@@ -624,6 +681,90 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
                 <ScalarProperty Name="car_number" ColumnName="car_number" />
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="airport_way">
+            <EntityTypeMapping TypeName="thuexetoancauModel.airport_way">
+              <MappingFragment StoreEntitySet="airport_way">
+                <ScalarProperty Name="lat2" ColumnName="lat2" />
+                <ScalarProperty Name="lon2" ColumnName="lon2" />
+                <ScalarProperty Name="lat1" ColumnName="lat1" />
+                <ScalarProperty Name="lon1" ColumnName="lon1" />
+                <ScalarProperty Name="car_to" ColumnName="car_to" />
+                <ScalarProperty Name="car_from" ColumnName="car_from" />
+                <ScalarProperty Name="airport_name" ColumnName="airport_name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="car_made_model">
+            <EntityTypeMapping TypeName="thuexetoancauModel.car_made_model">
+              <MappingFragment StoreEntitySet="car_made_model">
+                <ScalarProperty Name="model" ColumnName="model" />
+                <ScalarProperty Name="made" ColumnName="made" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="noticesos">
+            <EntityTypeMapping TypeName="thuexetoancauModel.noticeso">
+              <MappingFragment StoreEntitySet="noticesos">
+                <ScalarProperty Name="body" ColumnName="body" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="os" ColumnName="os" />
+                <ScalarProperty Name="regid" ColumnName="regid" />
+                <ScalarProperty Name="tobject" ColumnName="tobject" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="notifies">
+            <EntityTypeMapping TypeName="thuexetoancauModel.notify">
+              <MappingFragment StoreEntitySet="notifies">
+                <ScalarProperty Name="os" ColumnName="os" />
+                <ScalarProperty Name="reg_id" ColumnName="reg_id" />
+                <ScalarProperty Name="tobject" ColumnName="tobject" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="auctions">
+            <EntityTypeMapping TypeName="thuexetoancauModel.auction">
+              <MappingFragment StoreEntitySet="auction">
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="id_driver" ColumnName="id_driver" />
+                <ScalarProperty Name="id_booking" ColumnName="id_booking" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="drivers">
+            <EntityTypeMapping TypeName="thuexetoancauModel.driver">
+              <MappingFragment StoreEntitySet="drivers">
+                <ScalarProperty Name="os" ColumnName="os" />
+                <ScalarProperty Name="reg_id" ColumnName="reg_id" />
+                <ScalarProperty Name="license" ColumnName="license" />
+                <ScalarProperty Name="card_identify" ColumnName="card_identify" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="province" ColumnName="province" />
+                <ScalarProperty Name="total_moneys" ColumnName="total_moneys" />
+                <ScalarProperty Name="car_price" ColumnName="car_price" />
+                <ScalarProperty Name="car_type" ColumnName="car_type" />
+                <ScalarProperty Name="car_number" ColumnName="car_number" />
+                <ScalarProperty Name="car_size" ColumnName="car_size" />
+                <ScalarProperty Name="car_years" ColumnName="car_years" />
+                <ScalarProperty Name="car_made" ColumnName="car_made" />
+                <ScalarProperty Name="car_model" ColumnName="car_model" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -29,7 +29,6 @@ namespace ThueXeToanCau.Models
         public virtual DbSet<list_car_model> list_car_model { get; set; }
         public virtual DbSet<list_car_type> list_car_type { get; set; }
         public virtual DbSet<TinhThanh> TinhThanhs { get; set; }
-        public virtual DbSet<driver> drivers { get; set; }
         public virtual DbSet<NationalDay> NationalDays { get; set; }
         public virtual DbSet<car_hire_type> car_hire_type { get; set; }
         public virtual DbSet<car_price> car_price { get; set; }
@@ -39,8 +38,13 @@ namespace ThueXeToanCau.Models
         public virtual DbSet<booking> bookings { get; set; }
         public virtual DbSet<user> users { get; set; }
         public virtual DbSet<car_price_airport> car_price_airport { get; set; }
-        public virtual DbSet<airport_way> airport_way { get; set; }
         public virtual DbSet<factor> factors { get; set; }
         public virtual DbSet<transaction> transactions { get; set; }
+        public virtual DbSet<airport_way> airport_way { get; set; }
+        public virtual DbSet<car_made_model> car_made_model { get; set; }
+        public virtual DbSet<noticeso> noticesos { get; set; }
+        public virtual DbSet<notify> notifies { get; set; }
+        public virtual DbSet<auction> auctions { get; set; }
+        public virtual DbSet<driver> drivers { get; set; }
     }
 }

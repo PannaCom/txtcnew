@@ -40,6 +40,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Excel">
+      <HintPath>..\packages\dll\Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="Excel.4.5">
+      <HintPath>..\packages\dll\Excel.4.5.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp">
       <Private>True</Private>
     </Reference>
@@ -235,10 +241,16 @@
     <Compile Include="Models\airport_way.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\auction.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\booking.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\car_hire_type.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\car_made_model.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\car_price.cs">
@@ -278,6 +290,12 @@
     <Compile Include="Models\notice.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\noticeso.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\notify.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ThueXeToanCau.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -294,6 +312,9 @@
       <DependentUpon>ThueXeToanCau.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\TinhThanh.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\transaction.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\user.cs">

@@ -33,5 +33,7 @@ namespace ThueXeToanCau.Models
         public string address { get; set; }
         public string card_identify { get; set; }
         public string license { get; set; }
+        public string reg_id { get; set; }
+        public Nullable<int> os { get; set; }
     }
 }
