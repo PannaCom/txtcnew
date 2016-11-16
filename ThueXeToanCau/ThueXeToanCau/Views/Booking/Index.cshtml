@@ -1,0 +1,39 @@
+﻿@using ThueXeToanCau.Models
+@{
+    ViewBag.Title = "Quản lý đặt xe đấu giá";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<table class="table">
+    <tr>
+        <td><input id="ipPhone" placeholder="Nhập số điện thoại hoặc tên" onkeyup="searchPhone();" autocomplete="off" style="width:250px;"></td>
+        <td>@*<input id="ipName" placeholder="Nhập tên khách" onkeyup="searchName();" autocomplete="off">*@</td>
+        <td>
+            <select id="car_hire_type" style="height:26px;">
+                <option selected>All</option>
+                @foreach (var obj in (List<car_hire_type>) ViewBag.hireType)
+                {
+                    <option>@obj.name</option>
+                }
+            </select>
+        </td>
+        <td>
+            <select id="car_who_hire" style="height:26px;">
+                <option selected>All</option>
+                @foreach (var obj in (List<car_who_hire>)ViewBag.whoType)
+                {
+                    <option>@obj.name</option>
+                }
+            </select>
+        </td>
+        <td><input type="button" onclick="searchBooking();" value="Tìm Kiếm" class="btn btn-default" /></td>
+    </tr>
+</table>
+
+<div id="bookingResult"></div>
+<script type="text/javascript">
+    var url_searchPhone = '@Url.Action("searchPhone", "Booking")', url_searchName = '@Url.Action("searchName", "Booking")';
+    var url_searchBooking = '@Url.Action("searchBooking", "Booking")';
+</script>
+<script type="text/javascript" src="~/Scripts/booking.js"></script>

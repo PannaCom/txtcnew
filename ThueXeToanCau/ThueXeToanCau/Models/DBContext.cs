@@ -10,6 +10,40 @@ namespace ThueXeToanCau.Models
 {
     public class DBContext
     {
+        public static List<car_who_hire> getWhoType()
+        {
+            var rs = new List<car_who_hire>();
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    rs = db.car_who_hire.ToList();
+                }
+                return rs;
+            }
+            catch (Exception ex)
+            {
+                return rs;
+            }
+        }
+
+        public static List<car_hire_type> getHireType()
+        {
+            var rs = new List<car_hire_type>();
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    rs = db.car_hire_type.ToList();
+                }
+                return rs;
+            }
+            catch (Exception ex)
+            {
+                return rs;
+            }
+        }
+
         public static List<list_car> getCars() {
             var cars = new List<list_car>();
             try
