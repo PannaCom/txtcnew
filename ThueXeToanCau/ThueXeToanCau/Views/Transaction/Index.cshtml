@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Quản Lý Bảng Kê";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<table>
+    <tr>
+        <td>Chọn bảng kê</td>
+        <td style="padding:0 10px 0 5px;"><input id="fileUpload" type="file" multiple /></td>
+        <td><input type="button" onclick="uploadFile();" value="Tải Lên" class="btn btn-default" /></td>
+    </tr>
+</table> 
+<table class="table">
+    <tr>
+        <td><input id="car_number" placeholder="Nhập biển số xe" onkeyup="searchCarNumber();" autocomplete="off"></td>
+        <td>Từ Ngày: <input type="date" id="fromDate" /></td><td>Đến Ngày: <input type="date" id="toDate" /></td>
+        <td><input type="checkbox" id="chkDetail" /> Hiển chi tiết</td>
+        <td><input type="button" onclick="searchTran();" value="Tìm Kiếm" class="btn btn-default" /></td>
+    </tr>
+</table>
+
+<div id="tranResult"></div>
+
+<script type="text/javascript">
+    var url_uploadFile = '@Url.Action("uploadFile", "Transaction")', url_searchCarNumber = '@Url.Action("searchCarNumber", "Transaction")';
+    var url_searchTran = '@Url.Action("searchTran", "Transaction")';
+</script>
+<script type="text/javascript" src="~/Scripts/transaction.js"></script>

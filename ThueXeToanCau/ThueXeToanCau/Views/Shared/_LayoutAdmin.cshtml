@@ -89,7 +89,7 @@
                         </li>
                         <li>
                             <a href="/Notice/Index"><i class="fa fa-product-hunt fa-fw"></i>Quản lý thông báo</a>
-                        </li>
+                        </li>                        
                         <li>
                             <a href="#"><i class="fa fa-bars fa-fw"></i> Quản lý danh mục</a>
                         </li>
@@ -100,7 +100,7 @@
                             <a href="/User/Index"><i class="fa fa-bars fa-fw"></i> Quản lý user</a>
                         </li>
                         <li>
-                            <a href="/Invoice/Index"><i class="fa fa-bars fa-fw"></i> Quản lý bảng kê</a>
+                            <a href="/Transaction/Index"><i class="fa fa-bars fa-fw"></i> Quản lý bảng kê</a>
                         </li>
                         <li>
                             <a href="/home"><i class="fa fa-home fa-fw"></i> Quay lại trang chủ</a>
@@ -125,10 +125,7 @@
     <script src="~/Content/Theme/admin/vendor/morrisjs/morris.min.js"></script>
     <script src="~/Content/Theme/admin/js/sb-admin-2.min.js"></script>
     @Html.Partial("_commonView")
-    @RenderSection("Scripts", required: false)
-    <script type="text/javascript">
-        var url_uploadFile = '@Url.Action("uploadFile", "Admin")';
-    </script>
+    @RenderSection("Scripts", required: false)   
 </body>
 
 </html>

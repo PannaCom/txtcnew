@@ -294,4 +294,7 @@
     .dDialog .divBtn {
         text-align:center;margin:5px 0px;
     }
+    .ui-autocomplete {
+        max-height: 300px !important;overflow-y: auto !important;overflow-x: hidden !important;        
+    }
 /*End DuyVT*/

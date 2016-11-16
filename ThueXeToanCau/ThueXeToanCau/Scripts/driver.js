@@ -21,6 +21,7 @@ function autosearchmodel() {
     $('#car_model').autocomplete({
         source: urlSearch + $("#car_model").val(),
         select: function (event, ui) {
+            $(event.target).val(ui.item.value);
             return false;
         },
         minLength: 1

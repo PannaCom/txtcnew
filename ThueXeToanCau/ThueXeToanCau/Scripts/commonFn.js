@@ -34,27 +34,29 @@ function notifyOK() {
     closeDDialog("#notificationDialog");
 }
 
-function uploadFile() {
-    var files = document.getElementById("fileUpload").files;
-    if (files.length == 0) {
-        alert('Xin hãy chọn 1 bảng kê!');
-    } else {
-        if (window.FormData !== undefined) {
-            var data = new FormData();
-            for (var x = 0; x < files.length; x++) {
-                data.append("file" + x, files[x]);
-            }
-
-            $.ajax({                
-                url: url_uploadFile, type: "POST",
-                contentType: false, processData: false,
-                data: data,
-                success: function (result) {                    
-                    alert(result);
-                }
-            });
-        } else {
-            alert("Trình duyệt của bạn không hỗ trợ HTML5");
-        }
+// format date to dd/MM/yyyy (hh:mm:ss)
+function formatDate(strDate, isHasTime) {
+    var fullDate = new Date();
+    if (strDate != undefined) {
+        fullDate = new Date(strDate);
     }
+    var tmpMonth = (fullDate.getMonth() + 1).toString();
+    var tmpDate = fullDate.getDate().toString();
+    var rs = (tmpDate.length == 2 ? tmpDate : "0" + tmpDate) + "/" + (tmpMonth.length == 2 ? tmpMonth : "0" + tmpMonth)
+        + "/" + fullDate.getFullYear().toString();
+    if (isHasTime != undefined && isHasTime) {
+        var minutes = fullDate.getMinutes().toString();
+        var hours = fullDate.getHours().toString();
+        var seconds = fullDate.getSeconds().toString();
+        rs += " " + (hours.length == 2 ? hours : "0" + hours) + ":" + (minutes.length == 2 ? minutes : "0" + minutes) + ":"
+            + (seconds.length == 2 ? seconds : "0" + seconds);
+    }
+    return rs;
+}
+
+// Convert json date to js date
+function convertDate(dateValue, isHasTime) {
+    if (dateValue == null || dateValue == undefined)
+        return null;
+    return formatDate(new Date(parseInt(dateValue.replace("/Date(", "").replace(")/", ""), 10)), isHasTime);
 }
