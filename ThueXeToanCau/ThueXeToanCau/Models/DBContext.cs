@@ -10,6 +10,23 @@ namespace ThueXeToanCau.Models
 {
     public class DBContext
     {
+        public static List<car_type> getCarTypes()
+        {
+            var rs = new List<car_type>();
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    rs = db.car_type.ToList();
+                }
+                return rs;
+            }
+            catch (Exception ex)
+            {
+                return rs;
+            }
+        }
+
         public static List<car_who_hire> getWhoType()
         {
             var rs = new List<car_who_hire>();
@@ -77,7 +94,7 @@ namespace ThueXeToanCau.Models
             }
         }
 
-        public static List<list_car_type> getCarTypes()
+        public static List<list_car_type> getListCarTypes()
         {
             var carTypes = new List<list_car_type>();
             try
@@ -93,7 +110,52 @@ namespace ThueXeToanCau.Models
                 return carTypes;
             }
         }
-       
+
+        public static string addUpdateBooking(booking obj)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    if (obj.id == 0)
+                    {
+                        db.bookings.Add(obj);
+                    }
+                    else
+                    {
+                            var existEntity = db.bookings.Find(obj.id);
+                            if (existEntity == null) return "Thất bại: Không tìm thấy thông tin lịch đặt";
+                            db.Entry(existEntity).CurrentValues.SetValues(obj);
+                            db.Entry(existEntity).State = EntityState.Modified;                       
+                    }
+                    db.SaveChanges();
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return "Thất bại: " + ex.Message;
+            }
+        }
+
+        public static string deleteBooking(int id)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    var booking = new booking() { id = id };
+                    db.Entry(booking).State = EntityState.Deleted;
+                    db.SaveChanges();
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return "Thất bại: " + ex.Message;
+            }
+        }
+
         public static string addUpdateDriver(driver dri)
         {
             try
@@ -116,7 +178,7 @@ namespace ThueXeToanCau.Models
                         {
                             var existEntity = db.drivers.Find(dri.id);
                             if (existEntity == null) return "Thất bại: Không tìm thấy thông tin tài xế";
-                            dri.pass = existEntity.pass;
+                            //dri.pass = existEntity.pass;
                             db.Entry(existEntity).CurrentValues.SetValues(dri);
                             //db.Entry(existU).State = EntityState.Modified;
                         }

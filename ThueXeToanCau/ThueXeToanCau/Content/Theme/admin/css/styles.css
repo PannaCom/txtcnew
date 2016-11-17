@@ -297,4 +297,9 @@
     .ui-autocomplete {
         max-height: 300px !important;overflow-y: auto !important;overflow-x: hidden !important;        
     }
+    .divCheckboxes input, .divCheckboxes span {
+        vertical-align: middle;margin: 0px !important;
+    }
+    .ipH26 {height:26px; color:black !important;}
+    .btnH26 {height: 26px;padding-top: 3px;}
 /*End DuyVT*/

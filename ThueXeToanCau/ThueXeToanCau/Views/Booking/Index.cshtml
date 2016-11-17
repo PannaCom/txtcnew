@@ -7,19 +7,18 @@
 <h2>@ViewBag.Title</h2>
 <table class="table">
     <tr>
-        <td><input id="ipPhone" placeholder="Nhập số điện thoại hoặc tên" onkeyup="searchPhone();" autocomplete="off" style="width:250px;"></td>
-        <td>@*<input id="ipName" placeholder="Nhập tên khách" onkeyup="searchName();" autocomplete="off">*@</td>
+        <td><input id="ipSearch" type="text" placeholder="Nhập số điện thoại hoặc tên" onkeyup="searchPhone();" autocomplete="off" style="width:250px;"></td>
         <td>
-            <select id="car_hire_type" style="height:26px;">
+            <select id="s_car_hire_type" class="ipH26">
                 <option selected>All</option>
-                @foreach (var obj in (List<car_hire_type>) ViewBag.hireType)
+                @foreach (var obj in (List<car_hire_type>)ViewBag.hireType)
                 {
                     <option>@obj.name</option>
                 }
             </select>
         </td>
         <td>
-            <select id="car_who_hire" style="height:26px;">
+            <select id="s_car_who_hire" class="ipH26">
                 <option selected>All</option>
                 @foreach (var obj in (List<car_who_hire>)ViewBag.whoType)
                 {
@@ -27,13 +26,63 @@
                 }
             </select>
         </td>
-        <td><input type="button" onclick="searchBooking();" value="Tìm Kiếm" class="btn btn-default" /></td>
+        <td><input type="button" onclick="searchBooking();" value="Tìm Kiếm" class="btn btn-default btnH26" /></td>
     </tr>
 </table>
-
 <div id="bookingResult"></div>
+
+<div id="bookingDialog" style="display:none;" class="col-sm-4 dDialog">
+    <div class="dTitle">Sửa Thông Tin Đặt Xe</div>
+    <div class="dDialogContent">
+        <input type="hidden" id="bookingId" />
+        <input type="hidden" id="b_Name" />
+        <input type="hidden" id="b_Phone" />
+        <p>Điểm đi *</p>
+        <input id="car_from" name="car_from" class="form-control" placeholder="quận huyện, đường phố, thị trấn..." type="text" />
+        <input id="lon1" name="lon1" value="" type="hidden"><input id="lat1" name="lat1" value="" type="hidden">
+        <p>Điểm đến *</p>
+        <input id="car_to" name="car_to" class="form-control" placeholder="quận huyện, đường phố, thị trấn..." onblur="CreateLine();" type="text" />
+        <input id="lon2" name="lon2" value="" type="hidden"><input id="lat2" name="lat2" value="" type="hidden">
+        <p>Loại xe *</p>
+        <select id="car_type" class="form-control">
+            @foreach (var obj in (List<car_type>)ViewBag.carType)
+            {
+                <option value="@obj.name">@obj.name chỗ</option>
+            }
+        </select>
+        <p>Hình thức thuê *</p>
+        <select id="car_hire_type" class="form-control" onchange="showairport();">
+            @foreach (var obj in (List<car_hire_type>)ViewBag.hireType)
+            {
+                <option value="@obj.name">@obj.name chỗ</option>
+            }
+        </select>
+        <p>Đối tượng thuê *</p>
+        <select id="car_who_hire" class="form-control">
+            @foreach (var obj in (List<car_who_hire>)ViewBag.whoType)
+            {
+                <option value="@obj.name">@obj.name chỗ</option>
+            }
+        </select>
+        <p>Ngày giờ đi *</p>
+        <input class="form-control" id="from_datetime" placeholder="Chọn ngày giờ" type="text">
+        <p>Ngày giờ về *</p>
+        <input class="form-control" id="to_datetime" placeholder="Chọn ngày giờ" type="text">
+    </div>
+    <div class="divBtn">
+        <button type="button" class="btn btn-primary" onclick="saveBooking()">Đồng Ý</button>
+        <button type="button" class="btn btn-primary" onclick="closeDDialog('#bookingDialog')">Hủy</button>
+    </div>
+</div>
+
+<link rel="stylesheet" type="text/css" href="/Content/jquery.datetimepicker.css" />
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places" type="text/javascript"></script>
+<script src="~/Content/Theme/1a/js/jquery.geocomplete.js"></script>
+<script src="/Scripts/jquery.datetimepicker.js"></script>
+
 <script type="text/javascript">
     var url_searchPhone = '@Url.Action("searchPhone", "Booking")', url_searchName = '@Url.Action("searchName", "Booking")';
-    var url_searchBooking = '@Url.Action("searchBooking", "Booking")';
+    var url_searchBooking = '@Url.Action("searchBooking", "Booking")', url_getBooking = '@Url.Action("getBooking", "Booking")';
+    var url_deleteBooking = '@Url.Action("deleteBooking", "Booking")', url_addUpdateBooking = '@Url.Action("addUpdateBooking", "Booking")';
 </script>
 <script type="text/javascript" src="~/Scripts/booking.js"></script>

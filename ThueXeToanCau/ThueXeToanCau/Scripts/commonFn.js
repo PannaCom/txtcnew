@@ -1,4 +1,5 @@
-﻿function resetValue(obj, defaultVal) {
+﻿var err_generalMess = 'Đã có lỗi xẩy ra, vui lòng thử lại sau!';
+function resetValue(obj, defaultVal) {
     if (defaultVal == undefined) defaultVal = '';
     if (obj == undefined || obj == null) return defaultVal;
     return obj;
@@ -30,8 +31,18 @@ function notifyOK() {
         deleteHireType();
     } else if (action == "delWhoType") {
         deleteWhoType();
+    } else if (action == "delBooking") {
+        deleteBooking();
     }
     closeDDialog("#notificationDialog");
+}
+
+// convert to JsDate
+function convertJsDate(dateValue) {
+    if (dateValue == null || dateValue == undefined) {
+        return null;
+    };
+    return new Date(parseInt(dateValue.replace("/Date(", "").replace(")/", ""), 10));
 }
 
 // format date to dd/MM/yyyy (hh:mm:ss)

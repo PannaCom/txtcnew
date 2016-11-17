@@ -16,6 +16,7 @@ namespace ThueXeToanCau.Controllers
             if (Config.getCookie("logged") == "") return RedirectToAction("Login", "Admin");
             ViewBag.hireType = DBContext.getHireType();
             ViewBag.whoType = DBContext.getWhoType();
+            ViewBag.carType = DBContext.getCarTypes();
             return View();
         }
 
@@ -63,17 +64,9 @@ namespace ThueXeToanCau.Controllers
             {
                 using (var db = new thuexetoancauEntities())
                 {
-                    
                     var arr = keyword.Split(',');
-                    var name = arr[0].Trim();
-                    IQueryable<booking> rs = db.bookings.Where(f => f.name == name);
-                    //if (!string.IsNullOrEmpty(phone))
-                    //{
-                    //    rs = db.bookings.Where(f => f.phone == phone);
-                    //} else
-                    //{
-                    //    rs = db.bookings.Where(f => f.name == name);
-                    //}
+                    var phone = arr[1].Trim();
+                    IQueryable<booking> rs = db.bookings.Where(f => f.phone == phone);
                     if (hireType != "All")
                     {
                         rs = rs.Where(f => f.car_hire_type == hireType);
@@ -82,7 +75,7 @@ namespace ThueXeToanCau.Controllers
                     {
                         rs = rs.Where(f => f.car_who_hire == whoType);
                     }
-                    var bookings = rs.OrderBy(f => f.name).Select(f=> new {f.phone, f.name,f.car_from,f.car_to,f.car_type,f.datebook,f.book_price }).ToList();
+                    var bookings = rs.OrderBy(f => f.name).Select(f=> new {f.id, f.phone, f.name,f.car_from,f.car_to,f.car_type,f.car_hire_type,f.car_who_hire,f.from_datetime,f.to_datetime,f.datebook,f.book_price }).ToList();
                     return Json(bookings, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -90,6 +83,32 @@ namespace ThueXeToanCau.Controllers
             {
                 return Json(new { ErrMess = "Lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public JsonResult getBooking(long bId)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    return Json(db.bookings.Find(bId), JsonRequestBehavior.AllowGet);
+                }
+            } catch(Exception ex)
+            {
+                return Json(new { errMess = "Lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public string addUpdateBooking(booking b)
+        {
+            return DBContext.addUpdateBooking(b);
+        }
+
+        [HttpPost]
+        public string deleteBooking(int id)
+        {
+            return DBContext.deleteBooking(id);
         }
     }
 }

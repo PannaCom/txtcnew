@@ -90,11 +90,15 @@ namespace ThueXeToanCau.Controllers
             {
                 if (string.IsNullOrEmpty(keyword))
                 {
-                    numbers = db.transactions.OrderBy(f=>f.car_number).Select(f => f.car_number).Distinct().Take(50).ToList();
+                    numbers = db.transactions.OrderBy(f=>f.car_number)
+                        .Select(f => f.car_number).Distinct().Take(50).ToList();
                 }
                 else
                 {
-                    numbers = db.transactions.OrderBy(f => f.car_number).Where(f => f.car_number.StartsWith(keyword)).Select(f => f.car_number).Distinct().Take(50).ToList();
+                    numbers = db.transactions.Where(f => f.car_number.Replace("-", "").Replace(".", "")
+                        .StartsWith(keyword.Replace("-", "").Replace(".", "")))
+                        .OrderBy(f => f.car_number).Select(f => f.car_number)
+                        .Distinct().Take(50).ToList();
                 }                               
             }
             return JsonConvert.SerializeObject(numbers);

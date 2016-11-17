@@ -20,7 +20,7 @@ namespace ThueXeToanCau.Controllers
                 ViewBag.onePage = onePage;
             }
             ViewBag.cars = DBContext.getCars().Select(f => f.name).ToList();
-            ViewBag.carTypes = DBContext.getCarTypes().Select(f => f.name).ToList();
+            ViewBag.carTypes = DBContext.getListCarTypes().Select(f => f.name).ToList();
             return View();
         }
 

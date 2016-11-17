@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Xem Bảng Kê";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<table class="table">
+    <tr>
+        <td><input id="car_number" class="ipH26" placeholder="Nhập biển số xe" onkeyup="searchCarNumber();" autocomplete="off"></td>
+        <td>Từ Ngày: <input type="date" id="fromDate" class="ipH26" /></td>
+        <td>Đến Ngày: <input type="date" id="toDate" class="ipH26" /></td>
+        <td class="divCheckboxes"><input type="checkbox" id="chkDetail" /> <span>Hiển chi tiết</span></td>
+        <td><input id="btnSearch" type="button" onclick="searchTran();" value="Tìm Kiếm" class="btn btn-default btnH26" /></td>
+    </tr>
+</table>
+
+<div id="tranResult" style="min-height:300px;"></div>
+
+<style type="text/css">
+    .ipH26 {height:26px; color:black !important;}
+    .btnH26 {height: 26px;padding-top: 3px;}
+     .divCheckboxes input, .divCheckboxes span {
+        vertical-align: middle;margin: 0px !important;
+    }
+    .ui-autocomplete {
+        max-height: 300px !important;overflow-y: auto !important;overflow-x: hidden !important;        
+    }
+</style>
+
+<script type="text/javascript">
+    var url_uploadFile = '@Url.Action("uploadFile", "Transaction")', url_searchCarNumber = '@Url.Action("searchCarNumber", "Transaction")';
+    var url_searchTran = '@Url.Action("searchTran", "Transaction")';
+</script>
+<script type="text/javascript" src="~/Scripts/viewTrans.js"></script>
+
