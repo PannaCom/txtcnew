@@ -1,14 +1,4 @@
-﻿$(function () {
-    //$('#from_datetime').datetimepicker({
-    //    dayOfWeekStart: 1, lang: 'en',
-    //    disabledDates: ['1986/01/08', '1986/01/09', '1986/01/10'],
-    //    startDate: '2016/11/11/17/2016 12:00:00 AM'
-    //});
-    //$('#to_datetime').datetimepicker({
-    //    dayOfWeekStart: 1, lang: 'en',
-    //    disabledDates: ['1986/01/08', '1986/01/09', '1986/01/10'],
-    //    startDate: '2016/11/11/17/2016 12:00:00 AM'
-    //});
+﻿$(function () {  
     var s = new Date().toLocaleString();
     $('#from_datetime').datetimepicker({ value: s, step: 10 });
     $('#to_datetime').datetimepicker({ value: s, step: 10 });

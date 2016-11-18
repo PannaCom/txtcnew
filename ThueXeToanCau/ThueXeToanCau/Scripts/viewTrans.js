@@ -1,4 +1,9 @@
-﻿function searchCarNumber() {
+﻿$(function () {        
+    $('#fromDate').datepicker();
+    $('#toDate').datepicker();
+});
+
+function searchCarNumber() {
     $('#car_number').autocomplete({
         source: url_searchCarNumber + '?keyword=' + $("#car_number").val(),
         select: function (event, ui) {

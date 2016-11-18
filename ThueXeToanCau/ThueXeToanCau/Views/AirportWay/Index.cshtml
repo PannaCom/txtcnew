@@ -1,0 +1,53 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@using ThueXeToanCau.Models;
+
+@{
+    ViewBag.Title = "Cung đường sân bay";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<button type="button" class="btn btn-primary" onclick="openAirportWay(0)">Thêm Mới</button><br /><br />
+<table class="table marginBottom0">
+    <tr><th>Tên Địa Điểm</th><th>Điểm Đi</th><th>Điểm Đến</th><th></th><th></th></tr>
+    @foreach (var item in (PagedList<airport_way>)ViewBag.OnePage)
+    {
+        <tr>
+            <td>@item.airport_name</td>
+            <td>@item.car_from</td>
+            <td>@item.car_to</td>
+            <td><a href="#" onclick="openAirportWay(@item.id)">Sửa</a></td>
+            <td><a href="#" onclick="confirmDelAirportWay(@item.id, '@item.airport_name')">Xóa</a></td>
+        </tr>
+    }
+</table>
+@Html.PagedListPager((IPagedList)ViewBag.OnePage, page => Url.Action("Index", new { page }))
+
+<div id="airportWayDialog" style="display:none;" class="col-sm-4 dDialog">
+    <div class="dTitle">Thêm/Sửa</div><br />
+    <div class="dDialogContent">
+        <input type="hidden" id="airportWayId" />
+        <p>Tên Sân Bay</p>
+        <input id="airport_name" name="airport_name" class="form-control" placeholder="Nhập tên sân bay" type="text" />
+        <p>Điểm đi</p>
+        <input id="car_from" name="car_from" class="form-control" placeholder="quận huyện, đường phố, thị trấn..." type="text" />
+        <input id="lon1" name="lon1" value="" type="hidden"><input id="lat1" name="lat1" value="" type="hidden">
+        <p>Điểm đến</p>
+        <input id="car_to" name="car_to" class="form-control" placeholder="quận huyện, đường phố, thị trấn..." type="text" />
+        <input id="lon2" name="lon2" value="" type="hidden"><input id="lat2" name="lat2" value="" type="hidden">
+        <div class="divBtn">
+            <button type="button" class="btn btn-primary" onclick="saveAirportWay()">Đồng Ý</button>
+            <button type="button" class="btn btn-primary" onclick="closeDDialog('#airportWayDialog')">Hủy</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places" type="text/javascript"></script>
+<script src="~/Content/Theme/1a/js/jquery.geocomplete.js"></script>
+<script type="text/javascript">
+    var url_addUpdateAirportWay = '@Url.Action("addUpdateAirportWay", "AirportWay")';
+    var url_deleteAirportWay = '@Url.Action("deleteAirportWay", "AirportWay")';
+    var url_getAirportWay = '@Url.Action("getAirportWay", "AirportWay")';
+</script>
+<script type="text/javascript" src="~/Scripts/airportway.js"></script>

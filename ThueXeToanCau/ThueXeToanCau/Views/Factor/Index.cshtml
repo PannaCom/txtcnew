@@ -1,0 +1,40 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@using ThueXeToanCau.Models;
+
+@{
+    ViewBag.Title = "Quản Lý Hệ Số";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<table class="table marginBottom0">
+    <tr><th>Tên</th><th>Hệ Số</th><th></th></tr>
+    @foreach (var item in (PagedList<factor>)ViewBag.OnePage)
+    {
+        <tr>
+            <td>@item.name</td>
+            <td>@item.val</td>
+            <td><a href="#" onclick="openFactor(@item.id, '@item.name', '@item.val')">Sửa</a></td>
+        </tr>
+    }
+</table>
+@Html.PagedListPager((IPagedList)ViewBag.OnePage, page => Url.Action("Index", new { page }))
+
+<div id="factorDialog" style="display:none;" class="col-sm-4 dDialog">
+    <div class="dTitle">Sửa Hệ Số</div><br />
+    <div class="dDialogContent">
+        <input type="hidden" id="factorId" />
+        <label id="fName"></label>
+        <input id="fVal" type="number" class="form-control" placeholder="Nhập hệ số">        
+        <div class="divBtn">
+            <button type="button" class="btn btn-primary" onclick="saveFactor()">Đồng Ý</button>
+            <button type="button" class="btn btn-primary" onclick="closeDDialog('#factorDialog')">Hủy</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var url_addUpdateFactor = '@Url.Action("addUpdateFactor", "Factor")';
+</script>
+<script type="text/javascript" src="~/Scripts/factor.js"></script>

@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>@ViewBag.Title -Trang quản trị Thuê xe toàn cầu</title>
+    <title>@ViewBag.Title -Trang quản trị Thuê xe toàn cầu</title>    
     <!-- Favicons
     ================================================== -->
     <link rel="shortcut icon" href="~/Content/Theme/1a/img/favicon.ico" type="image/x-icon">
@@ -51,8 +51,7 @@
 
 <body>
 
-    <div id="wrapper">
-
+    <div id="wrapper">        
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
@@ -91,6 +90,12 @@
                             <a href="/Notice/Index"><i class="fa fa-product-hunt fa-fw"></i>Quản lý thông báo</a>
                         </li>                        
                         <li>
+                            <a href="/Factor/Index"><i class="fa fa-product-hunt fa-fw"></i>Quản lý hệ số</a>
+                        </li>
+                        <li>
+                            <a href="/AirportWay/Index"><i class="fa fa-product-hunt fa-fw"></i>Các cung đường sân bay</a>
+                        </li>                        
+                        <li>
                             <a href="#"><i class="fa fa-bars fa-fw"></i> Quản lý danh mục</a>
                         </li>
                         <li>
@@ -105,13 +110,16 @@
                         <li>
                             <a href="/home"><i class="fa fa-home fa-fw"></i> Quay lại trang chủ</a>
                         </li>
+                        <li>
+                            <a href="javascript:document.getElementById('logoutForm').submit();"><i class="fa fa-home fa-fw"></i> Đăng Xuất</a>
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>
             <!-- /.navbar-static-side -->
         </nav>
-
+        <form id="logoutForm" action="@Url.Action("Logout","Admin")" method="post"></form>        
         <div id="page-wrapper">
             @RenderBody()
         </div>

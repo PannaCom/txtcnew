@@ -33,7 +33,7 @@ namespace ThueXeToanCau.Controllers
             Session["user"] = u;           
             return RedirectToAction("Index");
         }
-
+       
         [HttpPost]
         public string validateLogin(LoginModel model)
         {
@@ -50,6 +50,13 @@ namespace ThueXeToanCau.Controllers
             {
                 return "Lỗi: " + ex.Message;
             }
+        }
+
+        [HttpPost]
+        public ActionResult Logout()
+        {
+            Config.setCookie("logged", "");
+            return RedirectToAction("Login");
         }
 
         // GET: Admin

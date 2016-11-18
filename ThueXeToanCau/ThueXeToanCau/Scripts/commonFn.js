@@ -33,6 +33,8 @@ function notifyOK() {
         deleteWhoType();
     } else if (action == "delBooking") {
         deleteBooking();
+    } else if (action == "delAirportWay") {
+        deleteAirportWay();
     }
     closeDDialog("#notificationDialog");
 }

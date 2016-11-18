@@ -388,6 +388,90 @@ namespace ThueXeToanCau.Models
             }
         }
 
+        public static string addUpdateFactor(factor ft)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    if (ft.id == 0)
+                    {
+                        db.factors.Add(ft);
+                    }
+                    else
+                    {
+                        db.Entry(ft).State = EntityState.Modified;
+                    }
+                    db.SaveChanges();
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return "Thất bại: " + ex.Message;
+            }
+        }
+
+        public static string deleteFactor(int id)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    var ft = new factor() { id = id };
+                    db.Entry(ft).State = EntityState.Deleted;
+                    db.SaveChanges();
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return "Thất bại: " + ex.Message;
+            }
+        }
+
+        public static string addUpdateAirportWay(airport_way aw)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    if (aw.id == 0)
+                    {
+                        db.airport_way.Add(aw);
+                    }
+                    else
+                    {
+                        db.Entry(aw).State = EntityState.Modified;
+                    }
+                    db.SaveChanges();
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return "Thất bại: " + ex.Message;
+            }
+        }
+
+        public static string deleteAirportWay(int id)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    var aw = new airport_way() { id = id };
+                    db.Entry(aw).State = EntityState.Deleted;
+                    db.SaveChanges();
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return "Thất bại: " + ex.Message;
+            }
+        }
+
         public static string addUpdateHireType(car_hire_type ht)
         {
             try
