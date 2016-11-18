@@ -391,7 +391,17 @@
                         }).done(function( html ) {
                             
                         });
-                    document.getElementById('notice').innerHTML = "<b>Ghi chú:</b><span style=\"font-style:italic;\">" + "";
+                    document.getElementById('notice').innerHTML = "<b>Ghi chú:</b><span style=\"font-style:italic;\">";
+                    if ($("#car_who_hire").val().indexOf("khách thuê") < 0) {
+                        $("#notice").append("<p>-Hoa hồng giới thiệu cho bạn chuyến xe này là 3% giá trị chuyến đi</p>");
+                    }
+                    if ($("#car_hire_type").val().indexOf("sân bay") < 0) {
+                        $("#notice").append("<p>-Phí lưu bãi 350.000/1 đêm, phí cầu đường, bến bãi khách chi trả</p>");
+                    }
+                    $("#notice").append("<span>");
+                    if ($("#car_hire_type").val().indexOf("sân bay") >= 0) {
+                        $("#notice").hide();
+                    }
                 } else {
                     alert("Hiện tổng đài đang bận, xin quay lại sau!");
                 }

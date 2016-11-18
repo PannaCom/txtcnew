@@ -224,6 +224,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ApiController.cs" />
+    <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\CarPriceAirPortController.cs" />
     <Compile Include="Controllers\CarPriceController.cs" />
     <Compile Include="Controllers\CarTypeController.cs" />
@@ -232,6 +233,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NoticeController.cs" />
+    <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WhoTypeController.cs" />
     <Compile Include="Global.asax.cs">

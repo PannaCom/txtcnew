@@ -412,6 +412,12 @@ namespace ThueXeToanCau.Controllers
                     r.os = os;
                     db.drivers.Add(r);
                     db.SaveChanges();
+                    notify nt = new notify();
+                    nt.os = os;
+                    nt.reg_id = regId;
+                    nt.tobject = 1;
+                    db.notifies.Add(nt);
+                    db.SaveChanges();
                     return r.id.ToString();
                 }
                 else
@@ -493,6 +499,16 @@ namespace ThueXeToanCau.Controllers
             return JsonConvert.SerializeObject(p.ToList());
         }
         public string getCarType()
+        {
+            var p = (from q in db.car_type select q.name);
+            return JsonConvert.SerializeObject(p.ToList());
+        }
+        public string getListCarType()
+        {
+            var p = (from q in db.list_car_type select q.name);
+            return JsonConvert.SerializeObject(p.ToList());
+        }
+        public string getCarSize()
         {
             var p = (from q in db.car_type select q.name);
             return JsonConvert.SerializeObject(p.ToList());
