@@ -294,12 +294,19 @@
     .dDialog .divBtn {
         text-align:center;margin:5px 0px;
     }
-    .ui-autocomplete {
-        max-height: 300px !important;overflow-y: auto !important;overflow-x: hidden !important;        
+    .divSearch {
+        clear:both;overflow: hidden;
     }
+    .divSearch div {
+        float:left;margin:0 5px 3px 0;
+    }        
+    .ipH26 {height:26px; color:black !important;}
+    .btnH26 {height: 26px;padding-top:3px;}
     .divCheckboxes input, .divCheckboxes span {
         vertical-align: middle;margin: 0px !important;
     }
-    .ipH26 {height:26px; color:black !important;}
-    .btnH26 {height: 26px;padding-top: 3px;}
+    #tranResult {min-height:300px;width:100%;clear:both;}
+    .ui-autocomplete {
+        max-height: 300px !important;overflow-y: auto !important;overflow-x: hidden !important;        
+    }
 /*End DuyVT*/

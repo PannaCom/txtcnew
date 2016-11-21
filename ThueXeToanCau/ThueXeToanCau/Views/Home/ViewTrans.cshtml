@@ -8,26 +8,28 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>*@
 
 <h2>@ViewBag.Title</h2>
-<div class="container">
-    <table class="table">
-        <tr>
-            <td><input id="car_number" type="text" class="ipH26" placeholder="Nhập biển số xe" onkeyup="searchCarNumber();" autocomplete="off"></td>            
-            <td>Từ Ngày:</td><td><input type="text" id="fromDate" class="ipH26" /></td>
-            <td>Đến Ngày: </td><td><input type="text" id="toDate" class="ipH26" /></td>
-            <td class="divCheckboxes"><input type="checkbox" id="chkDetail" /> <span>Hiển chi tiết</span></td>
-            <td><input id="btnSearch" type="button" onclick="searchTran();" value="Tìm Kiếm" class="btn btn-default btnH26" /></td>
-        </tr>
-    </table>
-
-    <div id="tranResult" style="min-height:300px;width:100%"></div>
+<div class="divSearch">
+    <div><input id="car_number" type="text" class="ipH26" placeholder="Nhập biển số xe" onkeyup="searchCarNumber();" autocomplete="off"></div>    
+    <div><span>Từ Ngày: </span><input type="text" id="fromDate" class="ipH26" style="width:110px" /></div>
+    <div><span>Đến Ngày: </span><input type="text" id="toDate" class="ipH26" style="width:110px" /></div>    
+    <div class="divCheckboxes">
+        <input type="checkbox" id="chkDetail" /> <span>Hiển chi tiết</span>        
+    </div>
+    <div><input id="btnSearch" type="button" onclick="searchTran();" value="Tìm Kiếm" class="btn btn-default btnH26" /></div>    
 </div>
 
-<style type="text/css">
-    .ipH26 {height:26px; color:black !important;width:auto;}
-    .btnH26 {height: 26px;padding-top: 3px;}
-     .divCheckboxes input, .divCheckboxes span {
+<div id="tranResult" ></div>
+
+<style type="text/css">    
+    .divSearch div {
+        float:left;margin:0 5px 3px 0;
+    }        
+    .ipH26 {height:26px; color:black !important;}
+    .btnH26 {height: 26px;padding-top:3px;}
+    .divCheckboxes input, .divCheckboxes span {
         vertical-align: middle;margin: 0px !important;
     }
+    #tranResult {min-height:300px;width:100%;clear:both;}
     .ui-autocomplete {
         max-height: 300px !important;overflow-y: auto !important;overflow-x: hidden !important;        
     }

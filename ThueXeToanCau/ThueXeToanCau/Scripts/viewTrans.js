@@ -27,7 +27,9 @@ function searchTran() {
         success: function (result) {
             if (!result.ErrMess) {
                 var tbHtml = '<table class="table">'
-                if (detail) {
+                if (result.length == 0) {
+                    tbHtml += '<tr>Không tìm thấy dữ liệu phù hợp</tr>';
+                } else if (detail) {
                     tbHtml += '<tr><th>STT</th><th>Loại Giao Dịch</th><th>Biển Số Xe</th><th>Ngày Giao Dịch</th><th>Số Tiền</th><th>Ghi Chú</th></tr>';
                     $.each(result, function (idx, obj) {
                         tbHtml += '<tr><td>' + (idx + 1) + '</td><td>' + obj.type + '</td><td>' + obj.car_number + '</td><td>'

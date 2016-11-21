@@ -1,9 +1,15 @@
-﻿function uploadFile() {
+﻿$(function () {
+    $('#fromDate').datepicker();
+    $('#toDate').datepicker();
+});
+
+function uploadFile() {
     var files = document.getElementById("fileUpload").files;
     if (files.length == 0) {
         alert('Xin hãy chọn 1 bảng kê!');
-    } else {
+    } else {        
         if (window.FormData !== undefined) {
+            $(".overlayDiv").show();
             var data = new FormData();
             for (var x = 0; x < files.length; x++) {
                 data.append("file" + x, files[x]);
@@ -13,8 +19,12 @@
                 url: url_uploadFile, type: "POST",
                 contentType: false, processData: false,
                 data: data,
-                success: function (result) {                    
+                success: function (result) {
+                    $(".overlayDiv").hide();
                     alert(result);
+                },
+                error: function (err) {
+                    $(".overlayDiv").hide();
                 }
             });
         } else {
@@ -47,7 +57,9 @@ function searchTran() {
         success: function (result) {
             if (!result.ErrMess) {
                 var tbHtml = '<table class="table">'
-                if (detail) {
+                if (result.length == 0) {
+                    tbHtml += '<tr>Không tìm thấy dữ liệu phù hợp</tr>';
+                } else if (detail) {
                     tbHtml += '<tr><th>STT</th><th>Loại Giao Dịch</th><th>Biển Số Xe</th><th>Ngày Giao Dịch</th><th>Số Tiền</th><th>Ghi Chú</th></tr>';
                     $.each(result, function (idx, obj) {
                         tbHtml += '<tr><td>' + (idx + 1) + '</td><td>' + obj.type + '</td><td>' + obj.car_number + '</td><td>'
