@@ -19,9 +19,7 @@ function searchTran() {
     if(carNumber == '') {
         alert("Xin hãy chọn 1 biển số xe");
         return false;
-    }
-    //var isMobile = isSmallWidth();
-    //console.log(isMobile);
+    }   
     var detail = $('#chkDetail').prop("checked");    
     $.ajax({
         url: url_searchTran, type: 'get',dataType: 'json',
