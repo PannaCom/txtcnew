@@ -20,8 +20,8 @@ function searchTran() {
         alert("Xin hãy chọn 1 biển số xe");
         return false;
     }
-    var isMobile = isSmallWidth();
-    console.log(isMobile);
+    //var isMobile = isSmallWidth();
+    //console.log(isMobile);
     var detail = $('#chkDetail').prop("checked");    
     $.ajax({
         url: url_searchTran, type: 'get',dataType: 'json',
@@ -32,25 +32,11 @@ function searchTran() {
                 if (result.length == 0) {
                     tbHtml += '<tr>Không tìm thấy dữ liệu phù hợp</tr>';
                 } else if (detail) {
-                    tbHtml += '<tr>';
-                    if (!isMobile) {
-                        tbHtml += '<th>STT</th>';
-                    }
-                    tbHtml += '<th>Loại Giao Dịch</th><th>Biển Số Xe</th><th>Ngày Giao Dịch</th><th>Số Tiền</th>';
-                    if (!isMobile) {
-                        tbHtml += '<th>Ghi Chú</th>';
-                    }
-                    tbHtml += '</tr>';
+                    tbHtml += '<tr><th class="hidden-xs">STT</th><th>Loại Giao Dịch</th><th>Biển Số Xe</th><th>Ngày Giao Dịch</th>'
+                        + '<th>Số Tiền</th><th class="hidden-xs">Ghi Chú</th></tr>';
                     $.each(result, function (idx, obj) {
-                        tbHtml += '<tr>';
-                        if (!isMobile) {
-                            tbHtml += '<td>' + (idx + 1) + '</td>';
-                        }
-                        tbHtml += '<td>' + obj.type + '</td><td>' + obj.car_number + '</td><td>'
-                            + convertDate(obj.date, false) + '</td><td>' + obj.money + '</td></tr>';
-                        if (!isMobile) {
-                            tbHtml += '<td>' + obj.note + '</td>';
-                        }
+                        tbHtml += '<tr><td class="hidden-xs">' + (idx + 1) + '</td><td>' + obj.type + '</td><td>' + obj.car_number + '</td><td>'
+                            + convertDate(obj.date, false) + '</td><td>' + obj.money + '</td><td class="hidden-xs">' + obj.note + '</td></tr>'
                     });
                 } else {
                     tbHtml += '<tr><th>Biển số xe</th><th>Tổng Số Giao Dịch</th><th>Tổng Giá Trị Giao Dịch</th></tr>';
