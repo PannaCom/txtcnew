@@ -73,3 +73,9 @@ function convertDate(dateValue, isHasTime) {
         return null;
     return formatDate(new Date(parseInt(dateValue.replace("/Date(", "").replace(")/", ""), 10)), isHasTime);
 }
+
+function isSmallWidth() {
+    var windowWidth = window.screen.width < window.outerWidth ?
+                  window.screen.width : window.outerWidth;
+    return windowWidth < 500;
+}
