@@ -249,6 +249,9 @@
     <Compile Include="Models\booking.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\booking_final.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\car_hire_type.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>

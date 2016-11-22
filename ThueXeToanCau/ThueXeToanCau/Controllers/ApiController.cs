@@ -26,7 +26,9 @@ namespace ThueXeToanCau.Controllers
             {
                 //get km distance
                 int dts = 0;
-                int price_max = getD(lon1, lat1, lon2, lat2, car_hire_type, car_type, from_datetime, to_datetime, airport_name, airport_way,ref dts);
+                int price_basic=0;
+                int price_per_day = 0;
+                int price_max = getD(lon1, lat1, lon2, lat2, car_hire_type, car_type, from_datetime, to_datetime, airport_name, airport_way, ref dts, ref price_basic, ref price_per_day);
                 int reduce = Config.reduct1;
                 int price = price_max - price_max * reduce / 100;
                 booking bo = new booking();
@@ -53,7 +55,7 @@ namespace ThueXeToanCau.Controllers
                 bo.phone = phone;
                 db.bookings.Add(bo);
                 db.SaveChanges();
-                return price_max.ToString() + "_" + dts;
+                return price_max.ToString() + "_" + dts + "_" + price_basic + "_" + price_per_day;
             }
             catch (Exception ex)
             {
@@ -102,7 +104,7 @@ namespace ThueXeToanCau.Controllers
             public string status { get; set; }
         }
         //Hà Nội - Ninh Bình http://localhost:58046/api/getD?lat1=20.9740873&lon1=105.3724793&lat2=20.1877591&lon2=105.5745668
-        public int getD(double? lon1, double? lat1, double? lon2, double? lat2, string car_hire_type, int? car_type, DateTime from_date, DateTime to_date, string airport_name, string airport_way,ref int dts)
+        public int getD(double? lon1, double? lat1, double? lon2, double? lat2, string car_hire_type, int? car_type, DateTime from_date, DateTime to_date, string airport_name, string airport_way,ref int dts,ref int price_basic,ref int price_per_day)
         {
             //get km distance
             try {
@@ -202,6 +204,7 @@ namespace ThueXeToanCau.Controllers
                     {
                         total = total * factorBackWay_GoWith / 100;
                     }
+                    price_basic = price;
                     return total;
                 } else
                 if (car_hire_type.ToLowerInvariant().Contains("sân bay"))
@@ -282,6 +285,7 @@ namespace ThueXeToanCau.Controllers
                    
                     
                     total = price * factor/ 100;
+                    price_basic = price;
                     return total;
                 }
                 else
@@ -343,9 +347,11 @@ namespace ThueXeToanCau.Controllers
                         //    price = price5;
                         //}
                     }
+                    price_basic = price;
                     int days=Config.dateDiff(from_date, to_date)+1;
                     if (to_date.Day - from_date.Day==1) days=2;
                     pricePerDay = price * 200;
+                    price_per_day = pricePerDay;
                     if (days >= 2)//Đi dưới 2 ngày, về trong ngày
                     {
                         km = km * 2;
@@ -447,6 +453,7 @@ namespace ThueXeToanCau.Controllers
         }
         public class gbol
         {
+            public long id { get; set; }
             public string car_from { get; set; }
             public string car_to { get; set; }
             public int? car_type { get; set; }
@@ -467,7 +474,7 @@ namespace ThueXeToanCau.Controllers
         public string getBooking(double lon,double lat,string car_hire_type,int? order)
         {
             string query="select top 100 * from ";
-            query += "(select car_from,car_to, car_type,car_hire_type,car_who_hire,from_datetime,to_datetime,datebook,book_price,book_price_max,time_to_reduce,lon1,lat1,lon2,lat2,ACOS(SIN(PI()*" + lat + "/180.0)*SIN(PI()*lat1/180.0)+COS(PI()*" + lat + "/180.0)*COS(PI()*lat1/180.0)*COS(PI()*lon1/180.0-PI()*" + lon + "/180.0))*6371 As D from booking) as A where D<300 ";
+            query += "(select id,car_from,car_to, car_type,car_hire_type,car_who_hire,from_datetime,to_datetime,datebook,book_price,book_price_max,time_to_reduce,lon1,lat1,lon2,lat2,ACOS(SIN(PI()*" + lat + "/180.0)*SIN(PI()*lat1/180.0)+COS(PI()*" + lat + "/180.0)*COS(PI()*lat1/180.0)*COS(PI()*lon1/180.0-PI()*" + lon + "/180.0))*6371 As D from booking) as A where D<300 ";
             if (car_hire_type != null && car_hire_type != "")
             {
                 query += " and car_hire_type=N'" + car_hire_type+"' ";
@@ -534,6 +541,26 @@ namespace ThueXeToanCau.Controllers
             string query = "SELECT  distinct model as name FROM [thuexetoancau].[dbo].[car_made_model] where made is not null and made like N'%" + keyword + "%' order by model";
             var p = db.Database.SqlQuery<car_model_made>(query);
             return JsonConvert.SerializeObject(p.ToList());
+        }
+        public string bookingFinal(long id_driver, string driver_number, string driver_phone, int price, long id_booking)
+        {
+            try
+            {
+                booking_final bf = new booking_final();
+                bf.date_time = DateTime.Now;
+                bf.driver_number = driver_number;
+                bf.driver_phone = driver_phone;
+                bf.id_booking = id_booking;
+                bf.id_driver = id_driver;
+                bf.price = price;
+                db.booking_final.Add(bf);
+                db.SaveChanges();
+                return "1";
+            }
+            catch (Exception ex)
+            {
+                return "0";
+            }
         }
         #region Drivers - duyvt
 

@@ -62,9 +62,9 @@ namespace ThueXeToanCau.Controllers
                                 tran.car_number = row.Cells[2] == null ? "" : row.Cells[2].Text;
                                 tran.money = row.Cells[3] == null ? 0 : float.Parse(row.Cells[3].Text);
                                 tran.note = row.Cells[4] == null ? "" : row.Cells[4].Text;
-                                var tr = db.transactions.Where(f => f.type == tran.type && f.money == tran.money && f.car_number == tran.car_number
-                                    && f.date.Day == tran.date.Day && f.date.Month == tran.date.Month && f.date.Year == tran.date.Year).FirstOrDefault();
-                                if (tr == null)
+                                //var tr = db.transactions.Where(f => f.type == tran.type && f.money == tran.money && f.car_number == tran.car_number
+                                //    && f.date.Day == tran.date.Day && f.date.Month == tran.date.Month && f.date.Year == tran.date.Year).FirstOrDefault();
+                                if (tran.money != null && tran.note!=null)
                                 {
                                     db.transactions.Add(tran);
                                     db.SaveChanges();
