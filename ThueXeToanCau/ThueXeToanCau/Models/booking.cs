@@ -34,5 +34,6 @@ namespace ThueXeToanCau.Models
         public Nullable<int> time_to_reduce { get; set; }
         public string name { get; set; }
         public string phone { get; set; }
+        public Nullable<int> status { get; set; }
     }
 }

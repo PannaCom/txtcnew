@@ -474,7 +474,7 @@ namespace ThueXeToanCau.Controllers
         public string getBooking(double lon,double lat,string car_hire_type,int? order)
         {
             string query="select top 100 * from ";
-            query += "(select id,car_from,car_to, car_type,car_hire_type,car_who_hire,from_datetime,to_datetime,datebook,book_price,book_price_max,time_to_reduce,lon1,lat1,lon2,lat2,ACOS(SIN(PI()*" + lat + "/180.0)*SIN(PI()*lat1/180.0)+COS(PI()*" + lat + "/180.0)*COS(PI()*lat1/180.0)*COS(PI()*lon1/180.0-PI()*" + lon + "/180.0))*6371 As D from booking) as A where D<300 ";
+            query += "(select id,car_from,car_to, car_type,car_hire_type,car_who_hire,from_datetime,to_datetime,datebook,book_price,book_price_max,time_to_reduce,lon1,lat1,lon2,lat2,ACOS(SIN(PI()*" + lat + "/180.0)*SIN(PI()*lat1/180.0)+COS(PI()*" + lat + "/180.0)*COS(PI()*lat1/180.0)*COS(PI()*lon1/180.0-PI()*" + lon + "/180.0))*6371 As D from booking where status=0) as A where D<300 ";
             if (car_hire_type != null && car_hire_type != "")
             {
                 query += " and car_hire_type=N'" + car_hire_type+"' ";
@@ -542,24 +542,67 @@ namespace ThueXeToanCau.Controllers
             var p = db.Database.SqlQuery<car_model_made>(query);
             return JsonConvert.SerializeObject(p.ToList());
         }
-        public string bookingFinal(long id_driver, string driver_number, string driver_phone, int price, long id_booking)
+        public string bookingFinal(long id_driver, string driver_number, string driver_phone, int price, long id_booking,int? type)
         {
             try
             {
-                booking_final bf = new booking_final();
-                bf.date_time = DateTime.Now;
-                bf.driver_number = driver_number;
-                bf.driver_phone = driver_phone;
-                bf.id_booking = id_booking;
-                bf.id_driver = id_driver;
-                bf.price = price;
-                db.booking_final.Add(bf);
-                db.SaveChanges();
-                return "1";
+                bool p = db.booking_final.Any(o => o.id_booking == id_booking && o.type == 1);
+                if (!p)
+                {
+                    booking_final bf = new booking_final();
+                    bf.date_time = DateTime.Now;
+                    bf.driver_number = driver_number;
+                    bf.driver_phone = driver_phone;
+                    bf.id_booking = id_booking;
+                    bf.id_driver = id_driver;
+                    bf.price = price;
+                    bf.type = type;
+                    db.booking_final.Add(bf);
+                    db.SaveChanges();
+                    if (type == 1)
+                    {
+                        db.Database.ExecuteSqlCommand("update booking set status=1 where id=" + id_booking);
+                    }
+                    return "1";
+                }
+                else return "0";
             }
             catch (Exception ex)
             {
-                return "0";
+                return "-1";
+            }
+        }
+        public string whoWin(int id_booking)
+        {
+            try
+            {
+                bool p = db.booking_final.Any(o => o.id_booking == id_booking && o.type == 1);
+                if (p)
+                {
+                    return db.booking_final.Where(o => o.id_booking == id_booking && o.type == 1).FirstOrDefault().id_driver.ToString();
+                }
+                else
+                {
+                    try{
+                        int? p2=db.booking_final.Where(o => o.id_booking == id_booking).Min(o => o.price).Value;
+                        var p3=(from q in db.booking_final where q.id_booking==id_booking && q.price==p2 select q).ToList();
+                        DateTime? minDate=DateTime.Now;
+                        long? id_driver=0;
+                        for(int i=0;i<p3.Count;i++){
+                            if (p3[i].date_time < minDate) { 
+                                minDate = p3[i].date_time;
+                                id_driver = p3[i].id_driver;
+                            }
+                        }
+                        return id_driver.ToString();
+                    }catch(Exception ex0){
+                         return "0";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return "-1";
             }
         }
         #region Drivers - duyvt
