@@ -44,10 +44,10 @@ function searchPhone() {
 
 function searchBooking() {
     var txtSearch = $("#ipSearch").val();
-    if (txtSearch == '') {
-        alert('Xin hãy nhập số điện thoại hoặc tên');
-        return false;
-    }
+    //if (txtSearch == '') {
+    //    alert('Xin hãy nhập số điện thoại hoặc tên');
+    //    return false;
+    //}
     $.ajax({
         url: url_searchBooking, type: 'get', dataType: 'json',
         data: { keyword: txtSearch, hireType: $("#s_car_hire_type").val(), whoType: $("#s_car_who_hire").val() },
@@ -61,8 +61,9 @@ function searchBooking() {
                         + '</td><td>' + obj.car_to + '</td><td>' + obj.car_type + ' chỗ</td><td>' + obj.car_hire_type + '</td><td>'
                         + obj.car_who_hire + '</td><td>' + convertJsDate(obj.from_datetime).toLocaleString() + '</td><td>'
                         + convertJsDate(obj.to_datetime).toLocaleString() + '</td><td>' + obj.book_price
-                        + '</td><td><a href="#" onclick="openBooking(' + obj.id + ')">Sửa</a></td>'
+                        + '</td>'
                         + '<td><a href="#" onclick="confirmDelBooking(' + obj.id + ')">Xóa</a></td></tr>';
+                    //<td><a href="#" onclick="openBooking(' + obj.id + ')">Sửa</a></td>
                 });
                 tbHtml += '</table>';
                 $("#bookingResult").html(tbHtml);

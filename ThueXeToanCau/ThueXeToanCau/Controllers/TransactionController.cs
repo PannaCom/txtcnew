@@ -12,6 +12,7 @@ namespace ThueXeToanCau.Controllers
 {
     public class TransactionController : Controller
     {
+        private thuexetoancauEntities db = new thuexetoancauEntities();
         public ActionResult Index()
         {
             if (Config.getCookie("logged") == "") return RedirectToAction("Login", "Admin");
@@ -103,7 +104,19 @@ namespace ThueXeToanCau.Controllers
             }
             return JsonConvert.SerializeObject(numbers);
         }
-
+        [HttpPost]
+        public string DelTransaction(int id)
+        {
+            try
+            {
+                db.Database.ExecuteSqlCommand("delete from transactions");
+                return "1";
+            }
+            catch (Exception ex)
+            {
+                return "-1";
+            }
+        }
         [HttpGet]
         public JsonResult searchTran(string carNumber, string fDate, string tDate, bool isDetail)
         {
@@ -111,7 +124,8 @@ namespace ThueXeToanCau.Controllers
             {
                 using (var db = new thuexetoancauEntities())
                 {
-                    var trans = db.transactions.Where(f => f.car_number == carNumber);
+                    if (carNumber == null) carNumber = "";
+                    var trans = db.transactions.Where(f => f.car_number.Contains(carNumber));
                     if(!string.IsNullOrEmpty(fDate))
                     {
                         DateTime fromDate;
@@ -128,7 +142,13 @@ namespace ThueXeToanCau.Controllers
                             trans = trans.Where(f => f.date <= toDate);
                         }
                     }
-                    trans = trans.OrderByDescending(f => f.date);
+                    if (carNumber != "")
+                    {
+                        trans = trans.OrderByDescending(f => f.date);
+                    }
+                    else {
+                        trans = trans.Take(100).OrderByDescending(f => f.date);
+                    }
                     if (isDetail)
                     {
                         return Json(trans.ToList(), JsonRequestBehavior.AllowGet);
@@ -140,7 +160,7 @@ namespace ThueXeToanCau.Controllers
                                  carNum = g.FirstOrDefault().car_number,
                                  sum = g.Sum(f => f.money),
                                  count = g.Count(),
-                             }).ToList();
+                             }).Take(1000).ToList();
                     return Json(rs, JsonRequestBehavior.AllowGet);
                 }
             } catch (Exception ex)

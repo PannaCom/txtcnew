@@ -9,6 +9,8 @@ function uploadFile() {
         alert('Xin hãy chọn 1 bảng kê!');
     } else {        
         if (window.FormData !== undefined) {
+            document.getElementById("uploadfile").value = "Đang cập nhật xin chờ...";
+            document.getElementById("uploadfile").disabled = true;
             $(".overlayDiv").show();
             var data = new FormData();
             for (var x = 0; x < files.length; x++) {
@@ -22,6 +24,8 @@ function uploadFile() {
                 success: function (result) {
                     $(".overlayDiv").hide();
                     alert(result);
+                    document.getElementById("uploadfile").value = "Tải lên file khác";
+                    document.getElementById("uploadfile").disabled = false;
                 },
                 error: function (err) {
                     $(".overlayDiv").hide();
@@ -46,10 +50,10 @@ function searchCarNumber() {
 
 function searchTran() {
     var carNumber = $('#car_number').val();
-    if(carNumber == '') {
-        alert("Xin hãy chọn 1 biển số xe");
-        return false;
-    }
+    //if(carNumber == '') {
+    //    alert("Xin hãy chọn 1 biển số xe");
+    //    return false;
+    //}
     var detail = $('#chkDetail').prop("checked");
     $.ajax({
         url: url_searchTran, type: 'get',dataType: 'json',
@@ -76,4 +80,28 @@ function searchTran() {
             }
         }
     })
+}
+function deleteFile() {
+    if (confirm("CẢNH BÁO: BẠN CHẮC CHẮN MUỐN XÓA HẾT DỮ LIỆU NÀY?")) {
+        
+        var formdata = new FormData();
+        formdata.append("id", "1");
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/Transaction/DelTransaction');
+        xhr.send(formdata);
+        document.getElementById("delall").value = "Đang cập nhật xin chờ...";
+        document.getElementById("delall").disabled = true;
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                if (xhr.responseText == "1") {
+                    alert("Bạn đã xóa thành công!");
+                    window.location.href = "/Transaction/index";
+                } else {
+                    alert("Chương trình đang cập nhật, xin quay lại sau!");
+                }
+                document.getElementById("delall").value = "Xóa sạch dữ liệu!!!";
+                document.getElementById("delall").disabled = false;
+            }
+        }
+    }
 }

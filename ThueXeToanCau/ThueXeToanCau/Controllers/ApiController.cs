@@ -9,6 +9,13 @@ using System.Data.Entity;
 using Microsoft.Owin.BuilderProperties;
 using System.Web.Script.Serialization;
 using System.Security.Cryptography;
+using System.Text;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Sockets;
+using System.Net;
+using System.Net.Security;
+using System.IO;
+using Newtonsoft.Json.Linq;
 namespace ThueXeToanCau.Controllers
 {
     public class ApiController : Controller
@@ -470,11 +477,15 @@ namespace ThueXeToanCau.Controllers
             public double lon2 { get; set; }
             public double lat2 { get; set; }
             public double D { get; set; }
+            public int? current_price { get; set; }
         }
         public string getBooking(double lon,double lat,string car_hire_type,int? order)
         {
-            string query="select top 100 * from ";
-            query += "(select id,car_from,car_to, car_type,car_hire_type,car_who_hire,from_datetime,to_datetime,datebook,book_price,book_price_max,time_to_reduce,lon1,lat1,lon2,lat2,ACOS(SIN(PI()*" + lat + "/180.0)*SIN(PI()*lat1/180.0)+COS(PI()*" + lat + "/180.0)*COS(PI()*lat1/180.0)*COS(PI()*lon1/180.0-PI()*" + lon + "/180.0))*6371 As D from booking where status=0) as A where D<300 ";
+            string query = "select * from (select id,car_from,car_to, car_type,car_hire_type,car_who_hire,from_datetime,to_datetime,datebook,book_price,book_price_max,time_to_reduce,lon1,lat1,lon2,lat2,D,id_booking,min(price) as current_price from (select top 100 * from ";
+            query += "(select id,car_from,car_to, car_type,car_hire_type,car_who_hire,from_datetime,to_datetime,datebook,book_price,book_price_max,time_to_reduce,lon1,lat1,lon2,lat2,ACOS(SIN(PI()*" + lat + "/180.0)*SIN(PI()*lat1/180.0)+COS(PI()*" + lat + "/180.0)*COS(PI()*lat1/180.0)*COS(PI()*lon1/180.0-PI()*" + lon + "/180.0))*6371 As D from booking where status=0) as A ";
+            query += " left join (select id_booking,price from booking_final) as B on A.id=B.id_booking ";
+            query += ") as C group by id,car_from,car_to, car_type,car_hire_type,car_who_hire,from_datetime,to_datetime,datebook,book_price,book_price_max,time_to_reduce,lon1,lat1,lon2,lat2,D,id_booking ";
+            query +=") as Rs where D<300 ";
             if (car_hire_type != null && car_hire_type != "")
             {
                 query += " and car_hire_type=N'" + car_hire_type+"' ";
@@ -603,6 +614,85 @@ namespace ThueXeToanCau.Controllers
             catch (Exception ex)
             {
                 return "-1";
+            }
+        }
+        public string login(string phone,string pass)
+        {
+            try
+            {
+                MD5 md5Hash = MD5.Create();
+                string hash = Config.GetMd5Hash(md5Hash, pass);
+                pass = hash;
+                bool p = db.drivers.Any(o => o.phone == phone && o.pass == pass);
+                if (p) return "1"; else return "0";
+            }
+            catch (Exception ex)
+            {
+                return "-1";
+            }
+        }
+        public const String certificatePass = "txvn";
+        public const String certificateHostName = "gateway.sandbox.push.apple.com";
+        public const string fcmAppId = "AIzaSyAIGls7p_pw8titXZyIvECI3Vyj1NsL5TQ";
+        public const string fcmSenderId = "989692241948";
+        public const Int32 port = 2195;
+        public X509Certificate2 clientCertificate;
+        public X509Certificate2Collection certificatesCollection;
+        public TcpClient client;
+        public WebRequest tRequest;
+        public SslStream sslStream;
+        public int sendNotify(int os,string regId, string title, string body)
+        {
+            if (os == 1)
+            { return PushMessageForAndroid(regId, title, body); }
+            else { return 0; }
+          
+        }
+        public int PushMessageForAndroid(string regId, string title, string body)
+        {
+            int sended = 0;
+            try
+            {
+                if (regId != null)
+                {
+                    //string postData = "{ \"registration_ids\": [ \"" + RegArr + "\" ],\"data\": {\"message\": \"" + title + ";" + hinhanh + "\",\"id\":\"" + strhethongst + "\"}}"; //"\",\"dsanh\":\"" + dsanh +
+                    string RegArr = String.Empty;
+                    RegArr = string.Join("\",\"", regId);
+                    string postData = "{ \"registration_ids\": [ \"" + RegArr + "\" ],\"data\": {\"message\": \"" + title + "\",\"body\": \"" + body + "\",\"id\": \"" + "\",\"collapse_key\":\"" + "" + "\"}}";
+
+                    //string postData = Convert.ToBase64String(fileBytes);
+
+                    Byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+                    tRequest.ContentLength = byteArray.Length;
+
+                    Stream dataStream = tRequest.GetRequestStream();
+                    dataStream.Write(byteArray, 0, byteArray.Length);
+                    dataStream.Close();
+
+                    WebResponse tResponse = tRequest.GetResponse();
+
+                    dataStream = tResponse.GetResponseStream();
+
+                    StreamReader tReader = new StreamReader(dataStream);
+
+                    string sResponseFromServer = tReader.ReadToEnd();
+
+                    tReader.Close();
+                    dataStream.Close();
+                    tResponse.Close();
+
+                    var json = JObject.Parse(sResponseFromServer);
+                    var xyz = json["success"].ToString();
+                    if (xyz != "0")
+                    {
+                        sended = 1;
+                    }
+                }
+                return sended;
+            }
+            catch (Exception ex)
+            {
+                return sended;
             }
         }
         #region Drivers - duyvt

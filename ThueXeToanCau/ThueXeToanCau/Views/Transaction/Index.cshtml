@@ -8,7 +8,8 @@
 <div class="divSearch">
     <div>Chọn bảng kê: </div>
     <div><input id="fileUpload" type="file" multiple /></div>
-    <div><input type="button" onclick="uploadFile();" value="Tải Lên" class="btn btn-default" /></div>
+    <div><input type="button" onclick="uploadFile();" value="Tải Lên" class="btn btn-default" id="uploadfile" /></div>
+    <div><input type="button" onclick="deleteFile();" value="Xóa sạch dữ liệu!!!" class="btn btn-default" id="delall"/></div>
 </div>
 
 <div class="divSearch">
@@ -28,3 +29,4 @@
     var url_searchTran = '@Url.Action("searchTran", "Transaction")';
 </script>
 <script type="text/javascript" src="~/Scripts/transaction.js"></script>
+<script>searchTran();</script>

@@ -64,9 +64,11 @@ namespace ThueXeToanCau.Controllers
             {
                 using (var db = new thuexetoancauEntities())
                 {
+                    if (keyword == null || keyword=="") keyword = ",";
                     var arr = keyword.Split(',');
+                    var name = arr[0].Trim();
                     var phone = arr[1].Trim();
-                    IQueryable<booking> rs = db.bookings.Where(f => f.phone == phone);
+                    IQueryable<booking> rs = db.bookings.Where(f => f.phone.Contains(phone) || f.name.Contains(name));
                     if (hireType != "All")
                     {
                         rs = rs.Where(f => f.car_hire_type == hireType);
@@ -75,7 +77,7 @@ namespace ThueXeToanCau.Controllers
                     {
                         rs = rs.Where(f => f.car_who_hire == whoType);
                     }
-                    var bookings = rs.OrderBy(f => f.name).Select(f=> new {f.id, f.phone, f.name,f.car_from,f.car_to,f.car_type,f.car_hire_type,f.car_who_hire,f.from_datetime,f.to_datetime,f.datebook,f.book_price }).ToList();
+                    var bookings = rs.OrderByDescending(f => f.id).Select(f=> new {f.id, f.phone, f.name,f.car_from,f.car_to,f.car_type,f.car_hire_type,f.car_who_hire,f.from_datetime,f.to_datetime,f.datebook,f.book_price }).ToList();
                     return Json(bookings, JsonRequestBehavior.AllowGet);
                 }
             }
