@@ -47,5 +47,7 @@ namespace ThueXeToanCau.Models
         public virtual DbSet<driver> drivers { get; set; }
         public virtual DbSet<booking> bookings { get; set; }
         public virtual DbSet<booking_final> booking_final { get; set; }
+        public virtual DbSet<booking_log> booking_log { get; set; }
+        public virtual DbSet<rating> ratings { get; set; }
     }
 }

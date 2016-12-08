@@ -254,6 +254,9 @@
     <Compile Include="Models\booking_final.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\booking_log.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\car_hire_type.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
@@ -301,6 +304,9 @@
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\notify.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\rating.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThueXeToanCau.Context.cs">
