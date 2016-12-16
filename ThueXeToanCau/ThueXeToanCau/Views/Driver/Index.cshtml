@@ -11,15 +11,16 @@
 <table class="table marginBottom0">
     <tr> 
         <th>Tên Tài Xế</th> <th>Số điện thoại</th> <th>CMND</th> <th>Số bằng lái xe</th> <th>Địa chỉ</th> <th>Biển số</th> 
-        <th>Hãng xe</th> <th>Tên xe</th> <th>Số chỗ</th> <th>Loại xe</th> <th>Năm sản xuất</th> <th></th><th></th> 
+        <th>Hãng xe</th> <th>Tên xe</th> <th>Số chỗ</th> <th>Loại xe</th> <th>Năm sản xuất</th><th>Tiền tài khoản</th> <th></th><th></th> 
     </tr>
     @foreach (var item in (PagedList<driver>)ViewBag.OnePage)
     {
         <tr>
             <td>@item.name</td><td>@item.phone</td><td>@item.card_identify</td><td>@item.license</td><td>@item.address</td><td>@item.car_number</td>
             <td>@item.car_made</td><td>@item.car_model</td><td>@item.car_size chỗ</td><td>@item.car_type</td><td>@item.car_years</td>
+            <td>@item.total_moneys</td>
             <td><a href="#" onclick="openDriver(@item.id, '@item.name','@item.phone', '@item.card_identify', '@item.license', '@item.address',
-                   '@item.car_number', '@item.car_made', '@item.car_model', @item.car_size, '@item.car_type', @item.car_years)">Sửa</a></td>
+                   '@item.car_number', '@item.car_made', '@item.car_model', @item.car_size, '@item.car_type', @item.car_years,@item.total_moneys)">Sửa</a></td>
             <td><a href="#" onclick="confirmDelDriver(@item.id, '@item.name')">Xóa</a></td>
         </tr>
     }
@@ -72,6 +73,8 @@
         </select>
         <p>Năm sản xuất</p>
         <select id="car_year" class="form-control"><option value="2016">2016</option><option value="2015">2015</option><option value="2014">2014</option><option value="2013">2013</option><option value="2012">2012</option><option value="2011">2011</option><option value="2010">2010</option><option value="2009">2009</option><option value="2009">Trước 2009</option></select>          
+        <p>Tiền tài khoản</p>
+        <input id="total_moneys" class="form-control" placeholder="Nhập số tiền khởi tạo của tài xế">
     </div>
     <div class="divBtn">
         <button type="button" class="btn btn-primary" onclick="saveDriver()">Đồng Ý</button>

@@ -248,6 +248,16 @@ warning 6002: The table/view 'thuexetoancau.dbo.list_car_type' does not have a p
           <Property Name="rate" Type="int" />
           <Property Name="comment" Type="ntext" />
         </EntityType>
+        <EntityType Name="saoke">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_driver" Type="bigint" />
+          <Property Name="id_booking" Type="bigint" />
+          <Property Name="money" Type="int" />
+          <Property Name="date_time" Type="datetime" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TinhThanh">
@@ -286,6 +296,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="noticesos" EntityType="Self.noticesos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="notifies" EntityType="Self.notifies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="rating" EntityType="Self.rating" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="saoke" EntityType="Self.saoke" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="list_car" EntityType="Self.list_car" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -373,6 +384,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="booking_final" EntityType="thuexetoancauModel.booking_final" />
           <EntitySet Name="booking_log" EntityType="thuexetoancauModel.booking_log" />
           <EntitySet Name="ratings" EntityType="thuexetoancauModel.rating" />
+          <EntitySet Name="saokes" EntityType="thuexetoancauModel.saoke" />
         </EntityContainer>
         <EntityType Name="NationalDay">
           <Key>
@@ -596,6 +608,16 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="rate" Type="Int32" />
           <Property Name="comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="saoke">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_driver" Type="Int64" />
+          <Property Name="id_booking" Type="Int64" />
+          <Property Name="money" Type="Int32" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -876,6 +898,17 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
                 <ScalarProperty Name="rate" ColumnName="rate" />
                 <ScalarProperty Name="phone" ColumnName="phone" />
                 <ScalarProperty Name="id_booking" ColumnName="id_booking" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="saokes">
+            <EntityTypeMapping TypeName="thuexetoancauModel.saoke">
+              <MappingFragment StoreEntitySet="saoke">
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="money" ColumnName="money" />
+                <ScalarProperty Name="id_booking" ColumnName="id_booking" />
+                <ScalarProperty Name="id_driver" ColumnName="id_driver" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

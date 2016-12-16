@@ -15,7 +15,7 @@ namespace ThueXeToanCau.Controllers
             {
                 var drivers = db.drivers;
                 var pageNumber = page ?? 1;
-                var onePage = drivers.OrderBy(f => f.name).ToPagedList(pageNumber, 20);
+                var onePage = drivers.OrderByDescending(f => f.id).ToPagedList(pageNumber, 20);
 
                 ViewBag.onePage = onePage;
             }

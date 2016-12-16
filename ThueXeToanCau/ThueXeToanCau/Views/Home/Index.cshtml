@@ -257,9 +257,22 @@
             booking();
             $("#airport").hide();
         });
-       
-        
     }
+    var arrNotice = [];
+    $.ajax({
+        url: "/Api/getNotice",
+        cache: false
+    }).done(function (html) {
+        var news = '{"news":' + html + '}';
+        var json_parsed = $.parseJSON(news);
+        for (var i = 0; i < json_parsed.news.length; i++) {
+            if (json_parsed.news[i]) {
+                var name = json_parsed.news[i].name;
+                arrNotice.push(name);
+                //alert(arrNotice[i]);
+            }
+        }
+    });
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         //alert("0k");
         infoWindow.setPosition(pos);
@@ -392,15 +405,17 @@
                             
                         });
                     document.getElementById('notice').innerHTML = "<b>Ghi chú:</b><span style=\"font-style:italic;\">";
+                    
                     if ($("#car_who_hire").val().toString().toLowerCase().indexOf("khách thuê") < 0) {
-                        $("#notice").append("<p>-Hoa hồng giới thiệu cho bạn chuyến xe này là 3% giá trị chuyến đi</p>");
+                        $("#notice").append("<p>-" + arrNotice[2] + "</p>");
                     }
                     if ($("#car_hire_type").val().toString().toLowerCase().indexOf("sân bay") < 0) {
-                        $("#notice").append("<p>-Phí lưu bãi 350.000/1 đêm, phí cầu đường, bến bãi khách chi trả</p>");
+                        $("#notice").append("<p>-" + arrNotice[1] + "</p>");
                     }
-                    if ($("#car_hire_type").val().toString().toLowerCase().indexOf("khứ hồi") >= 0) {
+                    if ($("#car_hire_type").val().toString().toLowerCase().indexOf("khứ hồi") >= 0) {                        
                         $("#notice").append("<p>-Dựa trên giá cơ bản là " + $.number(info[2], 0, ',') + "/km</p>");
                         $("#notice").append("<p>-Số tiền tính thêm khi đi quá 1 ngày là " + $.number(info[3], 0, ',') + "/ngày</p>");
+                        $("#notice").append("<p>-" + arrNotice[0] + "</p>");
                     }
                     $("#notice").append("<span>");
                     if ($("#car_hire_type").val().toString().toLowerCase().indexOf("sân bay") >= 0) {

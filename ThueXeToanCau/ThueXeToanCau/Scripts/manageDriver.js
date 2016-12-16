@@ -46,7 +46,7 @@ function autosearchmodel() {
 }
 
 function openDriver(dId, name, phone, card_identify, license, address, car_number,
-            car_made, car_model, car_size, car_type, car_years) {
+            car_made, car_model, car_size, car_type, car_years,total_moneys) {
     name = resetValue(name, "");
     phone = resetValue(phone, "");
     card_identify = resetValue(card_identify, "");
@@ -67,6 +67,7 @@ function openDriver(dId, name, phone, card_identify, license, address, car_numbe
     $('#car_year option[value=' + car_years + ']').prop('selected', true);
     $('#car_size option[value=' + car_size + ']').prop('selected', true);
     $("#car_number").val(car_number);
+    $("#total_moneys").val(total_moneys);
     //if(car_type != '') {
     //    $('#car_type option[value=' + car_type + ']').prop('selected', true);
     //}        
@@ -112,6 +113,7 @@ function saveDriver() {
         id: dId, name: $("#tname").val(), pass: $("#tPass").val(), phone: $("#tphone").val(), car_model: $("#car_model").val(),
         card_identify: $("#tCMND").val(), car_years: $("#car_year").val(), car_size: $("#car_size").val(), car_number: $("#car_number").val(),
         car_type: $("#car_type").val(), address: $("#address").val(), license: $("#tLicense").val(), car_made: $("#car").val()
+        , total_moneys: $("#total_moneys").val()
     };
     $.ajax({
         url: url_addUpdateDriver, type: 'post',
