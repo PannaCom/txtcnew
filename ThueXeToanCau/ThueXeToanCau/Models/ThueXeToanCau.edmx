@@ -257,6 +257,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.list_car_type' does not have a p
           <Property Name="id_booking" Type="bigint" />
           <Property Name="money" Type="int" />
           <Property Name="date_time" Type="datetime" />
+          <Property Name="status" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -618,6 +619,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <Property Name="id_booking" Type="Int64" />
           <Property Name="money" Type="Int32" />
           <Property Name="date_time" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -905,6 +907,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySetMapping Name="saokes">
             <EntityTypeMapping TypeName="thuexetoancauModel.saoke">
               <MappingFragment StoreEntitySet="saoke">
+                <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="date_time" ColumnName="date_time" />
                 <ScalarProperty Name="money" ColumnName="money" />
                 <ScalarProperty Name="id_booking" ColumnName="id_booking" />

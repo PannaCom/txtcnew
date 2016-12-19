@@ -8,6 +8,16 @@
 
 <h2>@ViewBag.Title</h2>
 <button type="button" class="btn btn-primary" onclick="openDriver(0)">Thêm Mới</button><br /><br />
+<div class="panel-heading">
+    <div class="form-inline">
+        <div class="form-group">
+            <input type="text" id="keyword" class="form-control" placeholder="Nhập số điện thoại tài xế" value="@ViewBag.k" style="width:360px;" />
+        </div>
+        <div class="form-group">
+            <input type="button" value="Tìm Kiếm" class="btn btn-primary" onclick="search();" />
+        </div>
+    </div>
+</div>
 <table class="table marginBottom0">
     <tr> 
         <th>Tên Tài Xế</th> <th>Số điện thoại</th> <th>CMND</th> <th>Số bằng lái xe</th> <th>Địa chỉ</th> <th>Biển số</th> 
@@ -89,4 +99,8 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places" type="text/javascript"></script>
 <script src="~/Content/Theme/1a/js/jquery.geocomplete.js"></script>
 <script type="text/javascript" src="~/Scripts/manageDriver.js"></script>
-
+<script>
+    function search() {
+        window.location.href = "/Driver/Index?phone=" + document.getElementById("keyword").value;
+    }
+</script>

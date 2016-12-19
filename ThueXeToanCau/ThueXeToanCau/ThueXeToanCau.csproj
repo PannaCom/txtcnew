@@ -235,6 +235,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NoticeController.cs" />
+    <Compile Include="Controllers\SaoKeController.cs" />
     <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WhoTypeController.cs" />
@@ -1102,6 +1103,11 @@
     <Content Include="Views\Booking\Index.cshtml" />
     <Content Include="Views\Factor\Index.cshtml" />
     <Content Include="Views\Transaction\Index.cshtml" />
+    <Content Include="Views\SaoKe\Create.cshtml" />
+    <Content Include="Views\SaoKe\Delete.cshtml" />
+    <Content Include="Views\SaoKe\Details.cshtml" />
+    <Content Include="Views\SaoKe\Edit.cshtml" />
+    <Content Include="Views\SaoKe\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -19,5 +19,6 @@ namespace ThueXeToanCau.Models
         public Nullable<long> id_booking { get; set; }
         public Nullable<int> money { get; set; }
         public Nullable<System.DateTime> date_time { get; set; }
+        public Nullable<int> status { get; set; }
     }
 }

@@ -8,17 +8,18 @@ namespace ThueXeToanCau.Controllers
 {
     public class DriverController : Controller
     {
-        public ActionResult Index(int? page)
+        public ActionResult Index(string phone,int? page)
         {
             if (Config.getCookie("logged") == "") return RedirectToAction("Login", "Admin");
+            if (phone == null) phone = "";
             using (var db = new thuexetoancauEntities())
             {
                 var drivers = db.drivers;
                 var pageNumber = page ?? 1;
-                var onePage = drivers.OrderByDescending(f => f.id).ToPagedList(pageNumber, 20);
-
+                var onePage = drivers.Where(o=>o.phone.Contains(phone)).OrderByDescending(f => f.id).ToPagedList(pageNumber, 20);
                 ViewBag.onePage = onePage;
             }
+            ViewBag.k = phone;
             ViewBag.cars = DBContext.getCars().Select(f => f.name).ToList();
             ViewBag.carTypes = DBContext.getListCarTypes().Select(f => f.name).ToList();
             return View();

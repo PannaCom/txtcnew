@@ -10,6 +10,8 @@
     <UseIISExpress>true</UseIISExpress>
     <WebStackScaffolding_ViewDialogWidth>600</WebStackScaffolding_ViewDialogWidth>
     <NameOfLastUsedPublishProfile>thuexetoancau</NameOfLastUsedPublishProfile>
+    <WebStackScaffolding_DbContextTypeFullName>ThueXeToanCau.Models.thuexetoancauEntities</WebStackScaffolding_DbContextTypeFullName>
+    <WebStackScaffolding_IsViewGenerationSelected>True</WebStackScaffolding_IsViewGenerationSelected>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
