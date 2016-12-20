@@ -348,6 +348,16 @@
             document.getElementById("to_datetime").focus();
             return;
         }
+        var date_one = new Date(document.getElementById("from_datetime").value).getTime();
+        var date_two = new Date(document.getElementById("to_datetime").value).getTime();
+        if (date_two <= date_one) {
+            alert("Ngày giờ về phải >= ngày giờ đi!");
+            document.getElementById("to_datetime").focus();
+            return;
+        }
+        
+        var timeStamp_date_two = new Date(date_two).getTime()
+
         if (document.getElementById("name").value == "") {
             alert("Nhập họ tên!");
             document.getElementById("name").focus();
@@ -358,6 +368,7 @@
             document.getElementById("phone").focus();
             return;
         }
+
       
         formdata.append("car_from", document.getElementById("car_from").value);
         formdata.append("car_to", document.getElementById("car_to").value);

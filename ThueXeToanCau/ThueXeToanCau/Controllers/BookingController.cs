@@ -66,8 +66,17 @@ namespace ThueXeToanCau.Controllers
                 {
                     if (keyword == null || keyword=="") keyword = ",";
                     var arr = keyword.Split(',');
-                    var name = arr[0].Trim();
-                    var phone = arr[1].Trim();
+                    var name = ""; 
+                    var phone = "";
+                    if (keyword.Contains(",")) {
+                        name=arr[0].Trim();
+                        phone=arr[1].Trim();
+                    }
+                    else
+                    {
+                        name = keyword;
+                        phone = keyword;
+                    }
                     IQueryable<booking> rs = db.bookings.Where(f => f.phone.Contains(phone) || f.name.Contains(name));
                     if (hireType != "All")
                     {
