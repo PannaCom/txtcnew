@@ -35,7 +35,10 @@ function notifyOK() {
         deleteBooking();
     } else if (action == "delAirportWay") {
         deleteAirportWay();
+    } else if (action == "delNationalDay") {
+        deleteNationalDay();
     }
+    
     closeDDialog("#notificationDialog");
 }
 

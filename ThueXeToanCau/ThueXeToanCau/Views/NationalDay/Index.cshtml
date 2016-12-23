@@ -1,0 +1,48 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@using ThueXeToanCau.Models;
+
+@{
+    ViewBag.Title = "Quản Lý Ngày Lễ";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<button type="button" class="btn btn-primary" onclick="openNationalDay(0)">Thêm Mới</button><br /><br />
+<table class="table marginBottom0">
+    <tr><th>Tên ngày lễ</th><th>Ngày Bắt Đầu</th><th>Ngày Kết Thúc</th><th></th><th></th></tr>
+    @foreach (var item in (PagedList<NationalDay>)ViewBag.OnePage)
+    {
+        <tr>
+            <td>@item.DayName</td>
+            <td>@item.StartDate.Value.ToString("MM/dd/yyyy")</td>
+            <td>@item.EndDate.Value.ToString("MM/dd/yyyy")</td>
+            <td><a href="#" onclick="openNationalDay(@item.ID, '@item.DayName', '@item.StartDate', '@item.EndDate')">Sửa</a></td>
+            <td><a href="#" onclick="confirmDelNationalDay(@item.ID, '@item.DayName')">Xóa</a></td>
+        </tr>
+    }
+</table>
+@Html.PagedListPager((IPagedList)ViewBag.OnePage, page => Url.Action("Index", new { page }))
+
+<div id="nationalDialog" style="display:none;" class="col-sm-4 dDialog">
+    <div class="dTitle">Thêm/Sửa Ngày Lễ</div>
+    <div class="dDialogContent">
+        <input type="hidden" id="dayId" />
+        <p>Tên Ngày Lễ</p>
+        <input id="dayName" type="text" class="form-control" placeholder="Nhập tên ngày lễ">
+        <p>Ngày Bắt Đầu</p>
+        <input class="form-control" id="dayStart" placeholder="Ngày bắt đầu" type="text">
+        <p>Ngày Kết Thúc</p>
+        <input class="form-control" id="dayEnd" placeholder="Ngày kết thúc" type="text">
+        <div class="divBtn">
+            <button type="button" class="btn btn-primary" onclick="saveNationalDay()">Đồng Ý</button>
+            <button type="button" class="btn btn-primary" onclick="closeDDialog('#nationalDialog')">Hủy</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var url_addUpdateNationalDay = '@Url.Action("addUpdateNationalDay", "NationalDay")';
+    var url_deleteNationalDay = '@Url.Action("deleteNationalDay", "NationalDay")';
+</script>
+<script type="text/javascript" src="~/Scripts/nationalDay.js"></script>
