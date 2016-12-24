@@ -556,6 +556,49 @@ namespace ThueXeToanCau.Models
             }
         }
 
+
+        public static string addUpdateNationalDay(NationalDay nalDay)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    if (nalDay.ID == 0)
+                    {
+                        db.NationalDays.Add(nalDay);
+                    }
+                    else
+                    {
+                        db.Entry(nalDay).State = EntityState.Modified;
+                    }
+                    db.SaveChanges();
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return "Thất bại: " + ex.Message;
+            }
+        }
+
+        public static string deleteNationalDay(int id)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    var nalDay = new NationalDay() { ID = id };
+                    db.Entry(nalDay).State = EntityState.Deleted;
+                    db.SaveChanges();
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return "Thất bại: " + ex.Message;
+            }
+        }
+
         public static string addUpdateUser(user u)
         {
             try
