@@ -44,11 +44,12 @@ namespace ThueXeToanCau.Models
         public virtual DbSet<noticeso> noticesos { get; set; }
         public virtual DbSet<notify> notifies { get; set; }
         public virtual DbSet<auction> auctions { get; set; }
-        public virtual DbSet<driver> drivers { get; set; }
         public virtual DbSet<booking> bookings { get; set; }
         public virtual DbSet<booking_final> booking_final { get; set; }
         public virtual DbSet<booking_log> booking_log { get; set; }
         public virtual DbSet<rating> ratings { get; set; }
         public virtual DbSet<saoke> saokes { get; set; }
+        public virtual DbSet<driver> drivers { get; set; }
+        public virtual DbSet<list_online> list_online { get; set; }
     }
 }

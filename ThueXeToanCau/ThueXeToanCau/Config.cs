@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
-
+using ThueXeToanCau.Models;
 namespace ThueXeToanCau
 {
     public class Config
@@ -31,6 +31,7 @@ namespace ThueXeToanCau
         public static int reduct4 = 20;
         public static int factorBackWay_GoWith = 30;
         public static int pricePerDay = 1200000;
+        public static thuexetoancauEntities db = new thuexetoancauEntities();
         //convert longitude latitude to geography
         public static DbGeography CreatePoint(double? latitude, double? longitude)
         {
@@ -40,7 +41,25 @@ namespace ThueXeToanCau
             return DbGeography.FromText(String.Format("POINT({1} {0})", latitude, longitude));
         }
         public static bool isHoliDay(DateTime? date){
-            return false;
+            try{
+                var fnd=db.NationalDays.Any(o => o.StartDate <= date && o.EndDate >= date);
+                if (fnd == true) { 
+                    return fnd;
+                }
+                else {
+                    if (date.Value.DayOfWeek == DayOfWeek.Saturday || date.Value.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+
+            }catch(Exception ex){
+                return false;
+            }
+            //return false;
         }
         public static string GetMd5Hash(MD5 md5Hash, string input)
         {

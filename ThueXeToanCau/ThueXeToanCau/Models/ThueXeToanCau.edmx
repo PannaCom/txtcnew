@@ -165,6 +165,7 @@
           <Property Name="license" Type="nvarchar" MaxLength="50" />
           <Property Name="reg_id" Type="nvarchar" MaxLength="255" />
           <Property Name="os" Type="int" />
+          <Property Name="status" Type="int" />
         </EntityType>
         <EntityType Name="factor">
           <Key>
@@ -201,6 +202,19 @@ warning 6002: The table/view 'thuexetoancau.dbo.list_car_type' does not have a p
           </Key>
           <Property Name="id" Type="int" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="list_online">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="date_time" Type="datetime" />
+          <Property Name="lon" Type="float" />
+          <Property Name="lat" Type="float" />
+          <Property Name="geo" Type="geography" />
+          <Property Name="phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="car_number" Type="nvarchar" MaxLength="50" />
+          <Property Name="status" Type="int" />
         </EntityType>
         <EntityType Name="NationalDay">
           <Key>
@@ -292,6 +306,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="car_who_hire" EntityType="Self.car_who_hire" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="drivers" EntityType="Self.drivers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="factor" EntityType="Self.factor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="list_online" EntityType="Self.list_online" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NationalDay" EntityType="Self.NationalDay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="notice" EntityType="Self.notice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="noticesos" EntityType="Self.noticesos" Schema="dbo" store:Type="Tables" />
@@ -380,12 +395,13 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="noticesos" EntityType="thuexetoancauModel.noticeso" />
           <EntitySet Name="notifies" EntityType="thuexetoancauModel.notify" />
           <EntitySet Name="auctions" EntityType="thuexetoancauModel.auction" />
-          <EntitySet Name="drivers" EntityType="thuexetoancauModel.driver" />
           <EntitySet Name="bookings" EntityType="thuexetoancauModel.booking" />
           <EntitySet Name="booking_final" EntityType="thuexetoancauModel.booking_final" />
           <EntitySet Name="booking_log" EntityType="thuexetoancauModel.booking_log" />
           <EntitySet Name="ratings" EntityType="thuexetoancauModel.rating" />
           <EntitySet Name="saokes" EntityType="thuexetoancauModel.saoke" />
+          <EntitySet Name="drivers" EntityType="thuexetoancauModel.driver" />
+          <EntitySet Name="list_online" EntityType="thuexetoancauModel.list_online" />
         </EntityContainer>
         <EntityType Name="NationalDay">
           <Key>
@@ -525,32 +541,6 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <Property Name="date_time" Type="DateTime" Precision="3" />
           <Property Name="type" Type="Int32" />
         </EntityType>
-        <EntityType Name="driver">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="pass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="car_model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="car_made" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="car_years" Type="Int32" />
-          <Property Name="car_size" Type="Int32" />
-          <Property Name="car_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="car_type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="car_price" Type="Int32" />
-          <Property Name="total_moneys" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="province" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="date_time" Type="DateTime" Precision="3" />
-          <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="card_identify" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="license" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="reg_id" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="os" Type="Int32" />
-        </EntityType>
         <EntityType Name="booking">
           <Key>
             <PropertyRef Name="id" />
@@ -619,6 +609,46 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <Property Name="id_booking" Type="Int64" />
           <Property Name="money" Type="Int32" />
           <Property Name="date_time" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Int32" />
+        </EntityType>
+        <EntityType Name="driver">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="pass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="car_model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="car_made" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="car_years" Type="Int32" />
+          <Property Name="car_size" Type="Int32" />
+          <Property Name="car_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="car_type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="car_price" Type="Int32" />
+          <Property Name="total_moneys" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="province" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
+          <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="card_identify" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="license" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="reg_id" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="os" Type="Int32" />
+          <Property Name="status" Type="Int32" />
+        </EntityType>
+        <EntityType Name="list_online">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
+          <Property Name="lon" Type="Double" />
+          <Property Name="lat" Type="Double" />
+          <Property Name="geo" Type="Geography" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="car_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="status" Type="Int32" />
         </EntityType>
       </Schema>
@@ -814,33 +844,6 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="drivers">
-            <EntityTypeMapping TypeName="thuexetoancauModel.driver">
-              <MappingFragment StoreEntitySet="drivers">
-                <ScalarProperty Name="os" ColumnName="os" />
-                <ScalarProperty Name="reg_id" ColumnName="reg_id" />
-                <ScalarProperty Name="license" ColumnName="license" />
-                <ScalarProperty Name="card_identify" ColumnName="card_identify" />
-                <ScalarProperty Name="address" ColumnName="address" />
-                <ScalarProperty Name="code" ColumnName="code" />
-                <ScalarProperty Name="date_time" ColumnName="date_time" />
-                <ScalarProperty Name="province" ColumnName="province" />
-                <ScalarProperty Name="total_moneys" ColumnName="total_moneys" />
-                <ScalarProperty Name="car_price" ColumnName="car_price" />
-                <ScalarProperty Name="car_type" ColumnName="car_type" />
-                <ScalarProperty Name="car_number" ColumnName="car_number" />
-                <ScalarProperty Name="car_size" ColumnName="car_size" />
-                <ScalarProperty Name="car_years" ColumnName="car_years" />
-                <ScalarProperty Name="car_made" ColumnName="car_made" />
-                <ScalarProperty Name="car_model" ColumnName="car_model" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="pass" ColumnName="pass" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="bookings">
             <EntityTypeMapping TypeName="thuexetoancauModel.booking">
               <MappingFragment StoreEntitySet="booking">
@@ -912,6 +915,48 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
                 <ScalarProperty Name="money" ColumnName="money" />
                 <ScalarProperty Name="id_booking" ColumnName="id_booking" />
                 <ScalarProperty Name="id_driver" ColumnName="id_driver" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="drivers">
+            <EntityTypeMapping TypeName="thuexetoancauModel.driver">
+              <MappingFragment StoreEntitySet="drivers">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="os" ColumnName="os" />
+                <ScalarProperty Name="reg_id" ColumnName="reg_id" />
+                <ScalarProperty Name="license" ColumnName="license" />
+                <ScalarProperty Name="card_identify" ColumnName="card_identify" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="province" ColumnName="province" />
+                <ScalarProperty Name="total_moneys" ColumnName="total_moneys" />
+                <ScalarProperty Name="car_price" ColumnName="car_price" />
+                <ScalarProperty Name="car_type" ColumnName="car_type" />
+                <ScalarProperty Name="car_number" ColumnName="car_number" />
+                <ScalarProperty Name="car_size" ColumnName="car_size" />
+                <ScalarProperty Name="car_years" ColumnName="car_years" />
+                <ScalarProperty Name="car_made" ColumnName="car_made" />
+                <ScalarProperty Name="car_model" ColumnName="car_model" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="list_online">
+            <EntityTypeMapping TypeName="thuexetoancauModel.list_online">
+              <MappingFragment StoreEntitySet="list_online">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="car_number" ColumnName="car_number" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="geo" ColumnName="geo" />
+                <ScalarProperty Name="lat" ColumnName="lat" />
+                <ScalarProperty Name="lon" ColumnName="lon" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

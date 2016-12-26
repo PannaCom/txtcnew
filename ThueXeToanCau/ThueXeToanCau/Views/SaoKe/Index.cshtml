@@ -58,9 +58,11 @@
             <input class="btn-default btn-primary" type="button" value="Hồi tiền tài xế" onclick="moneyback(@item.id,@item.id_driver,@item.money);" id="mnb"/>
             }
             else
-            {
+            if (item.status == 1) {
+            
                 <p>Đã hoàn tiền cho tài xế</p>
             }
+            
         </td>
     </tr>
 }

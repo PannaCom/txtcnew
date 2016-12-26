@@ -35,5 +35,6 @@ namespace ThueXeToanCau.Models
         public string license { get; set; }
         public string reg_id { get; set; }
         public Nullable<int> os { get; set; }
+        public Nullable<int> status { get; set; }
     }
 }

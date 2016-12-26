@@ -34,7 +34,7 @@
                         @*<option value="Khứ hồi">Khứ hồi</option><option value="Một chiều">Một chiều</option><option value="Sân bay">Sân bay</option><option value="Chiều về">Chiều về</option><option value="Đi chung">Đi chung</option>*@
                     </select>
                     <p style="text-align:left;margin-top:5px;">Đối tượng thuê *</p>
-                    <select id="car_who_hire" class="form-control">
+                    <select id="car_who_hire" class="form-control" onchange="checkWho();">
                         @*<option value="Khách thuê xe">Khách thuê xe</option><option value="Văn phòng xe">Văn phòng xe</option><option value="Nhà xe/Lái xe">Nhà xe/Lái xe</option><option value="Lễ tân/Công ty du lịch">Lễ tân/Công ty du lịch</option><option value="Doanh nghiệp/Tổ chức">Doanh nghiệp/Tổ chức</option>*@
                     </select>
                     <p style="text-align:left;margin-top:5px;">Ngày giờ đi *</p>
@@ -221,6 +221,11 @@
         }
 
     });
+    function checkWho() {
+        if ($("#car_who_hire").val().toString().toLowerCase().indexOf("Văn phòng xe") >= 0) {
+            $("#confirm").show();
+        }
+    }
     function showairport() {
         if ($("#car_hire_type").val().toString().toLowerCase().indexOf("sân bay") >= 0) {
             $("#airport").show();
