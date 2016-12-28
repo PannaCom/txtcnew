@@ -234,6 +234,7 @@
     <Compile Include="Controllers\HireTypeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NationalDayController.cs" />
     <Compile Include="Controllers\NoticeController.cs" />
     <Compile Include="Controllers\SaoKeController.cs" />
     <Compile Include="Controllers\TransactionController.cs" />
@@ -291,6 +292,9 @@
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\list_car_type.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\list_online.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LoginModel.cs" />
@@ -1044,6 +1048,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\manageDriver.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\nationalDay.js" />
     <Content Include="Scripts\notice.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -1108,6 +1113,7 @@
     <Content Include="Views\SaoKe\Details.cshtml" />
     <Content Include="Views\SaoKe\Edit.cshtml" />
     <Content Include="Views\SaoKe\Index.cshtml" />
+    <Content Include="Views\NationalDay\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

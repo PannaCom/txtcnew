@@ -222,8 +222,10 @@
 
     });
     function checkWho() {
-        if ($("#car_who_hire").val().toString().toLowerCase().indexOf("Văn phòng xe") >= 0) {
-            $("#confirm").show();
+        if ($("#car_who_hire").val().toString().toLowerCase().indexOf("văn phòng xe") >= 0) {
+            document.getElementById("name").value = "";
+            document.getElementById("phone").value = "";
+            //$("#confirm").show();
         }
     }
     function showairport() {
