@@ -13,6 +13,10 @@ namespace ThueXeToanCau.Controllers
         {
             ViewBag.name = Config.getCookie("name");
             ViewBag.phone = Config.getCookie("phone");
+            //int price = 18000;
+            //int factor = 100;
+            //int km = 1624;
+            //long total = (long)price * factor * km / 100;
             return View();
         }
 
