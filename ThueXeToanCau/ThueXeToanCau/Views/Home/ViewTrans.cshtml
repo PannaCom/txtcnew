@@ -15,7 +15,7 @@
     <div class="divCheckboxes">
         <input type="checkbox" id="chkDetail" /> <span>Hiển chi tiết</span>        
     </div>
-    <div><input id="btnSearch" type="button" onclick="searchTran();" value="Tìm Kiếm" class="btn btn-default btnH26" /></div>    
+    <div><input id="btnSearch" type="button" onclick="searchTran();" value="Tìm Kiếm" class="btn btn-default btnH26" /><input id="btnSearchEx" type="button" onclick="ExportExcel();" value="Export Excel" class="btn btn-default btnH26" style="float:right;"/></div>    
 </div>
 
 <div id="tranResult" ></div>
@@ -39,4 +39,21 @@
     var url_searchTran = '@Url.Action("searchTran", "Transaction")';
 </script>
 <script type="text/javascript" src="~/Scripts/viewTrans.js"></script>
+<script>
+    function ExportExcel() {
+        var url = "";
+        if (document.getElementById("fromDate").value == "") {
+            alert("Nhập từ ngày!");
+            document.getElementById("fromDate").focus();
+            return;
+        }
+        if (document.getElementById("toDate").value == "") {
+            alert("Nhập đến ngày!");
+            document.getElementById("toDate").focus();
+            return;
+        }
+        url += "from_date=" + document.getElementById("fromDate").value + "&" + "to_date=" + document.getElementById("toDate").value;
 
+        window.open("/Home/baocao?" + url, "_blank");
+    }
+</script>

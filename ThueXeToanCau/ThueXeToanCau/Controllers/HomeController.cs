@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using ThueXeToanCau.Models;
@@ -9,6 +11,7 @@ namespace ThueXeToanCau.Controllers
 {
     public class HomeController : Controller
     {
+        private thuexetoancauEntities db = new thuexetoancauEntities();
         public ActionResult Index()
         {
             ViewBag.name = Config.getCookie("name");
@@ -52,6 +55,66 @@ namespace ThueXeToanCau.Controllers
         public ActionResult ViewTrans()
         {
             return View();
+        }
+        public class expecel
+        {
+            
+            public string car_number { get; set; }
+            public double money { get; set; }
+        }
+        public void baocao(DateTime from_date,DateTime to_date)
+        {
+            string fts = "freetexttable";
+            string query = "";
+            StringBuilder rp = new StringBuilder();
+            StringBuilder htmlContent = new StringBuilder();
+            var filename = "";
+            
+            System.Web.HttpContext.Current.Response.ContentType = "application/force-download";
+            System.Web.HttpContext.Current.Response.Write("<html xmlns:x=\"urn:schemas-microsoft-com:office:excel\">");
+            System.Web.HttpContext.Current.Response.Write("<head>");
+            System.Web.HttpContext.Current.Response.Write("<META http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">");
+            System.Web.HttpContext.Current.Response.Write("<!--[if gte mso 9]><xml>");
+            System.Web.HttpContext.Current.Response.Write("<x:ExcelWorkbook>");
+            System.Web.HttpContext.Current.Response.Write("<x:ExcelWorksheets>");
+            System.Web.HttpContext.Current.Response.Write("<x:ExcelWorksheet>");
+            System.Web.HttpContext.Current.Response.Write("<x:Name>Report Data</x:Name>");
+            System.Web.HttpContext.Current.Response.Write("<x:WorksheetOptions>");
+            System.Web.HttpContext.Current.Response.Write("<x:Print>");
+            System.Web.HttpContext.Current.Response.Write("<x:ValidPrinterInfo/>");
+            System.Web.HttpContext.Current.Response.Write("</x:Print>");
+            System.Web.HttpContext.Current.Response.Write("</x:WorksheetOptions>");
+            System.Web.HttpContext.Current.Response.Write("</x:ExcelWorksheet>");
+            System.Web.HttpContext.Current.Response.Write("</x:ExcelWorksheets>");
+            System.Web.HttpContext.Current.Response.Write("</x:ExcelWorkbook>");
+            System.Web.HttpContext.Current.Response.Write("</xml>");
+            System.Web.HttpContext.Current.Response.Write("<![endif]--> ");
+            System.Web.HttpContext.Current.Response.Write("</head>");
+            try
+            {
+                query = "select * from (SELECT car_number, sum(money) as money from [thuexetoancau].[db_datareader].[transactions] where date>='" + from_date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) + "' and date<='" + to_date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) + "' ";
+                query += "group by car_number) as A ";
+
+                filename = "SaoKe_" + from_date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) + "_" + to_date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                var p = db.Database.SqlQuery<expecel>(query).ToList();
+                rp.Append("<tr><th>Biển số xe</th><th>Tổng số tiền</th><tr>");
+                for (int i = 0; i < p.Count; i++)
+                {
+                    var item = p[i];
+                    rp.Append("<tr><td>" + item.car_number + "</td><td>" + item.money + "</td><tr>");
+                }
+                htmlContent.Append("<h1>Thống kê từ ngày " + from_date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) + " đến ngày " + to_date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) + " </h1><table>" + rp.ToString() + "</table>");
+                System.Web.HttpContext.Current.Response.AddHeader("content-disposition", "attachment; filename=" + filename + ".xls");
+                //System.Web.HttpContext.Current.Response.Write("<b>" + filename + "</b>");
+                System.Web.HttpContext.Current.Response.Write(htmlContent.ToString());
+                System.Web.HttpContext.Current.Response.Flush();
+
+            }
+            catch (Exception exmain)
+            {
+                return;
+            }
+
         }
     }
 }
