@@ -1114,6 +1114,7 @@
     <Content Include="Views\SaoKe\Edit.cshtml" />
     <Content Include="Views\SaoKe\Index.cshtml" />
     <Content Include="Views\NationalDay\Index.cshtml" />
+    <Content Include="Views\Home\ViewTrans.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
