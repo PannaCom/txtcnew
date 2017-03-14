@@ -51,5 +51,7 @@ namespace ThueXeToanCau.Models
         public virtual DbSet<saoke> saokes { get; set; }
         public virtual DbSet<driver> drivers { get; set; }
         public virtual DbSet<list_online> list_online { get; set; }
+        public virtual DbSet<transaction_bank> transaction_bank { get; set; }
+        public virtual DbSet<driver_bank> driver_bank { get; set; }
     }
 }

@@ -18,7 +18,10 @@ namespace ThueXeToanCau.Controllers
             if (Config.getCookie("logged") == "") return RedirectToAction("Login", "Admin");
             return View();
         }
-
+        public ActionResult Bank()
+        {
+            return View();
+        }
         [HttpPost]
         public string uploadFile()
         {
@@ -82,7 +85,55 @@ namespace ThueXeToanCau.Controllers
                 return "Lỗi: " + rowNumber + ":" + dStr + " - " + ex.Message;
             }
         }
+        [HttpPost]
+        public string uploadFileBank(DateTime? from_date, DateTime? to_date)
+        {
+            var rowNumber = 0;
+            var dStr = string.Empty;
+            try
+            {
+                var folder = Server.MapPath("~/App_Data");
+                using (var db = new thuexetoancauEntities())
+                {
+                    foreach (string file in Request.Files)
+                    {
+                        var fileContent = Request.Files[file];
+                        var filePath = Path.Combine(folder, file);
+                        fileContent.SaveAs(filePath);
+                        foreach (var worksheet in Workbook.Worksheets(filePath))
+                        {
+                            foreach (var row in worksheet.Rows)
+                            {
+                                if (rowNumber == 0 || row.Cells.Length < 4)
+                                {
+                                    rowNumber++;
+                                    continue;
+                                }
+                                var tran = new driver_bank();
+                                tran.car_number = row.Cells[0] == null ? "" : row.Cells[0].Text;
+                                tran.driver_name = row.Cells[1] == null ? "" : row.Cells[1].Text;
+                                tran.bank_number = row.Cells[2] == null ? "" : row.Cells[2].Text;
+                                tran.bank_name = row.Cells[3] == null ? "" : row.Cells[3].Text;
 
+                                var tr = db.driver_bank.Any(f => f.car_number == tran.car_number);
+                                //    && f.date.Day == tran.date.Day && f.date.Month == tran.date.Month && f.date.Year == tran.date.Year).FirstOrDefault();
+                                if (!tr && tran.car_number != null && tran.car_number != "" && tran.car_number != "Biển xe" && tran.driver_name != null)
+                                {
+                                    db.driver_bank.Add(tran);
+                                    db.SaveChanges();
+                                }
+                                rowNumber++;
+                            }
+                        }
+                    }
+                }
+                return "Thêm dữ liệu thành công!";
+            }
+            catch (Exception ex)
+            {
+                return "Lỗi: " + rowNumber + ":" + dStr + " - " + ex.Message;
+            }
+        }
         [HttpGet]
         public string searchCarNumber(string keyword = "")
         {
@@ -101,6 +152,27 @@ namespace ThueXeToanCau.Controllers
                         .OrderBy(f => f.car_number).Select(f => f.car_number)
                         .Distinct().Take(50).ToList();
                 }                               
+            }
+            return JsonConvert.SerializeObject(numbers);
+        }
+        [HttpGet]
+        public string searchCarNumberBank(string keyword = "")
+        {
+            var numbers = new List<string>();
+            using (var db = new thuexetoancauEntities())
+            {
+                if (string.IsNullOrEmpty(keyword))
+                {
+                    numbers = db.driver_bank.OrderBy(f => f.car_number)
+                        .Select(f => f.car_number).Distinct().Take(50).ToList();
+                }
+                else
+                {
+                    numbers = db.driver_bank.Where(f => f.car_number.Replace("-", "").Replace(".", "")
+                        .StartsWith(keyword.Replace("-", "").Replace(".", "")))
+                        .OrderBy(f => f.car_number).Select(f => f.car_number)
+                        .Distinct().Take(50).ToList();
+                }
             }
             return JsonConvert.SerializeObject(numbers);
         }
@@ -164,6 +236,24 @@ namespace ThueXeToanCau.Controllers
                     return Json(rs, JsonRequestBehavior.AllowGet);
                 }
             } catch (Exception ex)
+            {
+                return Json(new { ErrMess = "Lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult searchTranBank(string carNumber)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    if (carNumber == null) carNumber = "";                    
+                    var trans = db.driver_bank.Where(f => f.car_number.Contains(carNumber));
+                    trans = trans.OrderByDescending(f => f.car_number);
+                    return Json(trans.ToList(), JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
             {
                 return Json(new { ErrMess = "Lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }

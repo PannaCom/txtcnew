@@ -140,6 +140,16 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="150" />
         </EntityType>
+        <EntityType Name="driver_bank">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="car_number" Type="nvarchar" MaxLength="50" />
+          <Property Name="driver_name" Type="nvarchar" MaxLength="151" />
+          <Property Name="bank_number" Type="nvarchar" MaxLength="50" />
+          <Property Name="bank_name" Type="nvarchar" MaxLength="151" />
+        </EntityType>
         <EntityType Name="drivers">
           <Key>
             <PropertyRef Name="id" />
@@ -283,6 +293,21 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <Property Name="quanhuyen" Type="nvarchar" MaxLength="255" />
           <Property Name="tinhthanhpho" Type="nvarchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="transaction_bank">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="car_number" Type="nvarchar" MaxLength="50" />
+          <Property Name="driver_name" Type="nvarchar" MaxLength="151" />
+          <Property Name="money" Type="float" />
+          <Property Name="bank_number" Type="nvarchar" MaxLength="50" />
+          <Property Name="bank_name" Type="nvarchar" MaxLength="151" />
+          <Property Name="province" Type="nvarchar" MaxLength="151" />
+          <Property Name="des" Type="ntext" />
+          <Property Name="from_date" Type="date" />
+          <Property Name="to_date" Type="date" />
+        </EntityType>
         <EntityType Name="users">
           <Key>
             <PropertyRef Name="id" />
@@ -304,6 +329,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="car_price_airport" EntityType="Self.car_price_airport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_type" EntityType="Self.car_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_who_hire" EntityType="Self.car_who_hire" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="driver_bank" EntityType="Self.driver_bank" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="drivers" EntityType="Self.drivers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="factor" EntityType="Self.factor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="list_online" EntityType="Self.list_online" Schema="dbo" store:Type="Tables" />
@@ -313,6 +339,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="notifies" EntityType="Self.notifies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="rating" EntityType="Self.rating" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="saoke" EntityType="Self.saoke" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="transaction_bank" EntityType="Self.transaction_bank" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="list_car" EntityType="Self.list_car" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -402,6 +429,8 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="saokes" EntityType="thuexetoancauModel.saoke" />
           <EntitySet Name="drivers" EntityType="thuexetoancauModel.driver" />
           <EntitySet Name="list_online" EntityType="thuexetoancauModel.list_online" />
+          <EntitySet Name="transaction_bank" EntityType="thuexetoancauModel.transaction_bank" />
+          <EntitySet Name="driver_bank" EntityType="thuexetoancauModel.driver_bank" />
         </EntityContainer>
         <EntityType Name="NationalDay">
           <Key>
@@ -650,6 +679,31 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="car_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="status" Type="Int32" />
+        </EntityType>
+        <EntityType Name="transaction_bank">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="car_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="driver_name" Type="String" MaxLength="151" FixedLength="false" Unicode="true" />
+          <Property Name="money" Type="Double" />
+          <Property Name="bank_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="bank_name" Type="String" MaxLength="151" FixedLength="false" Unicode="true" />
+          <Property Name="province" Type="String" MaxLength="151" FixedLength="false" Unicode="true" />
+          <Property Name="des" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="from_date" Type="DateTime" Precision="0" />
+          <Property Name="to_date" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="driver_bank">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="car_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="driver_name" Type="String" MaxLength="151" FixedLength="false" Unicode="true" />
+          <Property Name="bank_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="bank_name" Type="String" MaxLength="151" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -957,6 +1011,33 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
                 <ScalarProperty Name="lat" ColumnName="lat" />
                 <ScalarProperty Name="lon" ColumnName="lon" />
                 <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="transaction_bank">
+            <EntityTypeMapping TypeName="thuexetoancauModel.transaction_bank">
+              <MappingFragment StoreEntitySet="transaction_bank">
+                <ScalarProperty Name="to_date" ColumnName="to_date" />
+                <ScalarProperty Name="from_date" ColumnName="from_date" />
+                <ScalarProperty Name="des" ColumnName="des" />
+                <ScalarProperty Name="province" ColumnName="province" />
+                <ScalarProperty Name="bank_name" ColumnName="bank_name" />
+                <ScalarProperty Name="bank_number" ColumnName="bank_number" />
+                <ScalarProperty Name="money" ColumnName="money" />
+                <ScalarProperty Name="driver_name" ColumnName="driver_name" />
+                <ScalarProperty Name="car_number" ColumnName="car_number" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="driver_bank">
+            <EntityTypeMapping TypeName="thuexetoancauModel.driver_bank">
+              <MappingFragment StoreEntitySet="driver_bank">
+                <ScalarProperty Name="bank_name" ColumnName="bank_name" />
+                <ScalarProperty Name="bank_number" ColumnName="bank_number" />
+                <ScalarProperty Name="driver_name" ColumnName="driver_name" />
+                <ScalarProperty Name="car_number" ColumnName="car_number" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

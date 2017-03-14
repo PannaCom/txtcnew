@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Tài khoản Ngân Hàng tài xế";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="divSearch">
+    <div>Chọn file tài khoản tài xế (<a href="/Images/TempDriverBank.xls">theo mẫu này </a> )</div>
+    <div><input id="fileUpload" type="file" multiple /></div>
+    <div><input type="button" onclick="uploadFileBank();" value="Tải Lên" class="btn btn-default" id="uploadfilebank" /></div>
+    @*<div><input type="button" onclick="deleteFileBank();" value="Xóa sạch dữ liệu!!!" class="btn btn-default" id="delallbank" /></div>*@
+</div>
+
+<div class="divSearch">
+    <div><b>Tìm Kiếm</b></div>
+    <div><input id="car_number" type="text" class="ipH26" placeholder="Nhập biển số xe" onkeyup="searchCarNumberBank();" autocomplete="off"></div>
+    <div><input id="btnSearch" type="button" onclick="searchTranBank();" value="Tìm Kiếm" class="btn btn-default btnH26" /></div>
+</div>
+
+<div id="tranResult"></div>
+
+<script type="text/javascript">
+    var url_uploadFile = '@Url.Action("uploadFileBank", "Transaction")', url_searchCarNumber = '@Url.Action("searchCarNumberBank", "Transaction")';
+    var url_searchTran = '@Url.Action("searchTranBank", "Transaction")';
+</script>
+<script type="text/javascript" src="~/Scripts/transaction.js"></script>
+<script>searchTranBank();</script>
