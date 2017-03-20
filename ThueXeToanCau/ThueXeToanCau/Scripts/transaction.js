@@ -180,3 +180,19 @@ function deleteFile() {
         }
     }
 }
+function toBank() {
+    var url = "";
+    if (document.getElementById("fromDate").value == "") {
+        alert("Nhập từ ngày!");
+        document.getElementById("fromDate").focus();
+        return;
+    }
+    if (document.getElementById("toDate").value == "") {
+        alert("Nhập đến ngày!");
+        document.getElementById("toDate").focus();
+        return;
+    }
+    url += "from_date=" + document.getElementById("fromDate").value + "&" + "to_date=" + document.getElementById("toDate").value;
+
+    window.open("/Transaction/baocao?" + url, "_blank");
+}

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using ThueXeToanCau.Models;
 
@@ -257,6 +258,71 @@ namespace ThueXeToanCau.Controllers
             {
                 return Json(new { ErrMess = "Lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
+        }
+        public class expecel
+        {
+
+            public string car_number { get; set; }
+            public string driver_name { get; set; }          
+            public double money { get; set; }
+            public string bank_number { get; set; }
+            public string bank_name { get; set; }
+        }
+        public void baocao(DateTime from_date, DateTime to_date)
+        {
+            string fts = "freetexttable";
+            string query = "";
+            StringBuilder rp = new StringBuilder();
+            StringBuilder htmlContent = new StringBuilder();
+            var filename = "";
+
+            System.Web.HttpContext.Current.Response.ContentType = "application/force-download";
+            System.Web.HttpContext.Current.Response.Write("<html xmlns:x=\"urn:schemas-microsoft-com:office:excel\">");
+            System.Web.HttpContext.Current.Response.Write("<head>");
+            System.Web.HttpContext.Current.Response.Write("<META http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">");
+            System.Web.HttpContext.Current.Response.Write("<!--[if gte mso 9]><xml>");
+            System.Web.HttpContext.Current.Response.Write("<x:ExcelWorkbook>");
+            System.Web.HttpContext.Current.Response.Write("<x:ExcelWorksheets>");
+            System.Web.HttpContext.Current.Response.Write("<x:ExcelWorksheet>");
+            System.Web.HttpContext.Current.Response.Write("<x:Name>Report Data</x:Name>");
+            System.Web.HttpContext.Current.Response.Write("<x:WorksheetOptions>");
+            System.Web.HttpContext.Current.Response.Write("<x:Print>");
+            System.Web.HttpContext.Current.Response.Write("<x:ValidPrinterInfo/>");
+            System.Web.HttpContext.Current.Response.Write("</x:Print>");
+            System.Web.HttpContext.Current.Response.Write("</x:WorksheetOptions>");
+            System.Web.HttpContext.Current.Response.Write("</x:ExcelWorksheet>");
+            System.Web.HttpContext.Current.Response.Write("</x:ExcelWorksheets>");
+            System.Web.HttpContext.Current.Response.Write("</x:ExcelWorkbook>");
+            System.Web.HttpContext.Current.Response.Write("</xml>");
+            System.Web.HttpContext.Current.Response.Write("<![endif]--> ");
+            System.Web.HttpContext.Current.Response.Write("</head>");
+            try
+            {
+                query+="select A.car_number,B.driver_name,A.money,B.bank_number,B.bank_name from ( ";
+                query+=" SELECT car_number, sum(money) as money from [thuexetoancau].[db_datareader].[transactions] where date>='" + from_date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) + "' and date<='" + to_date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) + "' group by car_number) as A ";
+                query += " inner join (select car_number,driver_name,bank_number,bank_name from driver_bank) as B on A.car_number=B.car_number order by money ";
+ 
+
+                filename = "LuongTaiXe" + from_date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) + "_" + to_date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                var p = db.Database.SqlQuery<expecel>(query).ToList();
+                rp.Append("<tr><th>Biển Xe</th><th>Họ tên</th><th>Số tiền</th><th>Số tài khoản</th><th>Ngân hàng</th><tr>");
+                for (int i = 0; i < p.Count; i++)
+                {
+                    var item = p[i];
+                    rp.Append("<tr><td>" + item.car_number + "</td><td>" + item.driver_name + "</td><td>" + item.money + "</td><td> '" + item.bank_number.ToString() + "</td><td>" + item.bank_name + "</td><tr>");
+                }
+                htmlContent.Append("<h1>LỆNH CHUYỂN TIỀN " + from_date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) + " đến ngày " + to_date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) + " </h1><table>" + rp.ToString() + "</table>");
+                System.Web.HttpContext.Current.Response.AddHeader("content-disposition", "attachment; filename=" + filename + ".xls");
+                //System.Web.HttpContext.Current.Response.Write("<b>" + filename + "</b>");
+                System.Web.HttpContext.Current.Response.Write(htmlContent.ToString());
+                System.Web.HttpContext.Current.Response.Flush();
+
+            }
+            catch (Exception exmain)
+            {
+                return;
+            }
+
         }
     }
 }
