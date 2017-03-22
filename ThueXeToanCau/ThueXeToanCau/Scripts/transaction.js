@@ -192,7 +192,9 @@ function toBank() {
         document.getElementById("toDate").focus();
         return;
     }
-    url += "from_date=" + document.getElementById("fromDate").value + "&" + "to_date=" + document.getElementById("toDate").value;
+    var type = 0;
+    if (document.getElementById("typeMoney").checked) type = 1;
+    url += "from_date=" + document.getElementById("fromDate").value + "&" + "to_date=" + document.getElementById("toDate").value + "&type=" + type;
 
     window.open("/Transaction/baocao?" + url, "_blank");
 }

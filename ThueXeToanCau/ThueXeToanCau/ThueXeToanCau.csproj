@@ -281,6 +281,12 @@
     <Compile Include="Models\driver.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\driver_bank.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\duplicateFile.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\factor.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
@@ -336,6 +342,9 @@
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\transaction.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\transaction_bank.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\user.cs">
@@ -1115,6 +1124,7 @@
     <Content Include="Views\SaoKe\Index.cshtml" />
     <Content Include="Views\NationalDay\Index.cshtml" />
     <Content Include="Views\Home\ViewTrans.cshtml" />
+    <Content Include="Views\Transaction\Bank.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

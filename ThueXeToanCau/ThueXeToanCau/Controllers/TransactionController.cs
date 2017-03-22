@@ -35,6 +35,18 @@ namespace ThueXeToanCau.Controllers
                 {
                     foreach (string file in Request.Files)
                     {
+                        var fileName = Request.Files[file].FileName;
+                        if (db.duplicateFiles.Any(o => o.name == fileName))
+                        {
+                            throw new ArgumentException("File này đã tồn tại");
+                        }
+                        else
+                        {
+                            duplicateFile dF = new duplicateFile();
+                            dF.name = fileName;
+                            db.duplicateFiles.Add(dF);
+                            db.SaveChanges();
+                        }
                         var fileContent = Request.Files[file];
                         var filePath = Path.Combine(folder, file);
                         fileContent.SaveAs(filePath);
@@ -268,7 +280,7 @@ namespace ThueXeToanCau.Controllers
             public string bank_number { get; set; }
             public string bank_name { get; set; }
         }
-        public void baocao(DateTime from_date, DateTime to_date)
+        public void baocao(DateTime from_date, DateTime to_date,int? type)
         {
             string fts = "freetexttable";
             string query = "";
@@ -309,9 +321,11 @@ namespace ThueXeToanCau.Controllers
                 for (int i = 0; i < p.Count; i++)
                 {
                     var item = p[i];
-                    rp.Append("<tr><td>" + item.car_number + "</td><td>" + item.driver_name + "</td><td>" + item.money + "</td><td> '" + item.bank_number.ToString() + "</td><td>" + item.bank_name + "</td><tr>");
+                    double money = item.money;
+                    if (type == 1) money = money - 600000;
+                    rp.Append("<tr><td>" + item.car_number + "</td><td>" + item.driver_name + "</td><td>" + money + "</td><td> &nbsp;" + item.bank_number.ToString() + "</td><td>" + item.bank_name + "</td><tr>");
                 }
-                htmlContent.Append("<h1>LỆNH CHUYỂN TIỀN " + from_date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) + " đến ngày " + to_date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) + " </h1><table>" + rp.ToString() + "</table>");
+                htmlContent.Append("<h1>LỆNH CHUYỂN TIỀN " + from_date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) + " đến ngày " + to_date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) + " </h1><table cellspacing=0 cellpadding=0 border=\"1\">" + rp.ToString() + "</table>");
                 System.Web.HttpContext.Current.Response.AddHeader("content-disposition", "attachment; filename=" + filename + ".xls");
                 //System.Web.HttpContext.Current.Response.Write("<b>" + filename + "</b>");
                 System.Web.HttpContext.Current.Response.Write(htmlContent.ToString());

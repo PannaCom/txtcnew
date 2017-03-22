@@ -177,6 +177,13 @@
           <Property Name="os" Type="int" />
           <Property Name="status" Type="int" />
         </EntityType>
+        <EntityType Name="duplicateFile">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="501" />
+        </EntityType>
         <EntityType Name="factor">
           <Key>
             <PropertyRef Name="id" />
@@ -331,6 +338,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="car_who_hire" EntityType="Self.car_who_hire" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="driver_bank" EntityType="Self.driver_bank" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="drivers" EntityType="Self.drivers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="duplicateFile" EntityType="Self.duplicateFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="factor" EntityType="Self.factor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="list_online" EntityType="Self.list_online" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NationalDay" EntityType="Self.NationalDay" Schema="dbo" store:Type="Tables" />
@@ -431,6 +439,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="list_online" EntityType="thuexetoancauModel.list_online" />
           <EntitySet Name="transaction_bank" EntityType="thuexetoancauModel.transaction_bank" />
           <EntitySet Name="driver_bank" EntityType="thuexetoancauModel.driver_bank" />
+          <EntitySet Name="duplicateFiles" EntityType="thuexetoancauModel.duplicateFile" />
         </EntityContainer>
         <EntityType Name="NationalDay">
           <Key>
@@ -704,6 +713,13 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <Property Name="driver_name" Type="String" MaxLength="151" FixedLength="false" Unicode="true" />
           <Property Name="bank_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="bank_name" Type="String" MaxLength="151" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="duplicateFile">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1038,6 +1054,14 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
                 <ScalarProperty Name="bank_number" ColumnName="bank_number" />
                 <ScalarProperty Name="driver_name" ColumnName="driver_name" />
                 <ScalarProperty Name="car_number" ColumnName="car_number" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="duplicateFiles">
+            <EntityTypeMapping TypeName="thuexetoancauModel.duplicateFile">
+              <MappingFragment StoreEntitySet="duplicateFile">
+                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
