@@ -37,6 +37,40 @@ function uploadFile() {
         }
     }
 }
+function uploadFileOwn() {
+    var files = document.getElementById("fileUpload").files;
+    if (files.length == 0) {
+        alert('Xin hãy chọn 1 bảng kê!');
+    } else {
+        if (window.FormData !== undefined) {
+            document.getElementById("uploadfileown").value = "Đang cập nhật xin chờ...";
+            document.getElementById("uploadfileown").disabled = true;
+            $(".overlayDiv").show();
+            var data = new FormData();
+            for (var x = 0; x < files.length; x++) {
+                data.append("file" + x, files[x]);
+            }
+
+            $.ajax({
+                url: url_uploadFile, type: "POST",
+                contentType: false, processData: false,
+                data: data,
+                success: function (result) {
+                    $(".overlayDiv").hide();
+                    alert(result);
+                    window.location.href = "/Transaction/Own";
+                    document.getElementById("uploadfileown").value = "Tải lên file khác";
+                    document.getElementById("uploadfileown").disabled = false;
+                },
+                error: function (err) {
+                    $(".overlayDiv").hide();
+                }
+            });
+        } else {
+            alert("Trình duyệt của bạn không hỗ trợ HTML5");
+        }
+    }
+}
 function uploadFileBank() {
     var files = document.getElementById("fileUpload").files;
     if (files.length == 0) {
@@ -237,6 +271,40 @@ function searchTranSalary() {
         }
     })
 }
+function searchTranOwn() {
+    var carNumber = $('#car_number').val();
+    //if(carNumber == '') {
+    //    alert("Xin hãy chọn 1 biển số xe");
+    //    return false;
+    //}
+    var detail = true;
+    $.ajax({
+        url: url_searchTran, type: 'get', dataType: 'json',
+        data: { carNumber: carNumber, fDate: $('#fromDate').val(), tDate: $('#toDate').val()},
+        success: function (result) {
+            //alert(result.responseText);
+            if (!result.ErrMess) {
+                var tbHtml = '<table class="table">'
+                if (result.length == 0) {
+                    tbHtml += '<tr>Không tìm thấy dữ liệu phù hợp</tr>';
+                } else if (detail) {
+                    tbHtml += '<tr><th>STT</th><th>Biển số xe</th><th>Tên tài xế</th><th>Công nợ tháng</th><th>Ngày phải nộp</th><th>Công nợ kỳ</th><th>Ngày phải nộp</th><th>Công nợ năm</th><th>Ngày phải nộp</th><th>Ngày upload</th></tr>';
+                    $.each(result, function (idx, obj) {
+                        tbHtml += '<tr><td>' + (idx + 1) + '</td><td>' + obj.car_number + '</td><td>' + obj.driver_name + '</td><td>' + obj.money_month + '</td>'
+                            + '<td>' + parseDate(obj.date_month) + '</td><td>' + obj.money_period + '</td><td>' + parseDate(obj.date_period) + '</td><td>' + obj.money_year + '</td><td>' + parseDate(obj.date_year) + '</td><td>' + parseDate(obj.date_time) + '</td></tr>'
+                    });
+                } else {
+                    //tbHtml += '<tr><th>Biển số xe</th><th>Tổng Số Giao Dịch</th><th>Tổng Giá Trị Giao Dịch</th></tr>';
+                    //tbHtml += '<tr><td>' + result[0].carNum + '</td><td>' + result[0].count + '</td><td>' + result[0].sum + '</td></tr>';
+                }
+                tbHtml += '</table>';
+                $("#tranResult").html(tbHtml);
+            } else {
+                alert(result.ErrMess);
+            }
+        }
+    })
+}
 function looksLikeIsoDate(s) {
     return isoDateRegex.test(s);
 }
@@ -288,7 +356,7 @@ function parseIsoDate(s) {
     return d;
 }
 function deleteFile() {
-    if (confirm("CẢNH BÁO: BẠN CHẮC CHẮN MUỐN XÓA HẾT DỮ LIỆU NÀY?")) {
+    if (confirm("CẢNH BÁO: BẠN CHẮC CHẮN MUỐN XÓA DỮ LIỆU NÀY?")) {
         if (document.getElementById("fromDate").value == "") {
             alert("Nhập từ ngày!");
             document.getElementById("fromDate").focus();
@@ -323,7 +391,7 @@ function deleteFile() {
     }
 }
 function deleteFileSalary() {
-    if (confirm("CẢNH BÁO: BẠN CHẮC CHẮN MUỐN XÓA HẾT DỮ LIỆU NÀY?")) {
+    if (confirm("CẢNH BÁO: BẠN CHẮC CHẮN MUỐN XÓA DỮ LIỆU NÀY?")) {
         if (document.getElementById("fromDate").value == "") {
             alert("Nhập từ ngày!");
             document.getElementById("fromDate").focus();
@@ -353,6 +421,41 @@ function deleteFileSalary() {
                 }
                 document.getElementById("delallsalary").value = "Xóa dữ liệu!!!";
                 document.getElementById("delallsalary").disabled = false;
+            }
+        }
+    }
+}
+function deleteFileOwn() {
+    if (confirm("CẢNH BÁO: BẠN CHẮC CHẮN MUỐN XÓA DỮ LIỆU NÀY?")) {
+        if (document.getElementById("fromDate").value == "") {
+            alert("Nhập từ ngày!");
+            document.getElementById("fromDate").focus();
+            return;
+        }
+        if (document.getElementById("toDate").value == "") {
+            alert("Nhập đến ngày!");
+            document.getElementById("toDate").focus();
+            return;
+        }
+        var formdata = new FormData();
+        formdata.append("id", "1");
+        formdata.append("fDate", $('#fromDate').val());
+        formdata.append("tDate", $('#toDate').val());
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/Transaction/DelOwn');
+        xhr.send(formdata);
+        document.getElementById("delallown").value = "Đang cập nhật xin chờ...";
+        document.getElementById("delallown").disabled = true;
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                if (xhr.responseText == "1") {
+                    alert("Bạn đã xóa thành công!");
+                    window.location.href = "/Transaction/Own";
+                } else {
+                    alert("Chương trình đang cập nhật, xin quay lại sau!");
+                }
+                document.getElementById("delallown").value = "Xóa dữ liệu!!!";
+                document.getElementById("delallown").disabled = false;
             }
         }
     }
@@ -422,4 +525,5 @@ function toBank() {
     url += "from_date=" + document.getElementById("fromDate").value + "&" + "to_date=" + document.getElementById("toDate").value + "&type=" + type;
 
     window.open("/Transaction/baocao?" + url, "_blank");
+    alert("Mở file excel vừa download, sau đó save as dưới dạng file .xlsx để upload lương cho tài xế ở mục Upload lương sau khi ngân hàng đã chuyển tiền!");
 }

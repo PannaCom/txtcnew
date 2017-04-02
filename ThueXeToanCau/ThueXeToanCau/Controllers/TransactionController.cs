@@ -111,6 +111,112 @@ namespace ThueXeToanCau.Controllers
             }
         }
         [HttpPost]
+        public string uploadFileOwn()
+        {
+            var rowNumber = 0;
+            var dStr = string.Empty;
+            try
+            {
+                var folder = Server.MapPath("~/App_Data");
+                using (var db = new thuexetoancauEntities())
+                {
+                    foreach (string file in Request.Files)
+                    {
+                        var fileName = Request.Files[file].FileName;
+                        //if (db.duplicateFiles.Any(o => o.name == fileName))
+                        //{
+                        //    throw new ArgumentException("File này đã tồn tại! Đổi tên file nếu vẫn muốn upload");
+                        //}
+                        //else
+                        //{
+                        //    duplicateFile dF = new duplicateFile();
+                        //    dF.name = fileName;
+                        //    db.duplicateFiles.Add(dF);
+                        //    db.SaveChanges();
+                        //}
+                        var fileContent = Request.Files[file];
+                        var filePath = Path.Combine(folder, file);
+                        fileContent.SaveAs(filePath);
+                        foreach (var worksheet in Workbook.Worksheets(filePath))
+                        {
+                            foreach (var row in worksheet.Rows)
+                            {
+                                if (rowNumber == 0 || row.Cells.Length < 5)
+                                {
+                                    rowNumber++;
+                                    continue;
+                                }
+                                var tran = new driver_own();
+                                tran.car_number = row.Cells[0] == null ? "" : row.Cells[0].Text;
+                                tran.driver_name = row.Cells[1] == null ? "" : row.Cells[1].Text;
+                                tran.money_month = row.Cells[2] == null ? 0 : float.Parse(row.Cells[2].Text);
+                                dStr = row.Cells[3] == null ? "" : row.Cells[3].Text;
+                                DateTime dt = DateTime.MinValue;
+                                double dbDate;
+                                if (!string.IsNullOrEmpty(dStr))
+                                {
+                                    
+                                    if (double.TryParse(dStr, out dbDate))
+                                    {
+                                        dt = DateTime.FromOADate(dbDate);
+                                    }
+                                    else
+                                    {
+                                        DateTime.TryParseExact(dStr, "dd/MM/yyyy", CultureInfo.InstalledUICulture, DateTimeStyles.None, out dt);
+                                    }
+                                }
+                                tran.date_month = dt;
+                                tran.money_period = row.Cells[4] == null ? 0 : float.Parse(row.Cells[4].Text);
+                                dStr = row.Cells[5] == null ? "" : row.Cells[5].Text;
+                                if (!string.IsNullOrEmpty(dStr))
+                                {
+                                   
+                                    if (double.TryParse(dStr, out dbDate))
+                                    {
+                                        dt = DateTime.FromOADate(dbDate);
+                                    }
+                                    else
+                                    {
+                                        DateTime.TryParseExact(dStr, "dd/MM/yyyy", CultureInfo.InstalledUICulture, DateTimeStyles.None, out dt);
+                                    }
+                                }
+                                tran.date_period = dt;
+                                tran.money_year = row.Cells[6] == null ? 0 : float.Parse(row.Cells[6].Text);
+                                dStr = row.Cells[7] == null ? "" : row.Cells[7].Text;
+                                if (!string.IsNullOrEmpty(dStr))
+                                {
+
+                                    if (double.TryParse(dStr, out dbDate))
+                                    {
+                                        dt = DateTime.FromOADate(dbDate);
+                                    }
+                                    else
+                                    {
+                                        DateTime.TryParseExact(dStr, "dd/MM/yyyy", CultureInfo.InstalledUICulture, DateTimeStyles.None, out dt);
+                                    }
+                                }
+                                tran.date_year = dt;
+                                tran.date_time = DateTime.Now;
+                                var tr = db.driver_own.Where(f => f.car_number == tran.car_number && f.money_month == tran.money_month && f.date_month == tran.date_month
+                                   ).FirstOrDefault();
+                                if (tran.money_month != null && tran.date_month != null)
+                                {
+                                    db.driver_own.Add(tran);
+                                    db.SaveChanges();
+                                }
+                                rowNumber++;
+                            }
+                        }
+                    }
+                }
+                return "Thêm dữ liệu thành công!";
+            }
+            catch (Exception ex)
+            {
+                return "Lỗi: " + rowNumber + ":" + dStr + " - " + ex.Message;
+            }
+        }
+        [HttpPost]
         public string uploadFileBank(DateTime? from_date, DateTime? to_date)
         {
             var rowNumber = 0;
@@ -305,6 +411,19 @@ namespace ThueXeToanCau.Controllers
             }
         }
         [HttpPost]
+        public string DelOwn(int id, string fDate, string tDate)
+        {
+            try
+            {
+                db.Database.ExecuteSqlCommand("delete from driver_own where (date_time>='" + fDate + "' and date_time<='" + tDate + "') or date_time is null");
+                return "1";
+            }
+            catch (Exception ex)
+            {
+                return "-1";
+            }
+        }
+        [HttpPost]
         public string DelAllBank()
         {
             try
@@ -433,6 +552,40 @@ namespace ThueXeToanCau.Controllers
                 return Json(new { ErrMess = "Lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpGet]
+        public JsonResult searchTranOwn(string carNumber, string fDate, string tDate)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    if (carNumber == null) carNumber = "";
+                    var trans = db.driver_own.Where(f => f.car_number.Contains(carNumber));
+                    if (!string.IsNullOrEmpty(fDate))
+                    {
+                        DateTime fromDate;
+                        if (DateTime.TryParse(fDate, out fromDate))
+                        {
+                            trans = trans.Where(f => f.date_time >= fromDate);
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(tDate))
+                    {
+                        DateTime toDate;
+                        if (DateTime.TryParse(tDate, out toDate))
+                        {
+                            trans = trans.Where(f => f.date_time <= toDate);
+                        }
+                    }
+                    trans = trans.OrderByDescending(f => f.car_number).Take(500);
+                    return Json(trans.ToList(), JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ErrMess = "Lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
         public class expecel
         {
 
@@ -496,7 +649,7 @@ namespace ThueXeToanCau.Controllers
                 Response.ClearHeaders();
                 Response.BufferOutput = true;
                 Response.ContentType = "application/vnd.ms-excel";
-                Response.AddHeader("Content-Disposition", "attachment; filename=Salary.xls");
+                Response.AddHeader("Content-Disposition", "attachment; filename=" + filename + ".xls");
                 Response.Write("<table cellspacing=0 cellpadding=0 border=\"1\">" + rp.ToString() + "</table>");
                 //Response.Write(htmlContent.ToString());
                 Response.Flush();
