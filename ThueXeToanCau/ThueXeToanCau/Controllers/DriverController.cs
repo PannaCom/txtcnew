@@ -1,5 +1,7 @@
-﻿using PagedList;
+﻿using Newtonsoft.Json;
+using PagedList;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using ThueXeToanCau.Models;
@@ -16,7 +18,7 @@ namespace ThueXeToanCau.Controllers
             {
                 var drivers = db.drivers;
                 var pageNumber = page ?? 1;
-                var onePage = drivers.Where(o=>o.phone.Contains(phone)).OrderByDescending(f => f.id).ToPagedList(pageNumber, 20);
+                var onePage = drivers.Where(o => o.phone.Contains(phone) || o.car_number.Contains(phone)).OrderByDescending(f => f.id).ToPagedList(pageNumber, 20);
                 ViewBag.onePage = onePage;
             }
             ViewBag.k = phone;
@@ -24,7 +26,26 @@ namespace ThueXeToanCau.Controllers
             ViewBag.carTypes = DBContext.getListCarTypes().Select(f => f.name).ToList();
             return View();
         }
-
+        public string searchCar(string keyword)
+        {
+            var numbers = new List<string>();
+            using (var db = new thuexetoancauEntities())
+            {
+                if (string.IsNullOrEmpty(keyword))
+                {
+                    numbers = db.drivers.OrderBy(f => f.car_number)
+                        .Select(f => f.car_number).Distinct().Take(50).ToList();
+                }
+                else
+                {
+                    numbers = db.drivers.Where(f => f.car_number.Replace("-", "").Replace(".", "")
+                        .StartsWith(keyword.Replace("-", "").Replace(".", "")))
+                        .OrderBy(f => f.car_number).Select(f => f.car_number)
+                        .Distinct().Take(50).ToList();
+                }
+            }
+            return JsonConvert.SerializeObject(numbers);
+        }
         [HttpPost]
         public string addUpdateDriver(driver d)
         {

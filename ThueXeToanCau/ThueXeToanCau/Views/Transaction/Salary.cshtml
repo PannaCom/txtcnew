@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Upload lương tài xế";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="divSearch">
+    <div>Chọn file lương tài xế (<a href="~/Content/Images/salary9.xlsx">theo mẫu này (<span style="color:red;">Nếu chưa đúng mẫu này thì mở file đã xuất ra save as dưới dạng đuôi .xlsx)</span></a> )</div>
+    <div><input id="fileUpload" type="file" multiple /></div>
+    <div><input type="button" onclick="uploadFileSalary();" value="Tải Lên" class="btn btn-default" id="uploadfilesalary"></div>
+    <div><input type="button" onclick="deleteFileSalary();" value="Xóa dữ liệu!!!" class="btn btn-default" id="delallsalary" /></div>
+</div>
+
+<div class="divSearch">
+    <div><b>Tìm Kiếm</b></div>
+    <div><input id="car_number" type="text" class="ipH26" placeholder="Nhập biển số xe" onkeyup="searchCarNumberBank();" autocomplete="off"></div>
+    <div><span>Từ Ngày: </span><input type="text" id="fromDate" class="ipH26" style="width:110px" /></div>
+    <div><span>Đến Ngày: </span><input type="text" id="toDate" class="ipH26" style="width:110px" /></div>
+    <div><input id="btnSearch" type="button" onclick="searchTranSalary();" value="Tìm Kiếm" class="btn btn-default btnH26" /></div>
+</div>
+
+<div id="tranResult"></div>
+
+<script type="text/javascript">
+    var url_uploadFile = '@Url.Action("uploadFileSalary", "Transaction")', url_searchCarNumber = '@Url.Action("searchCarNumberBank", "Transaction")';
+    var url_searchTran = '@Url.Action("searchTranSalary", "Transaction")';
+</script>
+<script type="text/javascript" src="~/Scripts/transaction.js"></script>
+<script>searchTranSalary();</script>

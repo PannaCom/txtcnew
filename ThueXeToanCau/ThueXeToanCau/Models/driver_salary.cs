@@ -12,11 +12,15 @@ namespace ThueXeToanCau.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class user
+    public partial class driver_salary
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string pass { get; set; }
-        public string permision { get; set; }
+        public long id { get; set; }
+        public string car_number { get; set; }
+        public string driver_name { get; set; }
+        public Nullable<double> money { get; set; }
+        public string bank_number { get; set; }
+        public string bank_name { get; set; }
+        public Nullable<System.DateTime> from_date { get; set; }
+        public Nullable<System.DateTime> to_date { get; set; }
     }
 }

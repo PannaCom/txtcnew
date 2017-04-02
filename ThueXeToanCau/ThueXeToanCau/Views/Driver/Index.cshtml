@@ -11,7 +11,7 @@
 <div class="panel-heading">
     <div class="form-inline">
         <div class="form-group">
-            <input type="text" id="keyword" class="form-control" placeholder="Nhập số điện thoại tài xế" value="@ViewBag.k" style="width:360px;" />
+            <input type="text" id="keyword" class="form-control" placeholder="Nhập số điện thoại hoặc biển số xe tài xế" value="@ViewBag.k" style="width:360px;" onkeyup="searchCarNumber();" />
         </div>
         <div class="form-group">
             <input type="button" value="Tìm Kiếm" class="btn btn-primary" onclick="search();" />
@@ -102,5 +102,16 @@
 <script>
     function search() {
         window.location.href = "/Driver/Index?phone=" + document.getElementById("keyword").value;
+    }
+    var url_searchCarNumber = '/Driver/searchCar';
+    function searchCarNumber() {
+        $('#keyword').autocomplete({
+            source: url_searchCarNumber + '?keyword=' + $("#keyword").val(),
+            select: function (event, ui) {
+                $(event.target).val(ui.item.value);
+                return false;
+            },
+            minLength: 1
+        });
     }
 </script>
