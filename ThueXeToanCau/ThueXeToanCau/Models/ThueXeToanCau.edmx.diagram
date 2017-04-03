@@ -35,6 +35,7 @@
         <EntityTypeShape EntityType="thuexetoancauModel.driver_bank" Width="1.5" PointX="3.375" PointY="15.75" />
         <EntityTypeShape EntityType="thuexetoancauModel.duplicateFile" Width="1.5" PointX="15.375" PointY="4.75" />
         <EntityTypeShape EntityType="thuexetoancauModel.driver_salary" Width="1.5" PointX="5.375" PointY="15.75" />
+        <EntityTypeShape EntityType="thuexetoancauModel.driver_own" Width="1.5" PointX="16.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

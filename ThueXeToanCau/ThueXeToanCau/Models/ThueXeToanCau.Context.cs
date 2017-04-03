@@ -55,5 +55,6 @@ namespace ThueXeToanCau.Models
         public virtual DbSet<driver_bank> driver_bank { get; set; }
         public virtual DbSet<duplicateFile> duplicateFiles { get; set; }
         public virtual DbSet<driver_salary> driver_salary { get; set; }
+        public virtual DbSet<driver_own> driver_own { get; set; }
     }
 }

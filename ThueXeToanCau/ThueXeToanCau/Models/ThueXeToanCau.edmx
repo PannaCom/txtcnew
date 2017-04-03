@@ -150,6 +150,21 @@
           <Property Name="bank_number" Type="nvarchar" MaxLength="50" />
           <Property Name="bank_name" Type="nvarchar" MaxLength="151" />
         </EntityType>
+        <EntityType Name="driver_own">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="car_number" Type="nvarchar" MaxLength="50" />
+          <Property Name="driver_name" Type="nvarchar" MaxLength="501" />
+          <Property Name="money_month" Type="float" />
+          <Property Name="date_month" Type="date" />
+          <Property Name="money_period" Type="float" />
+          <Property Name="date_period" Type="date" />
+          <Property Name="money_year" Type="float" />
+          <Property Name="date_year" Type="date" />
+          <Property Name="date_time" Type="datetime" />
+        </EntityType>
         <EntityType Name="driver_salary">
           <Key>
             <PropertyRef Name="id" />
@@ -351,6 +366,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="car_type" EntityType="Self.car_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_who_hire" EntityType="Self.car_who_hire" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="driver_bank" EntityType="Self.driver_bank" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="driver_own" EntityType="Self.driver_own" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="driver_salary" EntityType="Self.driver_salary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="drivers" EntityType="Self.drivers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="duplicateFile" EntityType="Self.duplicateFile" Schema="dbo" store:Type="Tables" />
@@ -456,6 +472,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="driver_bank" EntityType="thuexetoancauModel.driver_bank" />
           <EntitySet Name="duplicateFiles" EntityType="thuexetoancauModel.duplicateFile" />
           <EntitySet Name="driver_salary" EntityType="thuexetoancauModel.driver_salary" />
+          <EntitySet Name="driver_own" EntityType="thuexetoancauModel.driver_own" />
         </EntityContainer>
         <EntityType Name="NationalDay">
           <Key>
@@ -750,6 +767,21 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <Property Name="bank_name" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
           <Property Name="from_date" Type="DateTime" Precision="0" />
           <Property Name="to_date" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="driver_own">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="car_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="driver_name" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
+          <Property Name="money_month" Type="Double" />
+          <Property Name="date_month" Type="DateTime" Precision="0" />
+          <Property Name="money_period" Type="Double" />
+          <Property Name="date_period" Type="DateTime" Precision="0" />
+          <Property Name="money_year" Type="Double" />
+          <Property Name="date_year" Type="DateTime" Precision="0" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1105,6 +1137,22 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
                 <ScalarProperty Name="bank_name" ColumnName="bank_name" />
                 <ScalarProperty Name="bank_number" ColumnName="bank_number" />
                 <ScalarProperty Name="money" ColumnName="money" />
+                <ScalarProperty Name="driver_name" ColumnName="driver_name" />
+                <ScalarProperty Name="car_number" ColumnName="car_number" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="driver_own">
+            <EntityTypeMapping TypeName="thuexetoancauModel.driver_own">
+              <MappingFragment StoreEntitySet="driver_own">
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="date_year" ColumnName="date_year" />
+                <ScalarProperty Name="money_year" ColumnName="money_year" />
+                <ScalarProperty Name="date_period" ColumnName="date_period" />
+                <ScalarProperty Name="money_period" ColumnName="money_period" />
+                <ScalarProperty Name="date_month" ColumnName="date_month" />
+                <ScalarProperty Name="money_month" ColumnName="money_month" />
                 <ScalarProperty Name="driver_name" ColumnName="driver_name" />
                 <ScalarProperty Name="car_number" ColumnName="car_number" />
                 <ScalarProperty Name="id" ColumnName="id" />
