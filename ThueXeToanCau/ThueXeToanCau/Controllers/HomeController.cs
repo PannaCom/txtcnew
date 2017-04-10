@@ -50,9 +50,15 @@ namespace ThueXeToanCau.Controllers
         {
             return DBContext.addUpdateDriver(dri);
         }
-
-        [HttpGet]
         public ActionResult ViewTrans()
+        {
+            return View();
+        }
+        public ActionResult ViewSalary()
+        {
+            return View();
+        }
+        public ActionResult ViewOwn()
         {
             return View();
         }

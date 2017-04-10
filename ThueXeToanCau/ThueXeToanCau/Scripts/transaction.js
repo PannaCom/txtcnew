@@ -189,11 +189,11 @@ function searchTran() {
                     tbHtml += '<tr><th>STT</th><th>Loại Giao Dịch</th><th>Biển Số Xe</th><th>Ngày Giao Dịch</th><th>Số Tiền</th><th>Ghi Chú</th></tr>';
                     $.each(result, function (idx, obj) {
                         tbHtml += '<tr><td>' + (idx + 1) + '</td><td>' + obj.type + '</td><td>' + obj.car_number + '</td><td>'
-                            + convertDate(obj.date, false) + '</td><td>' + obj.money + '</td><td>' + obj.note + '</td></tr>'
+                            + convertDate(obj.date, false) + '</td><td>' + $.number(obj.money, 3, ',') + '</td><td>' + obj.note + '</td></tr>'
                     });
                 } else {
                     tbHtml += '<tr><th>Biển số xe</th><th>Tổng Số Giao Dịch</th><th>Tổng Giá Trị Giao Dịch</th></tr>';
-                    tbHtml += '<tr><td>' + result[0].carNum + '</td><td>' + result[0].count + '</td><td>' + result[0].sum + '</td></tr>';
+                    tbHtml += '<tr><td>' + result[0].carNum + '</td><td>' + result[0].count + '</td><td>' + $.number(result[0].sum, 3, ',') + '</td></tr>';
                 }
                 tbHtml += '</table>';
                 $("#tranResult").html(tbHtml);
@@ -256,7 +256,7 @@ function searchTranSalary() {
                 } else if (detail) {
                     tbHtml += '<tr><th>STT</th><th>Biển số xe</th><th>Tên tài xế</th><th>Số tiền</th><th>Số tài khoản</th><th>Tên Ngân Hàng</th><th>Từ ngày</th><th>Đến ngày</th></tr>';
                     $.each(result, function (idx, obj) {
-                        tbHtml += '<tr><td>' + (idx + 1) + '</td><td>' + obj.car_number + '</td><td>' + obj.driver_name + '</td><td>' + obj.money + '</td>'
+                        tbHtml += '<tr><td>' + (idx + 1) + '</td><td>' + obj.car_number + '</td><td>' + obj.driver_name + '</td><td>' + $.number(obj.money, 3, ',') + '</td>'
                             + '<td>' + obj.bank_number + '</td><td>' + obj.bank_name + '</td><td>' + parseDate(obj.from_date) + '</td><td>' + parseDate(obj.to_date) + '</td></tr>'
                     });
                 } else {
@@ -271,6 +271,7 @@ function searchTranSalary() {
         }
     })
 }
+
 function searchTranOwn() {
     var carNumber = $('#car_number').val();
     //if(carNumber == '') {
@@ -290,8 +291,8 @@ function searchTranOwn() {
                 } else if (detail) {
                     tbHtml += '<tr><th>STT</th><th>Biển số xe</th><th>Tên tài xế</th><th>Công nợ tháng</th><th>Ngày phải nộp</th><th>Công nợ kỳ</th><th>Ngày phải nộp</th><th>Công nợ năm</th><th>Ngày phải nộp</th><th>Ngày upload</th></tr>';
                     $.each(result, function (idx, obj) {
-                        tbHtml += '<tr><td>' + (idx + 1) + '</td><td>' + obj.car_number + '</td><td>' + obj.driver_name + '</td><td>' + obj.money_month + '</td>'
-                            + '<td>' + parseDate(obj.date_month) + '</td><td>' + obj.money_period + '</td><td>' + parseDate(obj.date_period) + '</td><td>' + obj.money_year + '</td><td>' + parseDate(obj.date_year) + '</td><td>' + parseDate(obj.date_time) + '</td></tr>'
+                        tbHtml += '<tr><td>' + (idx + 1) + '</td><td>' + obj.car_number + '</td><td>' + obj.driver_name + '</td><td>' + $.number(obj.money_month, 3, ',')+ '</td>'
+                            + '<td>' + parseDate(obj.date_month) + '</td><td>' + $.number(obj.money_period, 3, ',') + '</td><td>' + parseDate(obj.date_period) + '</td><td>' + $.number(obj.money_year, 3, ',') + '</td><td>' + parseDate(obj.date_year) + '</td><td>' + parseDate(obj.date_time) + '</td></tr>'
                     });
                 } else {
                     //tbHtml += '<tr><th>Biển số xe</th><th>Tổng Số Giao Dịch</th><th>Tổng Giá Trị Giao Dịch</th></tr>';
