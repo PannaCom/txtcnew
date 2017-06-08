@@ -128,7 +128,75 @@ function saveDriver() {
         }
     })
 }
+function saveDriver2() {
+    var isValid = true;
+    //$("#driverDialog input").each(function (idx, ip) {
+    //    if (ip.id != 'tPass' && ip.id != 'tPassConfirm' && $(ip).val().trim() == "") {
+    //        $(ip).css("border", "1px solid red");
+    //        isValid = false;
+    //    } else {
+    //        $(ip).css("border", "1px solid #ccc");
+    //    }
+    //});
+    //if (!isValid) return false;
 
+    isValid = true;
+    var dId = $("#driverId").val();
+    if (dId == 0) {
+        if ($("#tPass").val() == '' || $("#tPass").val() != $("#tPassConfirm").val()) {
+            alert("Chưa nhập mật khẩu hoặc mật khẩu không trùng nhau");
+            isValid = false;
+            return false;
+        }
+    } else if ($("#tPass").val() != $("#tPassConfirm").val()) {
+        alert("Nhập mật khẩu không trùng nhau");
+        isValid = false;
+        return false;
+    }
+    if (!isValid) {
+        $("#tPass").css("border", "1px solid red");
+        $("#tPass").val('');
+        $("#tPassConfirm").css("border", "1px solid red");
+        $("#tPassConfirm").val('');
+        return false;
+    }
+    if ($("#tname").val() == '') {
+        alert("Nhập tên tài xế");
+        isValid = false;
+        return false;
+    }
+    if ($("#tphone").val() == '') {
+        alert("Nhập số điện thoại");
+        isValid = false;
+        return false;
+    }
+    if ($("#car_model").val() == '') {
+        alert("Nhập model xe");
+        isValid = false;
+        return false;
+    }
+    
+    if (isExistInfo) return false;
+    var driverObj = {
+        id: dId, name: $("#tname").val(), pass: $("#tPass").val(), phone: $("#tphone").val(), car_model: $("#car_model").val(),
+        card_identify: $("#tCMND").val(), car_years: $("#car_year").val(), car_size: $("#car_size").val(), car_number: $("#car_number").val(),
+        car_type: $("#car_type").val(), address: $("#address").val(), license: $("#tLicense").val(), car_made: $("#car").val()
+        , total_moneys: $("#total_moneys").val()
+    };
+    $.ajax({
+        url: url_addUpdateDriver, type: 'post',
+        contentType: 'application/json',
+        data: JSON.stringify(driverObj),
+        success: function (rs) {
+            if (rs == '') {
+                alert("Đăng Ký Thành Công! Mời Đăng Nhập Tài Xế");
+                window.location.href="/Driver/Log";
+            } else {
+                alert(rs);
+            }
+        }
+    })
+}
 function confirmDelDriver(dId, name) {
     $("#driverId").val(dId);
     openNotification("Bạn có chắc chắn xóa " + name + " ?", "delDriver");

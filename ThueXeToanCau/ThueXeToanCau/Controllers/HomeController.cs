@@ -22,6 +22,10 @@ namespace ThueXeToanCau.Controllers
             //long total = (long)price * factor * km / 100;
             return View();
         }
+        public ActionResult Policy()
+        {
+            return View();
+        }
 
         public ActionResult About()
         {

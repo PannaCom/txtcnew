@@ -1,0 +1,84 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@using ThueXeToanCau.Models;
+@{
+    ViewBag.Title = "Đăng Ký Tài Xế";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<div id="driverDialog" style="display:block;" class="col-sm-4 dDialog">
+    @*<div class="dTitle">Thêm/Sửa Tài Xế</div>*@
+    <div class="dDialogContent">
+        <input type="hidden" id="driverId" />
+        <p>Tên tài xế</p>
+        <input id="tname" type="text" class="form-control" placeholder="Nhập tên">
+        <p>Số điện thoại</p>
+        <input id="tphone" type="text" class="form-control" placeholder="Nhập số điện thoại">
+        <p>Mật Khẩu Mới</p>
+        <input id="tPass" type="password" class="form-control" placeholder="Nhập mật khẩu">
+        <p>Xác Nhận Mật Khẩu</p>
+        <input id="tPassConfirm" type="password" class="form-control" placeholder="Nhập lại mật khẩu">
+        <p>Chứng Minh Nhân Dân</p>
+        <input id="tCMND" type="text" class="form-control" placeholder="Nhập chứng minh nhân dân" onblur="validateExistInfo(this.value,'')">
+        <span id="tCMND_err" class="text-danger">Số CMND đã tồn tại!</span>
+        <p>Số bằng lái xe</p>
+        <input id="tLicense" type="text" class="form-control" placeholder="Nhập số bằng lái xe">
+        <p>Địa chỉ (thường trú hoặc hay đón khách)</p>
+        <input id="address" class="form-control" placeholder="Nhập địa chỉ chính xác" autocomplete="off">
+        <p>Biển số</p>
+        <input id="car_number" type="text" class="form-control" placeholder="Nhập biển số" onblur="validateExistInfo('', this.value)">
+        <span id="car_number_err" class="text-danger">Biển Số Xe đã tồn tại!</span>
+        <p>Hãng xe</p>
+        <select id="car" class="form-control">
+            @{
+                foreach (var item in (List<string>)ViewBag.cars)
+                {
+                    <option value="@item">@item</option>
+                }
+            }
+        </select>
+        <p>Tên xe (model)</p>
+        <input id="car_model" class="form-control" placeholder="Vios hay Fotuner hay Mazda, Morning..." onkeyup="autosearchmodel();" autocomplete="off">
+        <p>Số chỗ</p>
+        <select id="car_size" class="form-control"><option value="4">4 chỗ</option><option value="5">5 chỗ</option><option value="7">7 chỗ</option><option value="12">12 chỗ</option><option value="16">16 chỗ</option><option value="24">24 chỗ</option><option value="40">40 chỗ</option><option value="50">50 chỗ</option></select>
+        <p>Loại xe</p>
+        <select id="car_type" class="form-control">
+            @{
+                foreach (var item in (List<string>)ViewBag.carTypes)
+                {
+                    <option value="@item">@item</option>
+                }
+            }
+        </select>
+        <p>Năm sản xuất</p>
+        <select id="car_year" class="form-control"><option value="2016">2016</option><option value="2015">2015</option><option value="2014">2014</option><option value="2013">2013</option><option value="2012">2012</option><option value="2011">2011</option><option value="2010">2010</option><option value="2009">2009</option><option value="2009">Trước 2009</option></select>
+        <p>Tiền tài khoản</p>
+        <input id="total_moneys" type="hidden">
+    </div>
+    <div class="divBtn">
+        <button type="button" class="btn btn-primary" onclick="saveDriver2()">Đồng Ý</button>
+        <button type="button" class="btn btn-primary" onclick="closeDDialog('#driverDialog')">Hủy</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var url_addUpdateDriver = '@Url.Action("addUpdateDriver", "Driver")', url_deleteDriver = '@Url.Action("deleteDriver", "Driver")';
+    var url_validateExistInfo = '@Url.Action("validateExistInfo", "Driver")';
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places" type="text/javascript"></script>
+<script src="~/Content/Theme/1a/js/jquery.geocomplete.js"></script>
+<script type="text/javascript" src="~/Scripts/manageDriver.js"></script>
+<script>
+    var url_searchCarNumber = '/Driver/searchCar';
+    function searchCarNumber() {
+        $('#keyword').autocomplete({
+            source: url_searchCarNumber + '?keyword=' + $("#keyword").val(),
+            select: function (event, ui) {
+                $(event.target).val(ui.item.value);
+                return false;
+            },
+            minLength: 1
+        });
+    }
+</script>

@@ -3,6 +3,7 @@ using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Web.Mvc;
 using ThueXeToanCau.Models;
 
@@ -10,6 +11,7 @@ namespace ThueXeToanCau.Controllers
 {
     public class DriverController : Controller
     {
+        private thuexetoancauEntities db = new thuexetoancauEntities();
         public ActionResult Index(string phone,int? page)
         {
             if (Config.getCookie("logged") == "") return RedirectToAction("Login", "Admin");
@@ -25,6 +27,41 @@ namespace ThueXeToanCau.Controllers
             ViewBag.cars = DBContext.getCars().Select(f => f.name).ToList();
             ViewBag.carTypes = DBContext.getListCarTypes().Select(f => f.name).ToList();
             return View();
+        }
+        public ActionResult Reg()
+        {
+            
+            ViewBag.cars = DBContext.getCars().Select(f => f.name).ToList();
+            ViewBag.carTypes = DBContext.getListCarTypes().Select(f => f.name).ToList();
+            return View();
+        }
+        public ActionResult Log()
+        {
+            return View();
+        }
+        public string login(string phone, string pass)
+        {
+            try
+            {
+                MD5 md5Hash = MD5.Create();
+                string hash = Config.GetMd5Hash(md5Hash, pass);
+                pass = hash;
+                bool p = db.drivers.Any(x=>x.phone==phone && x.pass==pass);
+                if (p) {
+                    var p2 = db.drivers.Where(x => x.phone == phone && x.pass == pass).FirstOrDefault();
+                    Config.setCookie("id_driver", p2.id.ToString());
+                    Config.setCookie("driver_number", p2.car_number.ToString());
+                    Config.setCookie("driver_phone", p2.phone.ToString());
+                    
+                    return "1"; 
+                } else { 
+                    return "0"; 
+                }
+            }
+            catch (Exception ex)
+            {
+                return "-1";
+            }
         }
         public string searchCar(string keyword)
         {

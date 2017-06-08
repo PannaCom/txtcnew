@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "Đăng Nhập Tài Xế";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title.</h2>
+<div class="row">
+    <div class="col-md-8">
+        <section id="loginForm">
+            <form class="form-horizontal" role="form">
+                <hr />
+                <div class="form-group">
+                    
+                    <div class="col-md-10">
+                        <span id="spError" class="text-danger" style="color:#ffffff;"></span>
+                        <input id="phone" type="text" class="form-control" placeholder="Nhập số điện thoại" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    
+                    <div class="col-md-10">
+                        <input id="pass" type="password" class="form-control" placeholder="Nhập mật khẩu">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" onclick="validateLogin();" value="Đăng Nhập" class="btn btn-default" />
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+    <div class="col-md-12">
+        <h5>Nếu chưa có tài khoản xin đăng ký tại đây <a href="/Driver/Reg">Đăng Ký Tài Xế</a></h5>
+        @*<ul class="footer_ul">
+                <li>
+                    <a href="https://play.google.com/store/apps/details?id=grab.com.thuexetoancau">
+                        <img alt="Tải nội dung trên Google Play" src="/images/vi_badge_web_generic.png">
+                    </a>
+                </li>
+                <li>
+                    <a href="https://itunes.apple.com/us/app/thue-xe/id1166862903?ls=1&amp;mt=8">
+                        <img src="/Images/appstore.svg">
+                    </a>
+                </li>
+            </ul>*@
+    </div>
+</div>
+<script type="text/javascript">
+    function validateLogin() {
+        $("#spError").hide();
+        var uName = $("#phone").val();
+        var pass = $("#pass").val();
+        if (uName == '' || pass == '') {
+            $("#spError").text("Bạn cần nhập Số điện thoại và Mật Khẩu!");
+            $("#spError").show();
+            return false;
+        }
+
+        $.ajax({
+            url: '@Url.Action("login", "Driver")', type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify({ phone: uName, pass: pass}),
+            success: function (result) {
+                if (result != '-1' && result != '0') {
+                    window.location = '@Url.Action("Index", "Home")';
+                } else {
+                    $("#spError").text("Sai mật khẩu");
+                    $("#spError").show();
+                }
+            }
+        })
+
+    }
+</script>
