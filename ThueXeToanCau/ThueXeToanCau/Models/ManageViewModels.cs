@@ -83,4 +83,29 @@ namespace ThueXeToanCau.Models
         public string SelectedProvider { get; set; }
         public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
     }
+    //public class driver2
+    //{
+    //    public long id { get; set; }
+    //    public string name { get; set; }
+    //    public string pass { get; set; }
+    //    public string phone { get; set; }
+    //    public string email { get; set; }
+    //    public string car_model { get; set; }
+    //    public string car_made { get; set; }
+    //    public Nullable<int> car_years { get; set; }
+    //    public Nullable<int> car_size { get; set; }
+    //    public string car_number { get; set; }
+    //    public string car_type { get; set; }
+    //    public Nullable<int> car_price { get; set; }
+    //    public Nullable<decimal> total_moneys { get; set; }
+    //    public string province { get; set; }
+    //    public Nullable<System.DateTime> date_time { get; set; }
+    //    public string code { get; set; }
+    //    public string address { get; set; }
+    //    public string card_identify { get; set; }
+    //    public string license { get; set; }
+    //    public string reg_id { get; set; }
+    //    public Nullable<int> os { get; set; }
+    //    public Nullable<int> status { get; set; }
+    //}
 }

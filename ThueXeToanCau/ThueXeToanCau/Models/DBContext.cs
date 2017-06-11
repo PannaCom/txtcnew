@@ -202,7 +202,39 @@ namespace ThueXeToanCau.Models
                 return "Thất bại: " + ex.Message;
             }
         }
+        public static string addUpdateDriver2(list_online lo)
+        {
+            try
+            {
+                using (var db = new thuexetoancauEntities())
+                {
+                    if (lo.id == 0)
+                    {
+                        lo.date_time = DateTime.Now;
+                        lo.geo = Config.CreatePoint(lo.lat, lo.lon);
+                        lo.status = 0;
+                        db.list_online.Add(lo);
 
+                    }
+                    db.SaveChanges();
+                    //list_online lo = new list_online();
+                    //lo.car_number = dri.car_number;
+                    //lo.date_time = DateTime.Now;
+                    //lo.geo = Config.CreatePoint(lat, lon);
+                    //lo.lat = lat;
+                    //lo.lon = lon;
+                    //lo.phone = dri.phone;
+                    //lo.status = 0;
+                    //db.list_online.Add(lo);
+                    //db.SaveChanges();
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return "Thất bại: " + ex.Message;
+            }
+        }
         public static string deleteDriver(int dId)
         {
             try

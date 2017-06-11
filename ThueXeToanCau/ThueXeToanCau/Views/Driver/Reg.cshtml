@@ -26,6 +26,8 @@
         <input id="tLicense" type="text" class="form-control" placeholder="Nhập số bằng lái xe">
         <p>Địa chỉ (thường trú hoặc hay đón khách)</p>
         <input id="address" class="form-control" placeholder="Nhập địa chỉ chính xác" autocomplete="off">
+        <input name="lon" id="lon" type="hidden">
+        <input name="lat" id="lat" type="hidden">
         <p>Biển số</p>
         <input id="car_number" type="text" class="form-control" placeholder="Nhập biển số" onblur="validateExistInfo('', this.value)">
         <span id="car_number_err" class="text-danger">Biển Số Xe đã tồn tại!</span>
@@ -63,12 +65,16 @@
 </div>
 
 <script type="text/javascript">
-    var url_addUpdateDriver = '@Url.Action("addUpdateDriver", "Driver")', url_deleteDriver = '@Url.Action("deleteDriver", "Driver")';
+    var url_addUpdateDriver = '@Url.Action("addUpdateDriver", "Driver")', url_addUpdateDriver2 = '@Url.Action("addUpdateDriver2", "Driver")', url_deleteDriver = '@Url.Action("deleteDriver", "Driver")';
     var url_validateExistInfo = '@Url.Action("validateExistInfo", "Driver")';
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places" type="text/javascript"></script>
 <script src="~/Content/Theme/1a/js/jquery.geocomplete.js"></script>
+<div id="map-canvas" style="display: none;">
+    Bản đồ
+</div>
 <script type="text/javascript" src="~/Scripts/manageDriver.js"></script>
+
 <script>
     var url_searchCarNumber = '/Driver/searchCar';
     function searchCarNumber() {

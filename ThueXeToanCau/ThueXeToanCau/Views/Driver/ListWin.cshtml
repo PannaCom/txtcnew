@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "Danh Sách Các Chuyến Xe Đấu Giá Thành Công Của Tài Xế";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    table, th, td {
+        border: 1px solid black;
+        color: black;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+        background: #ffffff;
+    }
+
+    table {
+        border: 1px solid black;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    th {
+        height: 50px;
+    }
+
+    th {
+        text-align: left;
+    }
+
+    td {
+        height: 50px;
+        vertical-align: middle;
+    }
+
+    th, td {
+        padding: 15px;
+        text-align: left;
+    }
+
+    th, td {
+        border-bottom: 1px solid #ddd;
+    }
+
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+</style>
+<h2>Danh Sách Các Chuyến Xe Đấu Giá Thành Công Của Tài Xế</h2>
+<div id="listcar" class="col-md-12" style="min-height:500px;"></div>
+<script>
+    $.ajax({
+        url: "/Api/getBookingSuccess?phone=@ViewBag.driver_phone",
+        cache: false
+    }).done(function (html) {
+        //alert(html);
+        var news = '{"news":' + html + '}';
+        $("#listcar").html("");
+        var items = "";
+        items += "<tr><th>Điểm Đi</th><th>Điểm Đến</th><th>Thời gian</th><th>Hình thức thuê</th><th>Số chỗ</th><th>Giá</th></tr>";
+        var json_parsed = $.parseJSON(news);
+        for (var i = 0; i < json_parsed.news.length; i++) {
+            if (json_parsed.news[i]) {
+
+                //Mỗi tài xế đấu giá khi ấn vào nút đấu giá sẽ gửi lên server qua API này, bookingFinal(long id_driver, string driver_number, string driver_phone, int price, long id_booking,int? type)
+                //Với id_driver là id tài xế, biển số, số phone, giá đặt mua ngay/đấu giá, id_booking là id của chuyến xe đang được đấu giá mà anh mô tả ở id trên, type=0 là đấu giá, =1 là mua ngay, nếu là mua ngay thì anh sẽ đánh dấu ông nào mua ngay sớm nhất sẽ thắng, các nút đấu giá sau này gửi lên sẽ trả về bằng 0 hết, tức ko đấu giá được nữa, do có người đã mua ngay, =-1 thì trả về do lỗi mạng, =1 là trả về đấu giá thành công
+                items += "<tr><td>" + json_parsed.news[i].car_from + "</td><td>" + json_parsed.news[i].car_to + "<br>Số điện thoại khách <a class='btn btn-info' style='width:100%' href='tel:" + json_parsed.news[i].phone + "'>" + json_parsed.news[i].phone + "</a></td><td>Ngày đi: " + json_parsed.news[i].from_datetime.replace('T', ' ') + "<br>Ngày về " + json_parsed.news[i].to_datetime.replace('T', ' ') + "</td><td>" + json_parsed.news[i].car_hire_type + "</td><td>" + json_parsed.news[i].car_type + "</td><td>Giá mua ngay: <span class='btn btn-info' style='width:100%'>" + formatDollar(json_parsed.news[i].book_price) + "</span><br>Giá đấu giá: <span class='btn btn-success' style='width:100%'>" + formatDollar(json_parsed.news[i].current_price) + "</span></td></tr>";
+                //alert(arrNotice[i]);
+            }
+        }
+        $("#listcar").html("<table>" + items + "</table>");
+       
+    });
+    function formatDollar(num) {
+        var p = num.toFixed(2).split(".");
+        return p[0].split("").reverse().reduce(function (acc, num, i, orig) {
+            return num == "-" ? acc : num + (i && !(i % 3) ? "," : "") + acc;
+        }, "");// + "." + p[1]
+    }
+</script>

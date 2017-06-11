@@ -1,8 +1,22 @@
 ﻿var isExistInfo = false;
 $(function () {
+    var options = {
+        map: "#map-canvas"
+    };
     $("#tCMND_err").hide();
     $("#car_number_err").hide();
-    $("#address").geocomplete();
+    $("#address").geocomplete(options)
+      .bind("geocode:result", function (event, result) {
+          $("#lat").val(result.geometry.location.lat());
+          $("#lon").val(result.geometry.location.lng());
+          //alert("long" + result.geometry.location.lng() + ", lat=" + result.geometry.location.lat());
+      })
+      .bind("geocode:error", function (event, status) {
+          $.log("ERROR: " + status);
+      })
+      .bind("geocode:multiple", function (event, results) {
+          $.log("Multiple: " + results.length + " results found");
+      });
 });
 
 function validateExistInfo(cmnd, carNumber) {    
@@ -170,6 +184,11 @@ function saveDriver2() {
         isValid = false;
         return false;
     }
+    if ($("#address").val() == '' || $("#lon").val() == '') {
+        alert("Nhập địa chỉ tài xế hay đón khách");
+        isValid = false;
+        return false;
+    }
     if ($("#car_model").val() == '') {
         alert("Nhập model xe");
         isValid = false;
@@ -183,14 +202,28 @@ function saveDriver2() {
         car_type: $("#car_type").val(), address: $("#address").val(), license: $("#tLicense").val(), car_made: $("#car").val()
         , total_moneys: $("#total_moneys").val()
     };
+    var driverObj2 = {
+        id: 0, car_number: $("#car_number").val(), lat: $("#lat").val(), lon: $("#lon").val(), phone: $("#tphone").val()
+    };
     $.ajax({
-        url: url_addUpdateDriver, type: 'post',
+        url: url_addUpdateDriver2, type: 'post',
         contentType: 'application/json',
-        data: JSON.stringify(driverObj),
+        data: JSON.stringify(driverObj2),
         success: function (rs) {
             if (rs == '') {
-                alert("Đăng Ký Thành Công! Mời Đăng Nhập Tài Xế");
-                window.location.href="/Driver/Log";
+                $.ajax({
+                    url: url_addUpdateDriver, type: 'post',
+                    contentType: 'application/json',
+                    data: JSON.stringify(driverObj),
+                    success: function (rs) {
+                        if (rs == '') {
+                            alert("Đăng Ký Thành Công! Mời Đăng Nhập Tài Xế");
+                            window.location.href = "/Driver/Log";
+                        } else {
+                            alert(rs);
+                        }
+                    }
+                })
             } else {
                 alert(rs);
             }

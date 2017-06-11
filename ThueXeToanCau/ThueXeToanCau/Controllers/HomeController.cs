@@ -20,6 +20,12 @@ namespace ThueXeToanCau.Controllers
             //int factor = 100;
             //int km = 1624;
             //long total = (long)price * factor * km / 100;
+            ViewBag.id_driver = Config.getCookie("id_driver");
+            ViewBag.driver_number = Config.getCookie("driver_number");
+            ViewBag.driver_phone = Config.getCookie("driver_phone");
+            //Config.setCookie("id_driver", p2.id.ToString());
+            //Config.setCookie("driver_number", p2.car_number != null ? p2.car_number.ToString() : "");
+            //Config.setCookie("driver_phone", p2.phone != null ? p2.phone.ToString() : "");
             return View();
         }
         public ActionResult Policy()

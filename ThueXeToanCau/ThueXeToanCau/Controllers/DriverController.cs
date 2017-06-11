@@ -28,6 +28,20 @@ namespace ThueXeToanCau.Controllers
             ViewBag.carTypes = DBContext.getListCarTypes().Select(f => f.name).ToList();
             return View();
         }
+        public ActionResult ListWin(int? page)
+        {
+            //if (Config.getCookie("id_driver") == "") return RedirectToAction("Log", "Driver");
+            string driver_phone = Config.getCookie("driver_phone");
+            //using (var db = new thuexetoancauEntities())
+            //{
+            //    var booking_final = db.booking_final;
+            //    var pageNumber = page ?? 1;
+            //    var onePage = booking_final.Where(o => o.id_driver == id_driver).OrderByDescending(f => f.id).ToPagedList(pageNumber, 20);
+            //    ViewBag.onePage = onePage;
+            //}
+            ViewBag.driver_phone = driver_phone;
+            return View();
+        }
         public ActionResult Reg()
         {
             
@@ -50,8 +64,8 @@ namespace ThueXeToanCau.Controllers
                 if (p) {
                     var p2 = db.drivers.Where(x => x.phone == phone && x.pass == pass).FirstOrDefault();
                     Config.setCookie("id_driver", p2.id.ToString());
-                    Config.setCookie("driver_number", p2.car_number.ToString());
-                    Config.setCookie("driver_phone", p2.phone.ToString());
+                    Config.setCookie("driver_number", p2.car_number!=null?p2.car_number.ToString():"");
+                    Config.setCookie("driver_phone", p2.phone!=null?p2.phone.ToString():"");
                     
                     return "1"; 
                 } else { 
@@ -89,6 +103,11 @@ namespace ThueXeToanCau.Controllers
             return DBContext.addUpdateDriver(d);
         }
 
+        [HttpPost]
+        public string addUpdateDriver2(list_online lo)
+        {
+            return DBContext.addUpdateDriver2(lo);
+        }
         [HttpPost]
         public string deleteDriver(int dId)
         {
