@@ -6,7 +6,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Web.Mvc;
 using ThueXeToanCau.Models;
-
+using Newtonsoft.Json;
 namespace ThueXeToanCau.Controllers
 {
     public class DriverController : Controller
@@ -41,6 +41,47 @@ namespace ThueXeToanCau.Controllers
             //}
             ViewBag.driver_phone = driver_phone;
             return View();
+        }
+        public class drvol
+        {
+            public long id { get; set; }
+            public string name { get; set; }
+            public string phone { get; set; }
+            public string email { get; set; }
+            public string car_model { get; set; }
+            public string car_made { get; set; }
+            public int car_years { get; set; }
+            public int car_size { get; set; }
+            public string car_number { get; set; }
+            public string car_type { get; set; }
+            public string address { get; set; }
+            public double? lon { get; set; }
+            public double? lat { get; set; }
+            public double D { get; set; }
+        }
+        public string DriverOnline(double? lon,double? lat,int? car_size)
+        {
+            try { 
+                string query = "select top 10 * from ";
+                       query+="(";
+                       query += "SELECT id,name,phone,email,car_model,car_made,car_years,car_size,car_number,car_type,address,lon,lat,ACOS(SIN(PI()*" + lat + "/180.0)*SIN(PI()*lat/180.0)+COS(PI()*" + lat + "/180.0)*COS(PI()*lat/180.0)*COS(PI()*lon/180.0-PI()*" + lon + "/180.0))*6371 as D ";
+                       query+="FROM thuexetoancau.dbo.drivers as A inner join ";
+                       query+="(select lon,lat,phone as phone2 from list_online) as B on A.phone=B.phone2 ";
+                       query+=" ) as C where 1=1 ";
+                if (lon!=null){
+                    query+=" and D<300";
+                }
+                if (car_size != null)
+                {
+                    query += " and car_size=" + car_size;
+                }
+                query += " order by D";
+                return JsonConvert.SerializeObject(db.Database.SqlQuery<drvol>(query).ToList());
+            }
+            catch
+            {
+                return "0";
+            }
         }
         public ActionResult Reg()
         {

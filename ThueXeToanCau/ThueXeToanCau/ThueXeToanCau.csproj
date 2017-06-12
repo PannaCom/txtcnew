@@ -284,6 +284,12 @@
     <Compile Include="Models\driver_bank.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\driver_own.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\driver_salary.cs">
+      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\duplicateFile.cs">
       <DependentUpon>ThueXeToanCau.tt</DependentUpon>
     </Compile>
@@ -1125,6 +1131,14 @@
     <Content Include="Views\NationalDay\Index.cshtml" />
     <Content Include="Views\Home\ViewTrans.cshtml" />
     <Content Include="Views\Transaction\Bank.cshtml" />
+    <Content Include="Views\Transaction\Salary.cshtml" />
+    <Content Include="Views\Transaction\Own.cshtml" />
+    <Content Include="Views\Home\ViewSalary.cshtml" />
+    <Content Include="Views\Home\ViewOwn.cshtml" />
+    <Content Include="Views\Home\Policy.cshtml" />
+    <Content Include="Views\Driver\Reg.cshtml" />
+    <Content Include="Views\Driver\Log.cshtml" />
+    <Content Include="Views\Driver\ListWin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

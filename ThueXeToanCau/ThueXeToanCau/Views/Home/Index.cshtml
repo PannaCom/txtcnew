@@ -56,7 +56,22 @@
         color: white;
     }
 </style>
-<div class="col-md-12" id="listcar"></div>
+<div class="col-md-12" id="listdriverall">
+    <h2>Tìm tài xế</h2>
+    <div class="col-md-12">
+        <input id="location" name="location" class="form-control" placeholder="gõ địa chỉ bạn cần tìm" type="text" />
+        <input id="lon3" name="lon3" value="" type="hidden"><input id="lat3" name="lat3" value="" type="hidden">
+        Số chỗ <select id="car_type2" class="form-control"></select>
+        <input type="button" value="TÌM KIẾM" onclick="DriverOnline();" class="btn btn-primary btn-block" style="margin-bottom:5px;" id="searchdriver" />
+    </div>
+    <div class="col-md-12" id="listdriver">
+
+    </div>
+</div>
+<div class="col-md-12" id="listcarall">
+    <h2>Các chuyến xe đang đấu giá</h2>
+    <div class="col-md-12" id="listcar"></div>
+</div>
 <div class="content-heading text-center">
     <!-- Input Your Home Content Here -->
     <div class="row text-center" style="min-height:667px;">
@@ -197,6 +212,18 @@
           .bind("geocode:multiple", function (event, results) {
               $.log("Multiple: " + results.length + " results found");
           });
+        $("#location").geocomplete(options)
+          .bind("geocode:result", function (event, result) {
+              $("#lon3").val(result.geometry.location.lng());
+              $("#lat3").val(result.geometry.location.lat());
+              //alert("long" + result.geometry.location.lng() + ", lat=" + result.geometry.location.lat());
+          })
+          .bind("geocode:error", function (event, status) {
+              $.log("ERROR: " + status);
+          })
+          .bind("geocode:multiple", function (event, results) {
+              $.log("Multiple: " + results.length + " results found");
+          });
         initmap();
     });
     $.ajax({
@@ -207,6 +234,7 @@
         var json_parsed = $.parseJSON(news);
         var preProvin = json_parsed.news[0].provin;
         $("#car_type").html("");
+        $("#car_type2").html("");
         for (var i = 0; i < json_parsed.news.length; i++) {
             if (json_parsed.news[i]) {
                 var name = json_parsed.news[i];
@@ -214,10 +242,13 @@
                 //alert(name);
                 if (name == "4") {
                     $("#car_type").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + " chỗ(giá siêu rẻ, không cốp)</option>");
+                    $("#car_type2").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + " chỗ(giá siêu rẻ, không cốp)</option>");
                 } else  if (name == "5") {
                     $("#car_type").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + " chỗ(có cốp)</option>");
+                    $("#car_type2").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + " chỗ(có cốp)</option>");
                 } else{
-                    $("#car_type").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i]+ " chỗ</option>");
+                    $("#car_type").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + " chỗ</option>");
+                    $("#car_type2").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + " chỗ</option>");
                 }
             }
         }
@@ -356,6 +387,46 @@
                 }
             }
             $("#listcar").html("<table>" + items + "</table>");
+            if (json_parsed.news.length <= 0) $("#listcarall").hide();
+        });
+    }
+    function DriverOnline() {
+        var lon3 = document.getElementById("lon3").value;
+        var lat3 = document.getElementById("lat3").value;
+        var car_size = document.getElementById("car_type2").value;
+        getDriverAround(lat3, lon3, car_size);
+    }
+    function getDriverAround(lat, lon,car_size) {
+        var scar_size = "";
+        //if (lat == null) {
+        //    alert("Địa chỉ chưa rõ ràng");
+        //}
+        if (car_size != -1) scar_size = "&car_size=" + car_size;
+        $.ajax({
+            url: "/Driver/DriverOnline?lon=" + lon + "&lat=" + lat + scar_size,
+            cache: false
+        }).done(function (html) {
+            //alert(html);
+            var news = '{"news":' + html + '}';
+            $("#listdriver").html("<img src=\"/Scripts/loader.gif\">");
+            var items = "";
+            items += "<tr><th>Tên tài xế</th><th>Số điện thoại</th><th>Kiểu xe</th><th>Năm Sản Xuất</th><th>Số chỗ</th><th>Dạng xe</th><th>Khoảng cách(km)</th></tr>";
+            var json_parsed = $.parseJSON(news);
+            for (var i = 0; i < json_parsed.news.length; i++) {
+                if (json_parsed.news[i]) {
+                    //var action = "<button class='btn btn-warning' style='width:100%' onclick='bookingFinal(" + json_parsed.news[i].book_price + "," + json_parsed.news[i].current_price + "," + json_parsed.news[i].id + ",1);'>Mua Ngay</button><br>";
+                    //action += "<button class='btn btn-danger' style='width:100%' onclick='bookingFinal(" + json_parsed.news[i].book_price + "," + json_parsed.news[i].current_price + "," + json_parsed.news[i].id + ",0);'>Đấu Giá</button>";
+                    //Mỗi tài xế đấu giá khi ấn vào nút đấu giá sẽ gửi lên server qua API này, bookingFinal(long id_driver, string driver_number, string driver_phone, int price, long id_booking,int? type)
+                    //Với id_driver là id tài xế, biển số, số phone, giá đặt mua ngay/đấu giá, id_booking là id của chuyến xe đang được đấu giá mà anh mô tả ở id trên, type=0 là đấu giá, =1 là mua ngay, nếu là mua ngay thì anh sẽ đánh dấu ông nào mua ngay sớm nhất sẽ thắng, các nút đấu giá sau này gửi lên sẽ trả về bằng 0 hết, tức ko đấu giá được nữa, do có người đã mua ngay, =-1 thì trả về do lỗi mạng, =1 là trả về đấu giá thành công
+                    items += "<tr><td>" + json_parsed.news[i].name + "</td><td><a href=\"tel:" + json_parsed.news[i].phone + "\" class='btn btn-warning'>Gọi Điện</a></td><td>" + json_parsed.news[i].car_model + "</td><td>" + json_parsed.news[i].car_years + "</td><td>" + json_parsed.news[i].car_size + "</td><td>" + json_parsed.news[i].car_type + "</td><td>" + parseFloat(json_parsed.news[i].D).toFixed(2) + "</td></tr>";
+                    //alert(arrNotice[i]);
+                }
+            }
+            $("#listdriver").html("<table>" + items + "</table>");
+            if (json_parsed.news.length <= 0) {
+                $("#listdriver").hide();
+                alert("Không tìm thấy loại xe này hoặc bạn chưa nhập địa chỉ tài xế");
+            }
         });
     }
     function bookingFinal(book_price, current_price, id,type) {
@@ -418,6 +489,9 @@
                 };
                 //alert(pos.lat + "," + pos.lng);
                 getBookingAround(pos.lat, pos.lng);
+                getDriverAround(pos.lat, pos.lng, -1);
+                $("#lon3").val(pos.lng);
+                $("#lat3").val(pos.lat);
                 infoWindow.setPosition(pos);
                 infoWindow.setContent('Vị trí của bạn.');
                 map.setCenter(pos);
