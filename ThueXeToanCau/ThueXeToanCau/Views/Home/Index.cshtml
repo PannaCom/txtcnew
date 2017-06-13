@@ -56,6 +56,15 @@
         color: white;
     }
 </style>
+<div id="fb-root"></div>
+<script>
+(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.9&appId=1039306026203416";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 <div class="col-md-12" id="listdriverall">
     <h2>Tìm tài xế và xe</h2>
     <div class="col-md-12">
@@ -111,6 +120,12 @@
             </div>
         </div><!-- end col 10 with offset 1 to centered -->
     </div> <!-- end contact form outer row with centered text-->
+    <div class="row text-center" style="min-height:667px;padding-top:15px;">
+        <div class="col-sm-12" style="background-color:white;color:black;border-radius:25px;min-height:567px;border-right:1px solid #808080;opacity: 0.9;filter: alpha(opacity=50);">
+            <h4>Đặt Xe Qua Facebook Xin Để Lại Lời Nhắn Tại Đây</h4>
+            <div class="fb-comments" data-href="http://thuexetoancau.vn/" data-width="800" data-numposts="5"></div>
+        </div>
+    </div>
 </div><!-- End Input Your Home Content Here -->
 <div class="row" style="background:#ffffff;color:#000000;position:fixed;width:75%;top:25%;padding-left:5px;padding-right:5px;text-align:left;display:none;z-index:1001;" id="detail">
     <div style="width:100%;text-align:center;color:#000000;" class="standardcss">
