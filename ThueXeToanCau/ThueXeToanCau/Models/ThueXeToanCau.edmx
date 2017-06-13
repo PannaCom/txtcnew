@@ -220,6 +220,16 @@
           <Property Name="name" Type="nvarchar" MaxLength="150" />
           <Property Name="val" Type="int" />
         </EntityType>
+        <EntityType Name="info">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="hotline1" Type="nvarchar" MaxLength="50" />
+          <Property Name="hotline2" Type="nvarchar" MaxLength="50" />
+          <Property Name="about" Type="ntext" />
+          <Property Name="address" Type="ntext" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'thuexetoancau.dbo.list_car' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="list_car">
@@ -371,6 +381,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="drivers" EntityType="Self.drivers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="duplicateFile" EntityType="Self.duplicateFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="factor" EntityType="Self.factor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="info" EntityType="Self.info" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="list_online" EntityType="Self.list_online" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NationalDay" EntityType="Self.NationalDay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="notice" EntityType="Self.notice" Schema="dbo" store:Type="Tables" />
@@ -473,6 +484,7 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <EntitySet Name="duplicateFiles" EntityType="thuexetoancauModel.duplicateFile" />
           <EntitySet Name="driver_salary" EntityType="thuexetoancauModel.driver_salary" />
           <EntitySet Name="driver_own" EntityType="thuexetoancauModel.driver_own" />
+          <EntitySet Name="infoes" EntityType="thuexetoancauModel.info" />
         </EntityContainer>
         <EntityType Name="NationalDay">
           <Key>
@@ -782,6 +794,16 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
           <Property Name="money_year" Type="Double" />
           <Property Name="date_year" Type="DateTime" Precision="0" />
           <Property Name="date_time" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="info">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="hotline1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hotline2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="about" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1155,6 +1177,17 @@ warning 6002: The table/view 'thuexetoancau.dbo.TinhThanh' does not have a prima
                 <ScalarProperty Name="money_month" ColumnName="money_month" />
                 <ScalarProperty Name="driver_name" ColumnName="driver_name" />
                 <ScalarProperty Name="car_number" ColumnName="car_number" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="infoes">
+            <EntityTypeMapping TypeName="thuexetoancauModel.info">
+              <MappingFragment StoreEntitySet="info">
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="about" ColumnName="about" />
+                <ScalarProperty Name="hotline2" ColumnName="hotline2" />
+                <ScalarProperty Name="hotline1" ColumnName="hotline1" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

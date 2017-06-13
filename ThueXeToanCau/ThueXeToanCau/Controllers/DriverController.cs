@@ -177,5 +177,22 @@ namespace ThueXeToanCau.Controllers
                 return ex.Message;
             }            
         }
+        public string getLocation(string phone)
+        {
+            double? lat = 21.008665;
+            double? lon = 105.8472903;
+            try
+            {
+               
+                var p = db.list_online.Where(o => o.phone == phone).FirstOrDefault();
+                lat = p.lat;
+                lon = p.lon;
+                return lat + "_" + lon;
+            }
+            catch
+            {
+                return lat + "_" + lon;
+            }
+        }
     }
 }

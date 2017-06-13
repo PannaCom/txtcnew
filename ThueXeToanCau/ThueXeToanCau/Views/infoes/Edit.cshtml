@@ -1,0 +1,72 @@
+﻿@model ThueXeToanCau.Models.info
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Edit</h2>
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>info</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+
+        <div class="form-group">
+            <span class="control-label col-md-2">Số Hotline đầu trang</span>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.hotline1, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.hotline1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="control-label col-md-2">Số Hotline cuối trang (nếu có nhiều số ngăn cách nhau dấu - )</span>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.hotline2, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.hotline2, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="control-label col-md-2">Giới Thiệu</span>
+            <div class="col-md-10">
+                @Html.TextAreaFor(m => m.about, new { @class = "form-control", @rows = "5" })
+                @Html.ValidationMessageFor(model => model.about, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="control-label col-md-2">Địa Chỉ Liên Hệ</span>
+            <div class="col-md-10">
+                @Html.TextAreaFor(m => m.address, new { @class = "form-control", @rows = "5" })
+                @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script>
+    CKEDITOR.replace('about', {
+        removeButtons: 'Save',
+        height: '500px'
+    })
+    CKEDITOR.replace('address', {
+        removeButtons: 'Save',
+        height: '500px'
+    })
+</script>

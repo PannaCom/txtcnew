@@ -35,8 +35,13 @@ namespace ThueXeToanCau.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            try { 
+                ViewBag.about = db.infoes.FirstOrDefault().about;
+            }
+            catch
+            {
 
+            }
             return View();
         }
 

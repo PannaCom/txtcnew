@@ -1,0 +1,48 @@
+﻿@model IEnumerable<ThueXeToanCau.Models.info>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Index</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.hotline1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.hotline2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.about)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.address)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.hotline1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.hotline2)
+        </td>
+        <td>
+            @Html.Raw(item.about)
+        </td>
+        <td>
+            @Html.Raw(item.address)
+        </td>
+        <td>
+            @Html.ActionLink("Sửa", "Edit", new { id=item.id }) |
+          
+        </td>
+    </tr>
+}
+
+</table>

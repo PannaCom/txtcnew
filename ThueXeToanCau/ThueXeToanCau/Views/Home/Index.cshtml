@@ -57,7 +57,7 @@
     }
 </style>
 <div class="col-md-12" id="listdriverall">
-    <h2>Tìm tài xế</h2>
+    <h2>Tìm tài xế và xe</h2>
     <div class="col-md-12">
         <input id="location" name="location" class="form-control" placeholder="gõ địa chỉ bạn cần tìm" type="text" />
         <input id="lon3" name="lon3" value="" type="hidden"><input id="lat3" name="lat3" value="" type="hidden">
@@ -77,7 +77,8 @@
     <div class="row text-center" style="min-height:667px;">
         <div class="col-sm-12">            
             <div class="col-sm-12" id="dv1" style="background-color:white;color:black;border-radius:25px;min-height:567px;border-right:1px solid #808080;opacity: 0.9;filter: alpha(opacity=50);">
-                <h2 style="color:#337ab7;">Đặt xe trực tuyến Grab - Uber đường dài(Đang thử nghiệm)</h2>
+                <h2 style="color:#337ab7;">Đặt xe trực tuyến hoặc gọi tổng đài ngay để được thuê xe giá rẻ</h2>
+                <h3 style="color:#808080;"><a href="tel:0129968888" >Gọi đặt xe: 012996 8888</a> <a href="tel:02436888333" >&nbsp;hoặc 02436 888 333</a></h3>
                 <div class="col-sm-6">
                     <p style="text-align:left;margin-top:5px;">Điểm đi *</p>
                     <input id="car_from" name="car_from" class="form-control" placeholder="quận huyện, đường phố, thị trấn..." type="text"/>
@@ -147,6 +148,10 @@
     <input id="driver_phone" name="driver_phone" type="hidden" value="@ViewBag.driver_phone" />    
     <input type="button" value="Đấu Giá" class="btn btn-primary btn-block" onclick="confirmBookingFinal();" style="margin-bottom:5px;" id="btnregister1" />
 </div>   
+<div class="row" style="width:75%;top:25%;background:#ffffff;color:#000000;position:fixed;padding-left:5px;padding-right:5px;text-align:left;display:none;z-index:999;" id="driverphonedv">
+    <div style="width:100%;text-align:center;color:#000000;" class="standardcss"><h2 id="driverphone">Số Điện Thoại Tài Xế Là</h2></div>
+    <input type="button" value="ĐÓNG LẠI" class="btn btn-primary btn-block" onclick="closephone();" style="margin-bottom:5px;" id="driverphonedvbtn" />
+</div>
 <div class="row" style="width:75%;top:25%;background:#ffffff;color:#000000;position:fixed;padding-left:5px;padding-right:5px;text-align:left;display:none;z-index:1002;" id="airport">
     <div style="width:100%;text-align:center;color:#000000;" class="standardcss"><h2>Chọn sân bay</h2></div>
     <p style="text-align:left;margin-top:5px;">Chọn sân bay *</p>
@@ -306,6 +311,42 @@
         }
 
     });
+    function openphone(phone) {
+        if (confirm("Lưu ý trước khi xem số điện thoại của tài xế!\r\nBạn chỉ được xem số điện thoại tài xế 1 lần/1 ngày. Vượt quá số lần này bạn hãy gọi tổng đài để đặt xe. Ấn OK để xem tiếp") == true) {
+            if (getCookie("openphone") == "") {
+                $("#driverphonedv").show();
+                $("#driverphone").html("Số Điện Thoại Tài Xế Là " + phone);
+                setCookie("openphone", "openphone", 1);
+            } else {
+                alert("Bạn đã xem quá số lần quy định/1 ngày");
+            }
+            
+        }
+    }
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+    function closephone() {
+        $("#driverphonedv").hide();
+    }
     function checkWho() {
         if ($("#car_who_hire").val().toString().toLowerCase().indexOf("văn phòng xe") >= 0) {
             document.getElementById("name").value = "";
@@ -418,7 +459,7 @@
                     //action += "<button class='btn btn-danger' style='width:100%' onclick='bookingFinal(" + json_parsed.news[i].book_price + "," + json_parsed.news[i].current_price + "," + json_parsed.news[i].id + ",0);'>Đấu Giá</button>";
                     //Mỗi tài xế đấu giá khi ấn vào nút đấu giá sẽ gửi lên server qua API này, bookingFinal(long id_driver, string driver_number, string driver_phone, int price, long id_booking,int? type)
                     //Với id_driver là id tài xế, biển số, số phone, giá đặt mua ngay/đấu giá, id_booking là id của chuyến xe đang được đấu giá mà anh mô tả ở id trên, type=0 là đấu giá, =1 là mua ngay, nếu là mua ngay thì anh sẽ đánh dấu ông nào mua ngay sớm nhất sẽ thắng, các nút đấu giá sau này gửi lên sẽ trả về bằng 0 hết, tức ko đấu giá được nữa, do có người đã mua ngay, =-1 thì trả về do lỗi mạng, =1 là trả về đấu giá thành công
-                    items += "<tr><td>" + json_parsed.news[i].name + "</td><td><a href=\"tel:" + json_parsed.news[i].phone + "\" class='btn btn-warning'>Gọi Điện</a></td><td>" + json_parsed.news[i].car_model + "</td><td>" + json_parsed.news[i].car_years + "</td><td>" + json_parsed.news[i].car_size + "</td><td>" + json_parsed.news[i].car_type + "</td><td>" + parseFloat(json_parsed.news[i].D).toFixed(2) + "</td></tr>";
+                    items += "<tr><td>" + json_parsed.news[i].name + "</td><td><a href=\"#\" class='btn btn-warning' onclick=\"openphone('" + json_parsed.news[i].phone + "');\">Gọi Điện</a></td><td>" + json_parsed.news[i].car_model + "</td><td>" + json_parsed.news[i].car_years + "</td><td>" + json_parsed.news[i].car_size + "</td><td>" + json_parsed.news[i].car_type + "</td><td>" + parseFloat(json_parsed.news[i].D).toFixed(2) + "</td></tr>";
                     //alert(arrNotice[i]);
                 }
             }
@@ -497,6 +538,8 @@
                 map.setCenter(pos);
 
             }, function () {
+                getBookingAround(21.008665, 105.8472903);
+                getDriverAround(21.008665, 105.8472903, -1);
                 handleLocationError(true, infoWindow, map.getCenter());
 
             });

@@ -86,7 +86,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/Home" style="font-size: 14px; margin-top: -4px;"><img style="display: inline;margin-right: 10px;" src="~/Content/Images/logo-tmdt.png" /><span class="hidden-xs">Thuê xe toàn cầu gọi ngay 01239666666</span></a>
+                <a class="navbar-brand" href="/Home" style="font-size: 14px; margin-top: -4px;"><img style="display: inline;margin-right: 10px;" src="~/Content/Images/logo-tmdt.png" /><span class="hidden-xs">@Html.Raw(@Config.getHotLine())</span></a>
                 @*<img src="~/Content/Images/logo-tmdt.png">@Html.ActionLink("Thương mại Điện tử cho người Lạng Sơn", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
 
             </div>
@@ -99,7 +99,7 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a href="/Driver/Reg/ViewTrans">Đăng Ký</a></li>
+                            <li><a href="/Driver/Reg/">Đăng Ký</a></li>
                             <li><a href="/Driver/Log">Đăng Nhập</a></li>
                         </ul>
                     </div>
@@ -114,6 +114,16 @@
                             <li><a href="/Home/ViewOwn">Bảng công nợ tài xế</a></li>
                         </ul>
                      </div>
+                    <div class="dropdown" style="float:right;">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                            Giới thiệu
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="/Home/About">Về chúng tôi</a></li>
+                         
+                        </ul>
+                    </div>
                 
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
@@ -136,7 +146,9 @@
     <div id="tf-footer">
         <div class="container">
             <!-- container -->
-            <p class="pull-left">© 2016 ThueXeToanCau.Vn - email:<a href="mailto:taxiquoctuan@gmail.com ">taxiquoctuan@gmail.com</a> - Điện thoại: <a href="tel:01239666666" class="btn btn-primary btn-success">01239666666</a></p> <!-- copyright text here-->
+            <p class="pull-left" style="width:100%;">© 2016 ThueXeToanCau.Vn</p>
+            @Html.Raw(Config.getAddress())
+            <!-- copyright text here-->
             <ul class="list-inline social pull-right">
                 <li><a href="#"><i class="fa fa-facebook"></i></a></li> <!-- Change # With your FB Link -->
                 <li><a href="#"><i class="fa fa-twitter"></i></a></li> <!-- Change # With your Twitter Link -->

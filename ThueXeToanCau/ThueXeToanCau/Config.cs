@@ -61,6 +61,30 @@ namespace ThueXeToanCau
             }
             //return false;
         }
+        public static string getHotLine()
+        {
+            try
+            {
+                var p = db.infoes.FirstOrDefault();
+                return "<a href=\"tel:" + p.hotline1 + "\" style=\"padding-top:15px;float:left;\">Gọi đặt xe: " + p.hotline1 + "</a> - <a href=\"tel:" + p.hotline2 + "\" style=\"padding-top:15px;float:left;\">&nbsp;hoặc " + p.hotline2 + "</a>";
+            }
+            catch
+            {
+                return "Gọi <a href=\"tel:0129968888\" style=\"padding-top:15px;\">Gọi đặt xe: 0129968888</a> - <a href=\"tel:02436888333\" style=\"padding-top:15px;\">&nbsp;hoặc 02436888333</a>";
+            }
+        }
+        public static string getAddress()
+        {
+            try
+            {
+                var p = db.infoes.FirstOrDefault();
+                return "<p class=\"pull-left\" style=\"width:100%;\">"+ p.address + "</p>";
+            }
+            catch
+            {
+                return "";
+            }
+        }
         public static string GetMd5Hash(MD5 md5Hash, string input)
         {
 

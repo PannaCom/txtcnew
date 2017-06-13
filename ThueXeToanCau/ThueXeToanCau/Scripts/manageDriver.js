@@ -90,6 +90,15 @@ function openDriver(dId, name, phone, card_identify, license, address, car_numbe
     if (car_made != '') {
         $('#car option[value=' + car_made + ']').prop('selected', true);
     }
+    $.ajax({
+        url: "/Driver/getLocation?phone=" + phone,
+        cache: false
+    }).done(function (html) {
+        var ll = html.split("_");
+        $("#lat").val(ll[0]);
+        $("#lon").val(ll[1]);
+        //alert(html);
+    });
     $("#driverDialog").show();
 }
 
@@ -121,6 +130,26 @@ function saveDriver() {
         $("#tPassConfirm").val('');
         return false;
     }
+    if ($("#tname").val() == '') {
+        alert("Nhập tên tài xế");
+        isValid = false;
+        return false;
+    }
+    if ($("#tphone").val() == '') {
+        alert("Nhập số điện thoại");
+        isValid = false;
+        return false;
+    }
+    if ($("#address").val() == '' || $("#lon").val() == '') {
+        alert("Nhập địa chỉ tài xế hay đón khách");
+        isValid = false;
+        return false;
+    }
+    if ($("#car_model").val() == '') {
+        alert("Nhập model xe");
+        isValid = false;
+        return false;
+    }
 
     if (isExistInfo) return false;
     var driverObj = {
@@ -129,18 +158,45 @@ function saveDriver() {
         car_type: $("#car_type").val(), address: $("#address").val(), license: $("#tLicense").val(), car_made: $("#car").val()
         , total_moneys: $("#total_moneys").val()
     };
+    var driverObj2 = {
+        id: 0, car_number: $("#car_number").val(), lat: $("#lat").val(), lon: $("#lon").val(), phone: $("#tphone").val()
+    };
     $.ajax({
-        url: url_addUpdateDriver, type: 'post',
+        url: url_addUpdateDriver2, type: 'post',
         contentType: 'application/json',
-        data: JSON.stringify(driverObj),
+        data: JSON.stringify(driverObj2),
         success: function (rs) {
             if (rs == '') {
-                location.reload();
+                $.ajax({
+                    url: url_addUpdateDriver, type: 'post',
+                    contentType: 'application/json',
+                    data: JSON.stringify(driverObj),
+                    success: function (rs) {
+                        if (rs == '') {
+                            alert("Đăng Ký Thành Công!");
+                            location.reload();
+                        } else {
+                            alert(rs);
+                        }
+                    }
+                })
             } else {
                 alert(rs);
             }
         }
     })
+    //$.ajax({
+    //    url: url_addUpdateDriver, type: 'post',
+    //    contentType: 'application/json',
+    //    data: JSON.stringify(driverObj),
+    //    success: function (rs) {
+    //        if (rs == '') {
+    //            location.reload();
+    //        } else {
+    //            alert(rs);
+    //        }
+    //    }
+    //})
 }
 function saveDriver2() {
     var isValid = true;
