@@ -8,8 +8,7 @@
 <link rel="stylesheet" href="/Scripts/jquery-ui.css">*@
 <script src="/Scripts/jquery.datetimepicker.js"></script>
 <link rel="stylesheet" type="text/css" href="/Content/jquery.datetimepicker.css" />
-<script src="/Scripts/markerclusterer.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places&region=vn&language=vi" type="text/javascript"></script>
+<script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places" type="text/javascript"></script>
 <script src="/Scripts/jquery.geocomplete.js"></script>
 
 @*<h2>Đặt xe trực tuyến Grab - Uber đường dài</h2>*@
@@ -56,10 +55,6 @@
         background-color: #4CAF50;
         color: white;
     }
-    #mapdriver {
-        width: 800px;
-        height: 400px;
-      }
 </style>
 <div id="fb-root"></div>
 <script>
@@ -77,9 +72,6 @@
         <input id="lon3" name="lon3" value="" type="hidden"><input id="lat3" name="lat3" value="" type="hidden">
         Số chỗ <select id="car_type2" class="form-control"></select>
         <input type="button" value="TÌM KIẾM" onclick="DriverOnline();" class="btn btn-primary btn-block" style="margin-bottom:5px;" id="searchdriver" />
-    </div>
-    <div class="col-md-12">
-        <div id="mapdriver" style="width:100%;"></div>
     </div>
     <div class="col-md-12" id="listdriver">
 
@@ -188,7 +180,6 @@
     </select>
     <input type="button" value="ĐẶT XE" class="btn btn-primary btn-block" onclick="setairport();" style="margin-bottom:5px;" id="btnregister2" />
 </div>  
-
 <script>
     //alert($.number(1000000, 0, ','));
     $('#from_datetime').datetimepicker({
@@ -461,9 +452,7 @@
         var car_size = document.getElementById("car_type2").value;
         getDriverAround(lat3, lon3, car_size);
     }
-    function getDriverAround(lat, lon, car_size) {
-        var people = [];
-        var locations = "{lat: 105.8194541, lng:21.0227431}";
+    function getDriverAround(lat, lon,car_size) {
         var scar_size = "";
         //if (lat == null) {
         //    alert("Địa chỉ chưa rõ ràng");
@@ -479,18 +468,6 @@
             var items = "";
             items += "<tr><th>Tên tài xế</th><th>Số điện thoại</th><th>Kiểu xe</th><th>Năm Sản Xuất</th><th>Số chỗ</th><th>Dạng xe</th><th>Khoảng cách(km)</th></tr>";
             var json_parsed = $.parseJSON(news);
-            var markers = [];
-            var imageUrl = 'http://chart.apis.google.com/chart?cht=mm&chs=24x32&' +
-          'chco=FFFFFF,008CFF,000000&ext=.png';
-            var markerImage = new google.maps.MarkerImage(imageUrl, new google.maps.Size(24, 32));
-            var styles = [[{
-                url: 'http://thuexetoancau.vn/Content/images/people.png',
-                height: 35,
-                width: 35,
-                anchor: [16, 0],
-                textColor: '#ff00ff',
-                textSize: 10
-            }]]
             for (var i = 0; i < json_parsed.news.length; i++) {
                 if (json_parsed.news[i]) {
                     //var action = "<button class='btn btn-warning' style='width:100%' onclick='bookingFinal(" + json_parsed.news[i].book_price + "," + json_parsed.news[i].current_price + "," + json_parsed.news[i].id + ",1);'>Mua Ngay</button><br>";
@@ -499,11 +476,6 @@
                     //Với id_driver là id tài xế, biển số, số phone, giá đặt mua ngay/đấu giá, id_booking là id của chuyến xe đang được đấu giá mà anh mô tả ở id trên, type=0 là đấu giá, =1 là mua ngay, nếu là mua ngay thì anh sẽ đánh dấu ông nào mua ngay sớm nhất sẽ thắng, các nút đấu giá sau này gửi lên sẽ trả về bằng 0 hết, tức ko đấu giá được nữa, do có người đã mua ngay, =-1 thì trả về do lỗi mạng, =1 là trả về đấu giá thành công
                     items += "<tr><td>" + json_parsed.news[i].name + "</td><td><a href=\"#\" class='btn btn-warning' onclick=\"openphone('" + json_parsed.news[i].phone + "');\">Gọi Điện</a></td><td>" + json_parsed.news[i].car_model + "</td><td>" + json_parsed.news[i].car_years + "</td><td>" + json_parsed.news[i].car_size + "</td><td>" + json_parsed.news[i].car_type + "</td><td>" + parseFloat(json_parsed.news[i].D).toFixed(2) + "</td></tr>";
                     //alert(arrNotice[i]);
-                    people.push(json_parsed.news[i].name);
-                    locations += ",{lat: " + json_parsed.news[i].lat + ", lng: " + json_parsed.news[i].lon + "}";
-                    var latLng = new google.maps.LatLng(json_parsed.news[i].lat, json_parsed.news[i].lon);
-                    var marker = new google.maps.Marker({ 'position': latLng, 'label': json_parsed.news[i].name, 'icon': markerImage, 'draggable': true});
-                    markers.push(marker);
                 }
             }
             $("#listdriver").html("<table>" + items + "</table>");
@@ -511,33 +483,7 @@
                 $("#listdriver").hide();
                 alert("Không tìm thấy loại xe này hoặc bạn chưa nhập địa chỉ tài xế");
             }
-            
-            //alert(people.length + locations);//people.length + 
-            var map22 = new google.maps.Map(document.getElementById('mapdriver'), {
-                zoom: 5,                
-                center: { lat: 21.0227431, lng: 105.8194541 },
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            });
-            // Create an array of alphabetical characters used to label the markers.
-            //var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            
-            //var markers = locations.map(function (location, i) {
-            //    return new google.maps.Marker({
-            //        position: location,
-            //        label: people[i % people.length]
-            //    });
-            //});
-            // Add a marker clusterer to manage the markers.
-            var markerCluster = new MarkerClusterer(map22, markers, { maxZoom: 19, gridSize: 70, imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
-            //alert(styles[0]);
-            //var markerClusterer = new MarkerClusterer(map, markers, {
-            //    maxZoom: 19,
-            //    gridSize: 70,
-            //    styles: styles[0],
-            //    imagePath: '../images/m'
-            //});
         });
-
     }
     function bookingFinal(book_price, current_price, id,type) {
         var id_driver=document.getElementById("id_driver").value;
@@ -617,8 +563,8 @@
             handleLocationError(false, infoWindow, map.getCenter());
         }
     }
-
-    @*function initMap2() {
+   
+    function initMap2() {
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 3,
             center: {lat: 21.0227431, lng: 105.8194541}
@@ -642,7 +588,7 @@
         var markerCluster = new MarkerClusterer(map, markers,
             {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
     }
-    var locations = [@locations];*@
+    var locations = [@locations];
     function confirmbookcar() {
         if (document.getElementById("name").value != "" && document.getElementById("phone").value != "") {
             booking();
@@ -739,10 +685,10 @@
                     document.getElementById('fkm').innerHTML = info[1];
                     $.ajax({
                         url: "/Api/setcookie?name=" + document.getElementById("name").value + "&phone=" + document.getElementById("phone").value,
-                        cache: false
-                    }).done(function( html ) {
+                            cache: false
+                        }).done(function( html ) {
 
-                    });
+                        });
                     document.getElementById('notice').innerHTML = "<b>Ghi chú:</b><span style=\"font-style:italic;\">";
 
                     if ($("#car_who_hire").val().toString().toLowerCase().indexOf("khách thuê") < 0) {

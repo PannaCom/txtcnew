@@ -86,22 +86,22 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/Home" style="font-size: 14px; margin-top: -4px;"><img style="display: inline;margin-right: 10px;" src="~/Content/Images/logo-tmdt.png" /><span class="hidden-xs">@Html.Raw(@Config.getHotLine())</span></a>
-                @*<img src="~/Content/Images/logo-tmdt.png">@Html.ActionLink("Thương mại Điện tử cho người Lạng Sơn", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
-
+                <a class="navbar-brand" href="/Home" style="font-size: 14px; margin-top: -4px;"><img style="display: inline;margin-right: 10px;float:left;" src="~/Content/Images/logo-tmdt.png" /><span class="hidden-xs" id="allhotline" style="float:right;"></span></a>
+               
+                <script>
+                    $.ajax({
+                        url: "/Api/getHotLine",
+                        cache: false
+                    }).done(function (html) {
+                        $("#allhotline").html(html);
+                    });
+                </script>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <div class="dropdown" style="float:right;">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                            Tài Xế
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="/Driver/Reg/">Đăng Ký</a></li>
-                            <li><a href="/Driver/Log">Đăng Nhập</a></li>
-                        </ul>
+                            <a href="http://xe63.vn" class="btn btn-primary dropdown-toggle" target="_blank">Xem xe khách</a>
                     </div>
                     <div class="dropdown" style="float:right;">
                         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
@@ -113,7 +113,15 @@
                             <li><a href="/Home/ViewSalary">Bảng lương tài xế</a></li>
                             <li><a href="/Home/ViewOwn">Bảng công nợ tài xế</a></li>
                         </ul>
-                     </div>
+                    </div>
+                    <div class="dropdown" style="float:right;">
+                            <a href="/Driver/Reg/" class="btn btn-primary dropdown-toggle">Đăng Ký Xe Và Tài Xế</a>
+                    </div>
+                    <div class="dropdown" style="float:right;">
+                        
+                            <a href="/Driver/Log" class="btn btn-primary dropdown-toggle">Đăng Nhập Tài Xế</a>
+                       
+                    </div>
                     <div class="dropdown" style="float:right;">
                         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
                             Giới thiệu
@@ -121,10 +129,8 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li><a href="/Home/About">Về chúng tôi</a></li>
-                         
                         </ul>
                     </div>
-                
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
@@ -147,8 +153,16 @@
         <div class="container">
             <!-- container -->
             <p class="pull-left" style="width:100%;">© 2016 ThueXeToanCau.Vn</p>
-            @Html.Raw(Config.getAddress())
-            @*<iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FTaxi-H%25C3%25A0-N%25E1%25BB%2599i-Qu%25E1%25BB%2591c-Tu%25E1%25BA%25A5n-1608681509354160%2F&tabs=timeline&width=300&height=150&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=true&appId=1745887292346789" width="300" height="150" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowtransparency="true"></iframe>*@
+            @*@Html.Raw(Config.getAddress())*@
+            <span id="alladdress"></span>
+            <script>
+                $.ajax({
+                    url: "/Api/getAddress",
+                    cache: false
+                }).done(function (html) {
+                    $("#alladdress").html(html);
+                });
+            </script>
             <!-- copyright text here-->
             <ul class="list-inline social pull-right">
                 <li><a href="#"><i class="fa fa-facebook"></i></a></li> <!-- Change # With your FB Link -->
