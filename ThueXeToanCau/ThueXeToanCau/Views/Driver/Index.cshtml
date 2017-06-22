@@ -20,14 +20,14 @@
 </div>
 <table class="table marginBottom0">
     <tr> 
-        <th>Tên Tài Xế</th> <th>Số điện thoại</th> <th>CMND</th> <th>Số bằng lái xe</th> <th>Địa chỉ</th> <th>Biển số</th> 
-        <th>Hãng xe</th> <th>Tên xe</th> <th>Số chỗ</th> <th>Loại xe</th> <th>Năm sản xuất</th><th>Tiền tài khoản</th> <th></th><th></th> 
+        <th>Tên Tài Xế</th> <th>Số điện thoại</th> <th>CMND</th><th>Số bằng lái xe</th> <th>Địa chỉ</th> <th>Biển số</th> 
+        <th>Hãng xe</th> <th>Tên xe</th> <th>Số chỗ</th> <th>Loại xe</th> <th>Năm sản xuất/Ngày tham gia</th><th>Tiền tài khoản</th> <th></th><th></th> 
     </tr>
     @foreach (var item in (PagedList<driver>)ViewBag.OnePage)
     {
         <tr>
             <td>@item.name</td><td>@item.phone</td><td>@item.card_identify</td><td>@item.license</td><td>@item.address</td><td>@item.car_number</td>
-            <td>@item.car_made</td><td>@item.car_model</td><td>@item.car_size chỗ</td><td>@item.car_type</td><td>@item.car_years</td>
+            <td>@item.car_made</td><td>@item.car_model</td><td>@item.car_size chỗ</td><td>@item.car_type</td><td>@item.car_years<br />@item.date_time</td>
             <td>@item.total_moneys</td>
             <td><a href="#" onclick="openDriver(@item.id, '@item.name','@item.phone', '@item.card_identify', '@item.license', '@item.address',
                    '@item.car_number', '@item.car_made', '@item.car_model', @item.car_size, '@item.car_type', @item.car_years,@item.total_moneys)">Sửa</a></td>

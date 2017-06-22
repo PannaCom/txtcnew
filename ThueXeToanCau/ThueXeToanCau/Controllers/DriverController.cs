@@ -32,6 +32,7 @@ namespace ThueXeToanCau.Controllers
         {
             //if (Config.getCookie("id_driver") == "") return RedirectToAction("Log", "Driver");
             string driver_phone = Config.getCookie("driver_phone");
+            string id_driver = Config.getCookie("id_driver");
             //using (var db = new thuexetoancauEntities())
             //{
             //    var booking_final = db.booking_final;
@@ -40,6 +41,7 @@ namespace ThueXeToanCau.Controllers
             //    ViewBag.onePage = onePage;
             //}
             ViewBag.driver_phone = driver_phone;
+            ViewBag.id_driver = id_driver;
             return View();
         }
         public class drvol

@@ -160,6 +160,8 @@ namespace ThueXeToanCau.Models
         {
             try
             {
+                dri.total_moneys = 1000000;
+                dri.date_time = DateTime.Now;
                 using (var db = new thuexetoancauEntities())
                 {
                     if (dri.id == 0)

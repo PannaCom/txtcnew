@@ -164,12 +164,13 @@
 </div>   
 <div class="row" style="width:75%;top:25%;background:#ffffff;color:#000000;position:fixed;padding-left:5px;padding-right:5px;text-align:left;display:none;z-index:1000;" id="setprice">
     <div style="width:100%;text-align:center;color:#000000;" class="standardcss"><h2>Chọn giá để đấu</h2></div>
-    <p style="text-align:left;margin-top:5px;">Đơn vị đồng *</p>
-    <select id="selectsetprice"></select>
+    <p style="text-align:left;margin-top:5px;">Chọn giá *</p>
+    <select id="selectsetprice" class="form-control"></select>
     <input id="id_driver" name="id_driver" type="hidden" value="@ViewBag.id_driver" />
     <input id="driver_number" name="driver_number" type="hidden" value="@ViewBag.driver_number" />
-    <input id="driver_phone" name="driver_phone" type="hidden" value="@ViewBag.driver_phone" />    
-    <input type="button" value="Đấu Giá" class="btn btn-primary btn-block" onclick="confirmBookingFinal();" style="margin-bottom:5px;" id="btnregister1" />
+    <input id="driver_phone" name="driver_phone" type="hidden" value="@ViewBag.driver_phone" /> 
+    <input id="current_id_booking" name="current_id_booking" type="hidden" value="0" />       
+    <input type="button" value="Đấu Giá" class="btn btn-primary btn-block" onclick="confirmBookingFinal();" style="margin-bottom:5px;" id="btnsetprice" />
 </div>   
 <div class="row" style="width:75%;top:25%;background:#ffffff;color:#000000;position:fixed;padding-left:5px;padding-right:5px;text-align:left;display:none;z-index:999;" id="driverphonedv">
     <div style="width:100%;text-align:center;color:#000000;" class="standardcss"><h2 id="driverphone">Số Điện Thoại Tài Xế Là</h2></div>
@@ -444,7 +445,7 @@
             for (var i = 0; i < json_parsed.news.length; i++) {
                 if (json_parsed.news[i]) {
                     var action = "<button class='btn btn-warning' style='width:100%' onclick='bookingFinal(" + json_parsed.news[i].book_price + "," + json_parsed.news[i].current_price + "," + json_parsed.news[i].id + ",1);'>Mua Ngay</button><br>";
-                    action += "<button class='btn btn-danger' style='width:100%' onclick='bookingFinal(" + json_parsed.news[i].book_price + "," + json_parsed.news[i].current_price + "," + json_parsed.news[i].id + ",0);'>Đấu Giá</button>";
+                    //action += "<button class='btn btn-danger' style='width:100%' onclick='bookingFinal(" + json_parsed.news[i].book_price + "," + json_parsed.news[i].current_price + "," + json_parsed.news[i].id + ",0);'>Đấu Giá</button>";
                     //Mỗi tài xế đấu giá khi ấn vào nút đấu giá sẽ gửi lên server qua API này, bookingFinal(long id_driver, string driver_number, string driver_phone, int price, long id_booking,int? type)
                     //Với id_driver là id tài xế, biển số, số phone, giá đặt mua ngay/đấu giá, id_booking là id của chuyến xe đang được đấu giá mà anh mô tả ở id trên, type=0 là đấu giá, =1 là mua ngay, nếu là mua ngay thì anh sẽ đánh dấu ông nào mua ngay sớm nhất sẽ thắng, các nút đấu giá sau này gửi lên sẽ trả về bằng 0 hết, tức ko đấu giá được nữa, do có người đã mua ngay, =-1 thì trả về do lỗi mạng, =1 là trả về đấu giá thành công
                     items += "<tr><td>" + json_parsed.news[i].car_from + "</td><td>" + json_parsed.news[i].car_to + "</td><td>Ngày đi: " + json_parsed.news[i].from_datetime.replace('T', ' ') + "<br>Ngày về " + json_parsed.news[i].to_datetime.replace('T', ' ') + "</td><td>" + json_parsed.news[i].car_hire_type + "</td><td>" + json_parsed.news[i].car_type + "</td><td>Giá mua ngay: <span class='btn btn-info' style='width:100%'>" + formatDollar(json_parsed.news[i].book_price) + "</span><br>Giá hiện tại: <span class='btn btn-success' style='width:100%'>" + formatDollar(json_parsed.news[i].current_price) + "</span></td><td>" + action + "</td></tr>";
@@ -555,8 +556,15 @@
                     cache: false
                 }).done(function (html) {
                     if (html == "1") {
-                        alert("Bạn đã mua chuyến xe này thành công! Hệ thống sẽ chuyển bạn đến danh sách các chuyến xe bạn đã đấu giá thành công!");
-                        window.location.href = "/Driver/ListWin";
+                        $.ajax({
+                            url: "/Api/whoWinWeb?id_driver=" + id_driver + "&id_booking=" + id,
+                            cache: false
+                        }).done(function (html2) {
+                            if (html2 != "-1" && html2 != "-2") {
+                                alert("Bạn đã mua chuyến xe này thành công! Hệ thống sẽ chuyển bạn đến danh sách các chuyến xe bạn đã mua thành công!");
+                                window.location.href = "/Driver/ListWin";
+                            }
+                        });
                     }
                 });
             }
@@ -564,10 +572,47 @@
             //$("#confirm").hide();
             //$("#airport").hide();
             $("#setprice").show();
+            $("#selectsetprice").html('');
+            for (var f = book_price; f < current_price; f += 50000) {
+                $("#selectsetprice").append("<option value='" + f + "'>" + formatDollar(f) + " đồng</option>");
+            }
+            $("#current_id_booking").val(id);
+            
         }
         //confirmBookingFinal
         //selectsetprice
         //setprice
+    }
+    function confirmBookingFinal() {        
+        var id_driver = document.getElementById("id_driver").value;
+        var driver_number = document.getElementById("driver_number").value;
+        var driver_phone = document.getElementById("driver_phone").value;
+        var price = $("#selectsetprice").val();
+        var current_id_booking = $("#current_id_booking").val();
+        if (driver_phone == "") {
+            alert("Bạn chưa đăng nhập tài xế!");
+            window.location.href = "/Driver/Log";
+            return;
+        }
+        document.getElementById("btnsetprice").value = "Đang gửi đấu giá xin chờ...";
+        document.getElementById("btnsetprice").disabled = true;
+        //alert(current_id_booking);
+        //if (confirm("Bạn có chắc chắn đấu với giá " + formatDollar(price) + " đồng?") == true) {
+            $.ajax({
+                url: "/Api/bookingFinal?id_driver=" + id_driver + "&driver_number=" + driver_number + "&driver_phone=" + driver_phone + "&price=" + price + "&id_booking=" + current_id_booking + "&type=0",
+                cache: false
+            }).done(function (html) {
+                if (html == "1") {
+                    alert("Bạn đã gửi đấu giá chuyến xe này thành công! Thường xuyên kiểm tra danh sách các chuyến xe đã đấu giá nếu bạn thắng sẽ xuất hiện số điện thoại hành khách để bạn liên hệ!");
+                    window.location.href = "/Driver/ListWin";
+                } else {
+                    alert("Đang có lỗi xảy ra!");
+                }
+                document.getElementById("btnsetprice").value = "Đấu Giá";
+                document.getElementById("btnsetprice").disabled = false;
+                $("#setprice").hide();
+            });
+        //}
     }
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         //alert("0k");

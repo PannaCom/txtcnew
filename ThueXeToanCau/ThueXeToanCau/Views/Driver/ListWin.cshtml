@@ -74,18 +74,35 @@
         var items = "";
         items += "<tr><th>Điểm Đi</th><th>Điểm Đến</th><th>Thời gian</th><th>Hình thức thuê</th><th>Số chỗ</th><th>Giá</th></tr>";
         var json_parsed = $.parseJSON(news);
+        var count=0;
         for (var i = 0; i < json_parsed.news.length; i++) {
             if (json_parsed.news[i]) {
-
+                count++;
                 //Mỗi tài xế đấu giá khi ấn vào nút đấu giá sẽ gửi lên server qua API này, bookingFinal(long id_driver, string driver_number, string driver_phone, int price, long id_booking,int? type)
                 //Với id_driver là id tài xế, biển số, số phone, giá đặt mua ngay/đấu giá, id_booking là id của chuyến xe đang được đấu giá mà anh mô tả ở id trên, type=0 là đấu giá, =1 là mua ngay, nếu là mua ngay thì anh sẽ đánh dấu ông nào mua ngay sớm nhất sẽ thắng, các nút đấu giá sau này gửi lên sẽ trả về bằng 0 hết, tức ko đấu giá được nữa, do có người đã mua ngay, =-1 thì trả về do lỗi mạng, =1 là trả về đấu giá thành công
-                items += "<tr><td>" + json_parsed.news[i].car_from + "</td><td>" + json_parsed.news[i].car_to + "<br>Số điện thoại khách <a class='btn btn-info' style='width:100%' href='tel:" + json_parsed.news[i].phone + "'>" + json_parsed.news[i].phone + "</a></td><td>Ngày đi: " + json_parsed.news[i].from_datetime.replace('T', ' ') + "<br>Ngày về " + json_parsed.news[i].to_datetime.replace('T', ' ') + "</td><td>" + json_parsed.news[i].car_hire_type + "</td><td>" + json_parsed.news[i].car_type + "</td><td>Giá mua ngay: <span class='btn btn-info' style='width:100%'>" + formatDollar(json_parsed.news[i].book_price) + "</span><br>Giá đấu giá: <span class='btn btn-success' style='width:100%'>" + formatDollar(json_parsed.news[i].current_price) + "</span></td></tr>";
+                items += "<tr><td>" + json_parsed.news[i].car_from + "</td><td>" + json_parsed.news[i].car_to + "<br>Số điện thoại khách <a class='btn btn-info' style='width:100%' href='#' id=tel_" + count + " href='tel:" + json_parsed.news[i].phone + "'>" + json_parsed.news[i].phone + "</a></td><td>Ngày đi: " + json_parsed.news[i].from_datetime.replace('T', ' ') + "<br>Ngày về " + json_parsed.news[i].to_datetime.replace('T', ' ') + "</td><td>" + json_parsed.news[i].car_hire_type + "</td><td>" + json_parsed.news[i].car_type + "</td><td>Giá mua ngay: <span class='btn btn-info' style='width:100%'>" + formatDollar(json_parsed.news[i].book_price) + "</span><br>Giá đấu giá: <span class='btn btn-success' style='width:100%'>" + formatDollar(json_parsed.news[i].current_price) + "</span></td></tr>";
                 //alert(arrNotice[i]);
+                //whoWin(json_parsed.news[i].id,@ViewBag.id_driver,count);
             }
         }
         $("#listcar").html("<table>" + items + "</table>");
-       
+
     });
+    function whoWin(id_booking, id_driver,count) {
+        $.ajax({
+            url: "/Api/whoWin?id_booking="+id_booking+"&id_driver="+id_driver,
+            cache: false
+        }).done(function (html) {
+            //alert(html);
+            if (html!="-2" && html!="-1"){
+                var p=html.split('_');
+                $("#tel_"+count).html(p[0]);
+                $("#tel_"+count).attr("href","tel:"+p[0]);
+            }else{
+                $("#tel_"+count).html('...');
+            }
+        });
+    }
     function formatDollar(num) {
         var p = num.toFixed(2).split(".");
         return p[0].split("").reverse().reduce(function (acc, num, i, orig) {
