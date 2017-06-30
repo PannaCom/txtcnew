@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Web.Mvc;
 using ThueXeToanCau.Models;
 using Newtonsoft.Json;
+using System.Text;
 namespace ThueXeToanCau.Controllers
 {
     public class DriverController : Controller
@@ -68,7 +69,7 @@ namespace ThueXeToanCau.Controllers
                        query+="(";
                        query += "SELECT id,name,phone,email,car_model,car_made,car_years,car_size,car_number,car_type,address,lon,lat,ACOS(SIN(PI()*" + lat + "/180.0)*SIN(PI()*lat/180.0)+COS(PI()*" + lat + "/180.0)*COS(PI()*lat/180.0)*COS(PI()*lon/180.0-PI()*" + lon + "/180.0))*6371 as D ";
                        query+="FROM thuexetoancau.dbo.drivers as A inner join ";
-                       query+="(select lon,lat,phone as phone2 from list_online) as B on A.phone=B.phone2 ";
+                       query += "(select distinct lon,lat,phone as phone2 from list_online) as B on A.phone=B.phone2 ";
                        query+=" ) as C where 1=1 ";
                 if (lon!=null){
                     query+=" and D<300";
@@ -194,6 +195,45 @@ namespace ThueXeToanCau.Controllers
             catch
             {
                 return lat + "_" + lon;
+            }
+        }
+        public void ToExcel()
+        {
+           
+            string query = "";
+            StringBuilder rp = new StringBuilder();
+            var filename = "";
+           
+            try
+            {
+
+                filename = "TaiXe";
+                var p = db.drivers.OrderBy(o=>o.name).ToList();
+                rp.Append("<tr><th>Biển Xe</th><th>Họ tên</th><th>Số Điện Thoại</th><th>Địa Chỉ</th><th>Hãng xe</th><th>Số chỗ</th><th>Loại xe</th><tr>");
+                for (int i = 0; i < p.Count; i++)
+                {
+                    var item = p[i];
+                    long phone = 0;
+                    long.TryParse(item.phone, out phone);
+                    string phone2 = "0" + phone;
+                    rp.Append("<tr><td>" + item.car_number + "</td><td>" + item.name + "</td><td>'" + phone2 + "'</td><td> &nbsp;" + item.address + "</td><td>" + item.car_made + " " + item.car_model + "</td><td>" + item.car_size + "</td><td>" + item.car_type + "</td><tr>");
+                }
+               
+                Response.ClearContent();
+                Response.ClearHeaders();
+                Response.BufferOutput = true;
+                Response.ContentType = "application/vnd.ms-excel";
+                Response.AddHeader("Content-Disposition", "attachment; filename=" + filename + ".xls");
+                Response.Write("<table cellspacing=0 cellpadding=0 border=\"1\">" + rp.ToString() + "</table>");
+                //Response.Write(htmlContent.ToString());
+                Response.Flush();
+                Response.Close();
+                Response.End();
+
+            }
+            catch (Exception exmain)
+            {
+                return;
             }
         }
     }
