@@ -95,7 +95,7 @@
         <div class="col-sm-12">            
             <div class="col-sm-12" id="dv1" style="background-color:white;color:black;border-radius:25px;min-height:567px;border-right:1px solid #808080;opacity: 0.9;filter: alpha(opacity=50);">
                 <h2 style="color:#337ab7;">Đặt xe trực tuyến hoặc gọi tổng đài ngay để được thuê xe giá rẻ</h2>
-                <h3 style="color:#808080;"><a href="tel:0129968888" >Gọi đặt xe: 012996 8888</a> <a href="tel:02436888333" >&nbsp;hoặc 02436 888 333</a></h3>
+                <h3 style="color:#808080;"><a href="tel:0129968888" >Gọi đặt xe: 012996 88888</a> <a href="tel:02436888333" >&nbsp;hoặc 02436 888 333</a></h3>
                 <div class="col-sm-6">
                     <p style="text-align:left;margin-top:5px;">Điểm đi *</p>
                     <input id="car_from" name="car_from" class="form-control" placeholder="quận huyện, đường phố, thị trấn..." type="text"/>
@@ -481,29 +481,45 @@
             items += "<tr><th>Tên tài xế</th><th>Số điện thoại</th><th>Kiểu xe</th><th>Năm Sản Xuất</th><th>Số chỗ</th><th>Dạng xe</th><th>Khoảng cách(km)</th></tr>";
             var json_parsed = $.parseJSON(news);
             var markers = [];
-            var imageUrl = 'http://chart.apis.google.com/chart?cht=mm&chs=24x32&' +
+            var imageUrl = '/images/car.png' +
           'chco=FFFFFF,008CFF,000000&ext=.png';
             var markerImage = new google.maps.MarkerImage(imageUrl, new google.maps.Size(24, 32));
             var styles = [[{
-                url: 'http://thuexetoancau.vn/Content/images/people.png',
+                url: 'http://thuexetoancau.vn/images/car.png',
                 height: 35,
                 width: 35,
                 anchor: [16, 0],
                 textColor: '#ff00ff',
                 textSize: 10
             }]]
+            var image = {
+                url: 'http://thuexetoancau.vn/images/car2.png',
+                // This marker is 20 pixels wide by 32 pixels high.
+                size: new google.maps.Size(64, 64),
+                // The origin for this image is (0, 0).
+                origin: new google.maps.Point(0, 0),
+                // The anchor for this image is the base of the flagpole at (0, 32).
+                anchor: new google.maps.Point(64, 64)
+            };
+
             for (var i = 0; i < json_parsed.news.length; i++) {
                 if (json_parsed.news[i]) {
                     //var action = "<button class='btn btn-warning' style='width:100%' onclick='bookingFinal(" + json_parsed.news[i].book_price + "," + json_parsed.news[i].current_price + "," + json_parsed.news[i].id + ",1);'>Mua Ngay</button><br>";
                     //action += "<button class='btn btn-danger' style='width:100%' onclick='bookingFinal(" + json_parsed.news[i].book_price + "," + json_parsed.news[i].current_price + "," + json_parsed.news[i].id + ",0);'>Đấu Giá</button>";
                     //Mỗi tài xế đấu giá khi ấn vào nút đấu giá sẽ gửi lên server qua API này, bookingFinal(long id_driver, string driver_number, string driver_phone, int price, long id_booking,int? type)
                     //Với id_driver là id tài xế, biển số, số phone, giá đặt mua ngay/đấu giá, id_booking là id của chuyến xe đang được đấu giá mà anh mô tả ở id trên, type=0 là đấu giá, =1 là mua ngay, nếu là mua ngay thì anh sẽ đánh dấu ông nào mua ngay sớm nhất sẽ thắng, các nút đấu giá sau này gửi lên sẽ trả về bằng 0 hết, tức ko đấu giá được nữa, do có người đã mua ngay, =-1 thì trả về do lỗi mạng, =1 là trả về đấu giá thành công
-                    items += "<tr><td>" + json_parsed.news[i].name.toString().toUpperCase() + "</td><td><a href=\"#\" class='btn btn-warning' onclick=\"openphone('" + json_parsed.news[i].phone + "');\">Gọi Điện</a></td><td>" + json_parsed.news[i].car_model + "</td><td>" + json_parsed.news[i].car_years + "</td><td>" + json_parsed.news[i].car_size + "</td><td>" + json_parsed.news[i].car_type + "</td><td>" + parseFloat(json_parsed.news[i].D).toFixed(2) + "</td></tr>";
+                    if (i<10) items += "<tr><td>" + json_parsed.news[i].name.toString().toUpperCase() + "</td><td><a href=\"#\" class='btn btn-warning' onclick=\"openphone('" + json_parsed.news[i].phone + "');\">Gọi Điện</a></td><td>" + json_parsed.news[i].car_model + "</td><td>" + json_parsed.news[i].car_years + "</td><td>" + json_parsed.news[i].car_size + "</td><td>" + json_parsed.news[i].car_type + "</td><td>" + parseFloat(json_parsed.news[i].D).toFixed(2) + "</td></tr>";
                     //alert(arrNotice[i]);
                     people.push(json_parsed.news[i].name.toString().toUpperCase());
                     locations += ",{lat: " + json_parsed.news[i].lat + ", lng: " + json_parsed.news[i].lon + "}";
                     var latLng = new google.maps.LatLng(json_parsed.news[i].lat, json_parsed.news[i].lon);
-                    var marker = new google.maps.Marker({ 'position': latLng, 'label': json_parsed.news[i].name.toString().toUpperCase(), 'icon': markerImage, 'draggable': true });
+                    var marker = new google.maps.Marker({ 'position': latLng, 'label': json_parsed.news[i].name.toString().toUpperCase(), title: 'Click to zoom', 'icon': image, 'draggable': true });
+                    var phone = json_parsed.news[i].phone;
+                    marker.addListener('click', function () {
+                        //alert("ok");
+                        openphone(phone);
+                    });
+
                     markers.push(marker);
                 }
             }
@@ -515,7 +531,7 @@
             
             //alert(people.length + locations);//people.length + 
             var map22 = new google.maps.Map(document.getElementById('mapdriver'), {
-                zoom: 5,                
+                zoom: 9,                
                 center: { lat: 21.0227431, lng: 105.8194541 },
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             });
