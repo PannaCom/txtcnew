@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Thuê Xe Toàn Cầu">
+    <meta name="author" content="https://www.365bootstrap.com">
+    <title>Thuê Xe Toàn Cầu</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Content/Theme/Hiking/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom CSS -->
+    <link href="~/Content/Theme/Hiking/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/Theme/Hiking/css/lightbox.css">
+    <link rel="stylesheet" href="~/Content/Theme/Hiking/fonts/stylesheet.css">
+
+    <!-- Custom Fonts -->
+    <link href="~/Content/Theme/Hiking/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Owl Carousel Assets -->
+    <link href="~/Content/Theme/Hiking/owl-carousel/owl.carousel.css" rel="stylesheet">
+    <link href="~/Content/Theme/Hiking/owl-carousel/owl.theme.css" rel="stylesheet">
+
+    <!-- jQuery and Modernizr-->
+    <script src="~/Content/Theme/Hiking/js/jquery-2.1.1.js"></script>
+    <link rel="stylesheet" href="~/Content/Theme/1a/js/jquery-ui.css">
+    <script src="~/Scripts/jquery.number.min.js"></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="js/html5shiv.js"></script>
+        <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-87911238-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+</head>
+<body>
+    <div>
+        <div class="">
+            <header class="main-header2">
+                <!-- /////////////////////////////////////////Navigation -->
+                <nav class="">
+                    <div class="">
+                        <div class="navbar navbar-default">
+                            <div class="container">
+                                <!-- Brand and toggle get grouped for better mobile display -->
+                                <div class="navbar-header page-scroll" style="position: relative; z-index:999">
+                                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                    <a class="navbar-brand" href="/Home" style="font-size: 14px; margin-top: -4px;"><img style="display: inline;margin-right: 10px;float:left;" src="~/Content/Images/logo-tmdt.png" /><span class="hidden-xs" id="allhotline" style="float:right;"></span></a>
+
+                                    <script>
+                                        $.ajax({
+                                            url: "/Api/getHotLine",
+                                            cache: false
+                                        }).done(function (html) {
+                                            //alert(html);
+                                            $("#allhotline").html(html);
+                                        });
+                                    </script>
+                                </div>
+
+                                <!-- Collect the nav links, forms, and other content for toggling -->
+                                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                    <ul class="nav navbar-nav navbar-right" style="position: relative; z-index:999">
+                                        <li><a href="/Home/About">Về chúng tôi</a></li>
+                                        <li>
+                                            <a href="/Driver/Log" class="btn btn-info">Đăng Nhập Tài Xế</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Driver/Reg/" class="btn btn-success">Đăng Ký Xe Và Tài Xế</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Driver/ListWin">Chuyến xe đã đấu giá</a>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                                <!-- /.navbar-collapse -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.container-fluid -->
+                </nav>                
+            </header>
+        </div>
+        <div id="page-content">
+            @RenderBody()
+        </div>
+    </div>
+    <footer class="main-footer">
+        <div class="wrap-footer">
+            <div class="bg-footer">
+                <div class="bottom-footer">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-4">
+                                <div class="footer-about-grab">
+                                    <div class="grab-logo bottom-margin-md">
+                                        HTX Toàn Cầu
+                                    </div>
+                                    <div class="grab-infor">
+                                        <span id="alladdress" style="text-align:left;"></span>
+                                        <script>
+                                            $.ajax({
+                                                url: "/Api/getAddress",
+                                                cache: false
+                                            }).done(function (html) {
+                                                $("#alladdress").html(html);
+                                            });
+                                        </script>
+                                    </div>
+                                    <div class="grab-contact top-margin-md">
+                                        <p>(08) 7108 7108</p>
+                                        <p><a href="mailto:support.hcm@grab.com">support.hcm@grab.com</a></p>
+                                    </div>
+                                </div><!-- /footer-about-grab-->
+                            </div><!-- /col-sm-12 col-md-3-->
+
+
+                            <div class="col-sm-12 col-md-8 hidden-xs">
+                                <div class="row sitemap-container">
+
+                                    <div class="col-xs-6 col-sm-4 col-md-3">
+                                        <h4 class="text-caps">CÔNG TY</h4>
+                                        <ul class="sitemapList" id="menu-company-menu">
+                                            <li class="menu-item" id="menu-item-1040"><a href="/Home/About">Về chúng tôi</a></li>
+                                            <li class="menu-item" id="menu-item-1047"><a href="#">Toàn Cầu trên mặt báo</a></li>
+                                            <li class="menu-item"><a href="#">Tin Tức</a></li>
+                                            <li class="menu-item" id="menu-item-1039"><a href="#" target="_blank">Tuyển dụng</a></li>
+                                        </ul>
+                                    </div><!-- /col-xs-6 col-sm-4 col-md-3 -->
+                                    <div class="col-xs-6 col-sm-4 col-md-3">
+                                        <h4 class="text-caps">Các dịch vụ</h4>
+                                        <ul id="menu-footer-services" class="sitemapList">
+                                            <li id="menu-item-375" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-375"><a href="http://giaothongtoancau.vn">Sàn vận tải</a></li>
+                                            <li id="menu-item-376" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-376"><a href="http://ototoancau.vn">Sàn mua bán ô tô</a></li>
+                                            <li id="menu-item-4007" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4007"><a href="#">Sàn thuê xe</a></li>
+                                            <li id="menu-item-4008" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4008"><a href="http://xe63.vn">Tìm xe khách</a></li>
+                                            @*<li id="menu-item-10121" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10121"><a href="https://www.grab.com/vn/share/">GrabShare</a></li>*@
+                                        </ul>
+                                    </div><!-- /col-xs-6 col-sm-4 col-md-3 -->
+                                    <div class="col-xs-6 col-sm-4 col-md-3">
+                                        <h4 class="text-caps">Doanh Nghiệp</h4>
+                                        <ul id="menu-footer-corporate" class="sitemapList">
+                                            <li id="menu-item-380" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-380"><a href="#">Tuyển dụng</a></li>
+                                            <li id="menu-item-381" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-381"><a href="#">Cơ hội hợp tác</a></li>
+                                        </ul>
+                                    </div><!-- /col-xs-6 col-sm-4 col-md-3 -->
+                                    <div class="col-xs-6 col-sm-4 col-md-3">
+                                        <h4 class="text-caps">Tài Xế</h4>
+                                        <ul id="menu-footer-ride" class="sitemapList">
+                                            <li id="menu-item-387" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-387"><a href="/Driver/Reg/">Đăng Ký Tài Xế</a></li>
+                                            <li id="menu-item-7703" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7703"><a href="/Driver/Log">Đăng nhập tài xế</a></li>
+                                            <li id="menu-item-4009" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4009"><a href="#">Hỗ trợ</a></li>
+                                        </ul>
+                                    </div><!-- /col-xs-6 col-sm-4 col-md-3 -->
+                                </div><!-- /row sitemap-container -->
+
+                                <div class="row">
+                                    <div class="col-sm-3 col-md-offset-9">
+                                        <div class="" style="margin-top: 25px;">
+                                            <ul class="list-inline social pull-right">
+                                                <li><a href="#"><i class="fa fa-facebook"></i></a></li> <!-- Change # With your FB Link -->
+                                                <li><a href="#"><i class="fa fa-twitter"></i></a></li> <!-- Change # With your Twitter Link -->
+                                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li> <!-- Change # With your Google Plus Link -->
+                                                <li><a href="#"><i class="fa fa-youtube"></i></a></li> <!-- Change # With your Youtube Link -->
+                                                <li>
+                                                    <a href="https://play.google.com/store/apps/details?id=grab.com.thuexetoancau" target="_blank">
+                                                        <img alt="Tải nội dung trên Google Play" src="/images/vi_badge_web_generic.png" style="width:135px;height:40px;">
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="https://itunes.apple.com/us/app/noi-car/id1229143419?ls=1&mt=8" target="_blank">
+                                                        <img src="/Images/appstore.svg">
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- /col-sm-12 col-md-9 -->
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .Background image footer -->
+        </div><!-- .Wrap footer -->
+    </footer>
+</body>
+</html>

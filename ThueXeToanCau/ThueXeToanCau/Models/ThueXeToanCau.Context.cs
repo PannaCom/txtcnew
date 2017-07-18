@@ -25,37 +25,37 @@ namespace ThueXeToanCau.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<list_car> list_car { get; set; }
-        public virtual DbSet<list_car_model> list_car_model { get; set; }
-        public virtual DbSet<list_car_type> list_car_type { get; set; }
-        public virtual DbSet<TinhThanh> TinhThanhs { get; set; }
-        public virtual DbSet<NationalDay> NationalDays { get; set; }
-        public virtual DbSet<car_hire_type> car_hire_type { get; set; }
-        public virtual DbSet<car_price> car_price { get; set; }
-        public virtual DbSet<car_type> car_type { get; set; }
-        public virtual DbSet<car_who_hire> car_who_hire { get; set; }
-        public virtual DbSet<notice> notices { get; set; }
-        public virtual DbSet<user> users { get; set; }
-        public virtual DbSet<car_price_airport> car_price_airport { get; set; }
-        public virtual DbSet<factor> factors { get; set; }
-        public virtual DbSet<transaction> transactions { get; set; }
         public virtual DbSet<airport_way> airport_way { get; set; }
-        public virtual DbSet<car_made_model> car_made_model { get; set; }
-        public virtual DbSet<noticeso> noticesos { get; set; }
-        public virtual DbSet<notify> notifies { get; set; }
         public virtual DbSet<auction> auctions { get; set; }
         public virtual DbSet<booking> bookings { get; set; }
         public virtual DbSet<booking_final> booking_final { get; set; }
         public virtual DbSet<booking_log> booking_log { get; set; }
+        public virtual DbSet<car_hire_type> car_hire_type { get; set; }
+        public virtual DbSet<car_made_model> car_made_model { get; set; }
+        public virtual DbSet<car_price> car_price { get; set; }
+        public virtual DbSet<car_price_airport> car_price_airport { get; set; }
+        public virtual DbSet<car_type> car_type { get; set; }
+        public virtual DbSet<car_who_hire> car_who_hire { get; set; }
+        public virtual DbSet<driver_bank> driver_bank { get; set; }
+        public virtual DbSet<driver_own> driver_own { get; set; }
+        public virtual DbSet<driver_salary> driver_salary { get; set; }
+        public virtual DbSet<driver> drivers { get; set; }
+        public virtual DbSet<duplicateFile> duplicateFiles { get; set; }
+        public virtual DbSet<factor> factors { get; set; }
+        public virtual DbSet<info> infoes { get; set; }
+        public virtual DbSet<list_online> list_online { get; set; }
+        public virtual DbSet<NationalDay> NationalDays { get; set; }
+        public virtual DbSet<notice> notices { get; set; }
+        public virtual DbSet<noticeso> noticesos { get; set; }
+        public virtual DbSet<notify> notifies { get; set; }
         public virtual DbSet<rating> ratings { get; set; }
         public virtual DbSet<saoke> saokes { get; set; }
-        public virtual DbSet<driver> drivers { get; set; }
-        public virtual DbSet<list_online> list_online { get; set; }
         public virtual DbSet<transaction_bank> transaction_bank { get; set; }
-        public virtual DbSet<driver_bank> driver_bank { get; set; }
-        public virtual DbSet<duplicateFile> duplicateFiles { get; set; }
-        public virtual DbSet<driver_salary> driver_salary { get; set; }
-        public virtual DbSet<driver_own> driver_own { get; set; }
-        public virtual DbSet<info> infoes { get; set; }
+        public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<list_car> list_car { get; set; }
+        public virtual DbSet<list_car_model> list_car_model { get; set; }
+        public virtual DbSet<list_car_type> list_car_type { get; set; }
+        public virtual DbSet<TinhThanh> TinhThanhs { get; set; }
+        public virtual DbSet<transaction> transactions { get; set; }
     }
 }

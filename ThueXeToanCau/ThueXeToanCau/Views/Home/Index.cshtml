@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
 }
 @*<script type="text/javascript" src="/Scripts/jquery-1.11.0.min.js"></script>
 <script src="/Scripts/jquery-ui-1.8.24.js"></script>
@@ -77,7 +78,7 @@
                 <a class="navbar-brand" href="#">Bạn chọn</a>
             </div>            
             <ul class="nav navbar-nav">
-                <li class="active"><a data-toggle="tab" href="#home" style="background: none repeat scroll 0 0 #ffd62c;">Tìm tài xế và xe</a></li>
+                <li class="active"><a data-toggle="tab" href="#home" style="background: none repeat scroll 0 0 #ffd62c;color:#000000;">Tìm tài xế và xe</a></li>
                 <li><a href="http://ototoancau.vn" target="_blank" style="background: none repeat scroll 0 0 #e76b33;">Mua bán ô tô</a></li>
                 <li><a href="http://giaothongtoancau.com" target="_blank" style="background: none repeat scroll 0 0 #7dc34d;">Sàn vận tải</a></li>
                 <li><a href="http://xe63.vn" target="_blank" style="background: none repeat scroll 0 0 #09c;">Tìm xe khách</a></li>
@@ -144,11 +145,11 @@
     <div class="row text-center" style="min-height:667px;padding-top:15px;">
         <div class="col-sm-12" style="background-color:white;color:black;border-radius:25px;min-height:567px;border-right:1px solid #808080;opacity: 0.9;filter: alpha(opacity=50);">
             <h4>Đặt Xe Qua Facebook Xin Để Lại Lời Nhắn Tại Đây</h4>
-            <div class="fb-comments" data-href="http://thuexetoancau.vn/" data-width="800" data-numposts="5"></div>
+            <div class="fb-comments" data-href="http://thuexetoancau.vn/" data-width="800" data-numposts="5" data-order-by="reverse_time"></div>
         </div>
     </div>
 </div><!-- End Input Your Home Content Here -->
-<div class="row" style="background:#ffffff;color:#000000;position:fixed;width:75%;top:25%;padding-left:5px;padding-right:5px;text-align:left;display:none;z-index:1001;" id="detail">
+<div class="row" style="background: rgb(255, 255, 255) none repeat scroll 0% 0%; color: rgb(0, 0, 0); position: fixed; width: 75%; top: 12.5%; left: 15%; padding-left: 5px; padding-right: 5px; text-align: left; z-index: 1001;border:2px solid #ccc;display:none;" id="detail">
     <div style="width:100%;text-align:center;color:#000000;" class="standardcss">
         <h2>Cám ơn quý khách đặt xe, thông tin đặt xe sẽ được lái xe đấu giá và liên hệ sớm nhất để quý khách có chuyến đi rẻ nhất và an toàn nhất</h2>
     </div>

@@ -1,7 +1,8 @@
 ﻿@{
     ViewBag.Title = "About";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
 }
-<div class="content-heading text-center" style="background:#ffffff;text-align:left;">
+<div class="page-content" style="background:#ffffff;text-align:left;padding-left:25px;">
     <!-- Input Your Home Content Here -->
     <div class="row text-center" style="min-height:667px;background:#ffffff;text-align:left;color:black;padding-left:15px;padding-top:15px;">
         @Html.Raw(ViewBag.about)

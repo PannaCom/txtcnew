@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Danh Sách Các Chuyến Xe Đấu Giá Thành Công Của Tài Xế";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutNewBlank.cshtml";
 }
 <style>
     table, th, td {
@@ -61,8 +61,8 @@
         color: white;
     }
 </style>
-<h2>Danh Sách Các Chuyến Xe Đấu Giá Thành Công Của Tài Xế</h2>
-<div id="listcar" class="col-md-12" style="min-height:500px;"></div>
+<h2 style="display:block;position:relative;padding-left:25px;padding-top:60px;">Danh Sách Các Chuyến Xe Đấu Giá Thành Công Của Tài Xế</h2>
+<div id="listcar" class="page-content" style="background:#ffffff;text-align:left;padding-left:25px;min-height:500px;display:block;position:relative;padding-top:10px;"></div>
 <script>
     $.ajax({
         url: "/Api/getBookingSuccess?phone=@ViewBag.driver_phone",

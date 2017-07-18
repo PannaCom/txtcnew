@@ -68,7 +68,7 @@ namespace ThueXeToanCau.Controllers
                 string query = "select * from ";
                        query+="(";
                        query += "SELECT id,name,phone,email,car_model,car_made,car_years,car_size,car_number,car_type,address,lon,lat,ACOS(SIN(PI()*" + lat + "/180.0)*SIN(PI()*lat/180.0)+COS(PI()*" + lat + "/180.0)*COS(PI()*lat/180.0)*COS(PI()*lon/180.0-PI()*" + lon + "/180.0))*6371 as D ";
-                       query+="FROM thuexetoancau.dbo.drivers as A inner join ";
+                       query+="FROM dbo.drivers as A inner join ";
                        query += "(select distinct lon,lat,phone as phone2 from list_online) as B on A.phone=B.phone2 ";
                        query+=" ) as C where 1=1 ";
                 if (lon!=null){
