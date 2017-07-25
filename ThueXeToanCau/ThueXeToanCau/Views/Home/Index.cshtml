@@ -138,10 +138,38 @@
                     <div class="map_canvas" id="map" style="width:100%;height:550px;border:0"></div>
                     @*<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29768.399237825946!2d105.82972151548583!3d21.15041217448257!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135011877263c29%3A0xfed63a1860e09572!2zdHQuIMSQw7RuZyBBbmgsIMSQw7RuZyBBbmgsIEhhbm9pLCBWaWV0bmFt!5e0!3m2!1sen!2s!4v1470755312032" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>*@
                 </div>
-                <input type="button" value="XÁC NHẬN" onclick="confirmbookcar();"  class="btn btn-primary btn-block" style="margin-bottom:5px;" id="btnregister111" />
+                <input type="button" value="XÁC NHẬN" onclick="confirmbookcar();"  class="btn btn-primary btn-block" style="margin-bottom:5px;color:#ffffff;" id="btnregister111" />
             </div>
         </div><!-- end col 10 with offset 1 to centered -->
     </div> <!-- end contact form outer row with centered text-->
+    <div class="row text-center" style="padding-top:15px;">
+        <h2 style="color:#337ab7;">Tin Tức Xe Toàn Cầu</h2>
+        @if (ViewBag.news != null)
+        {
+            <div class="row">
+                @foreach (var item in ViewBag.news)
+                {
+                    var link = "/" + ThueXeToanCau.Config.getCatName(item.cat_id) + "/" + ThueXeToanCau.Config.unicodeToNoMark(item.new_title) + "-" + item.id;
+                    <text>
+                        <div class="col-md-4" style="min-height:490px;float:left;display:block;position:relative;">
+                            <div class="box-entry archive-post">
+                                <div class="box-entry-inner">
+                                    <img src="@item.new_img" class="img-responsive" style="width:100%;height:200px;"/>
+                                    <div class="entry-details">
+                                        <div class="entry-des">
+                                            <h3><a href="@link">@item.new_title</a></h3>
+                                            <p>@item.new_des</p>
+                                            <a href="@link" class="btn btn-skin">Xem tiếp</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </text>
+                }
+            </div>
+        }
+    </div>
     <div class="row text-center" style="min-height:667px;padding-top:15px;">
         <div class="col-sm-12" style="background-color:white;color:black;border-radius:25px;min-height:567px;border-right:1px solid #808080;opacity: 0.9;filter: alpha(opacity=50);">
             <h4>Đặt Xe Qua Facebook Xin Để Lại Lời Nhắn Tại Đây</h4>
@@ -515,7 +543,8 @@
                 // The anchor for this image is the base of the flagpole at (0, 32).
                 anchor: new google.maps.Point(64, 64)
             };
-
+            var totalLon = 0;
+            var totalLat = 0;
             for (var i = 0; i < json_parsed.news.length; i++) {
                 if (json_parsed.news[i]) {
                     //var action = "<button class='btn btn-warning' style='width:100%' onclick='bookingFinal(" + json_parsed.news[i].book_price + "," + json_parsed.news[i].current_price + "," + json_parsed.news[i].id + ",1);'>Mua Ngay</button><br>";
@@ -529,6 +558,8 @@
                     var latLng = new google.maps.LatLng(json_parsed.news[i].lat, json_parsed.news[i].lon);
                     var marker = new google.maps.Marker({ 'position': latLng, 'label': json_parsed.news[i].name.toString().toUpperCase(), title: 'Click to zoom', 'icon': image, 'draggable': true });
                     var phone = json_parsed.news[i].phone;
+                    totalLon += json_parsed.news[i].lon;
+                    totalLat += json_parsed.news[i].lat;
                     marker.addListener('click', function () {
                         //alert("ok");
                         openphone(phone);
@@ -537,6 +568,8 @@
                     markers.push(marker);
                 }
             }
+            totalLon = totalLon / json_parsed.news.length;
+            totalLat = totalLat / json_parsed.news.length;
             $("#listdriver").html("<table>" + items + "</table>");
             if (json_parsed.news.length <= 0) {
                 $("#listdriver").hide();
@@ -545,10 +578,11 @@
             
             //alert(people.length + locations);//people.length + 
             var map22 = new google.maps.Map(document.getElementById('mapdriver'), {
-                zoom: 9,                
-                center: { lat: 21.0227431, lng: 105.8194541 },
+                zoom: 5,                
+                center: { lat: totalLat, lng: totalLon},
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             });
+            //17.0227431, lng: 105.8194541
             // Create an array of alphabetical characters used to label the markers.
             //var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             

@@ -1,0 +1,29 @@
+﻿@model ThueXeToanCau.Models.news
+
+@{
+    ViewBag.Title = Model.new_title;
+    Layout = "~/Views/Shared/_LayoutNewBlank.cshtml";
+}
+<div class="container">
+    <div class="row">
+        <div id="main-content">
+            <article class="single-post">
+                <div class="wrap-post">
+                    <!--Start Box-->
+                    <div class="entry-header">
+                        <span class="time">@Model.ngay_tao</span>
+                        <h2 class="entry-title"><a href="#">@Model.new_title</a></h2>
+                        @*<span class="cat-links">@Model.new_des</span>*@
+                    </div>
+                    @*<div class="post-thumbnail-wrap">
+                        <img src="@Model.new_img">
+                    </div>*@
+                    <div class="entry-content">
+                       @Html.Raw(@Model.new_content)
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </div>
+</div>

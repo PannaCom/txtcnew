@@ -1,0 +1,40 @@
+﻿@model PagedList.IPagedList<ThueXeToanCau.Models.news>
+@using PagedList.Mvc;
+@*@{
+    ThueXeToanCau.Models.thuexetoancauEntities db = new ThueXeToanCau.Models.thuexetoancauEntities();
+}*@
+
+@{
+    ViewBag.Title = "Quản lý tin tức";
+    Layout = "~/Views/Shared/_LayoutNewBlank.cshtml";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<h2>Tin tức thuê xe toàn cầu</h2>
+<div class="container">
+    <div class="row">
+        <div id="main-content">
+            <div class="row">
+                @foreach(var item in Model){
+                    var link = "/" + ThueXeToanCau.Config.getCatName(item.cat_id) + "/"+ThueXeToanCau.Config.unicodeToNoMark(item.new_title) + "-" + item.id;
+                    <text>
+                        <div class="col-md-4" style="min-height:550px;float:left;display:block;position:relative;">
+                            <div class="box-entry archive-post">
+                                <div class="box-entry-inner">
+                                    <img src="@item.new_img" class="img-responsive"/>
+                                    <div class="entry-details">
+                                        <div class="entry-des">
+                                            <h3><a href="@link">@item.new_title</a></h3>                                            
+                                            <p>@item.new_des</p>
+                                            <a href="@link" class="btn btn-skin">Xem tiếp</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </text>
+                }
+            </div>
+        </div>
+    </div>
+</div>

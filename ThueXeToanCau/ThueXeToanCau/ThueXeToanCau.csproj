@@ -46,6 +46,9 @@
     <Reference Include="Excel.4.5">
       <HintPath>..\packages\dll\Excel.4.5.dll</HintPath>
     </Reference>
+    <Reference Include="ImageProcessor">
+      <HintPath>..\packages\ImageProcessor.2.5.4\lib\net45\ImageProcessor.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp">
       <Private>True</Private>
     </Reference>
@@ -236,6 +239,7 @@
     <Compile Include="Controllers\infoesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NationalDayController.cs" />
+    <Compile Include="Controllers\newsController.cs" />
     <Compile Include="Controllers\NoticeController.cs" />
     <Compile Include="Controllers\SaoKeController.cs" />
     <Compile Include="Controllers\TransactionController.cs" />
@@ -246,119 +250,125 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\airport_way.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\auction.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\booking.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\booking_final.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\booking_log.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\car_hire_type.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\car_made_model.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\car_price.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\car_price_airport.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\car_type.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\car_who_hire.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\cat.cs">
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBContext.cs" />
     <Compile Include="Models\driver.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\driver_bank.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\driver_own.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\driver_salary.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\duplicateFile.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\factor.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\info.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\list_car.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\list_car_model.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\list_car_type.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\list_online.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\NationalDay.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\news.cs">
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\notice.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\noticeso.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\notify.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\rating.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\saoke.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ThueXeToanCau.Context.cs">
+    <Compile Include="Models\thuexetoancau.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ThueXeToanCau.Context.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ThueXeToanCau.cs">
+    <Compile Include="Models\thuexetoancau.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ThueXeToanCau.Designer.cs">
+    <Compile Include="Models\thuexetoancau.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ThueXeToanCau.edmx</DependentUpon>
+      <DependentUpon>thuexetoancau.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\TinhThanh.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\transaction.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\transaction_bank.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\user.cs">
-      <DependentUpon>ThueXeToanCau.tt</DependentUpon>
+      <DependentUpon>thuexetoancau.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -951,19 +961,79 @@
     <Content Include="Content\Theme\admin\vendor\morrisjs\morris.min.js" />
     <Content Include="Content\Theme\admin\vendor\raphael\raphael.js" />
     <Content Include="Content\Theme\admin\vendor\raphael\raphael.min.js" />
+    <Content Include="Content\Theme\Hiking\archive.html" />
+    <Content Include="Content\Theme\Hiking\contact.html" />
+    <Content Include="Content\Theme\Hiking\css\bootstrap.min.css" />
+    <Content Include="Content\Theme\Hiking\css\lightbox.css" />
+    <Content Include="Content\Theme\Hiking\css\style.css" />
+    <Content Include="Content\Theme\Hiking\font-awesome\css\font-awesome.css" />
+    <Content Include="Content\Theme\Hiking\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\Theme\Hiking\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Theme\Hiking\font-awesome\HELP-US-OUT.txt" />
+    <Content Include="Content\Theme\Hiking\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\Theme\Hiking\fonts\stylesheet.css" />
+    <Content Include="Content\Theme\Hiking\images\12.png" />
+    <Content Include="Content\Theme\Hiking\images\13.png" />
+    <Content Include="Content\Theme\Hiking\images\15.png" />
+    <Content Include="Content\Theme\Hiking\images\16.png" />
+    <Content Include="Content\Theme\Hiking\images\17.png" />
+    <Content Include="Content\Theme\Hiking\images\18.png" />
+    <Content Include="Content\Theme\Hiking\images\admin.png" />
+    <Content Include="Content\Theme\Hiking\images\alps.jpg" />
+    <Content Include="Content\Theme\Hiking\images\carpathian.jpg" />
+    <Content Include="Content\Theme\Hiking\images\header-man.png" />
+    <Content Include="Content\Theme\Hiking\images\header.jpg" />
+    <Content Include="Content\Theme\Hiking\images\image13.jpg" />
+    <Content Include="Content\Theme\Hiking\images\image14.jpg" />
+    <Content Include="Content\Theme\Hiking\images\image15.jpg" />
+    <Content Include="Content\Theme\Hiking\images\image16.jpg" />
+    <Content Include="Content\Theme\Hiking\images\image17.jpg" />
+    <Content Include="Content\Theme\Hiking\images\image18.jpg" />
+    <Content Include="Content\Theme\Hiking\images\image19.jpg" />
+    <Content Include="Content\Theme\Hiking\images\image20.jpg" />
+    <Content Include="Content\Theme\Hiking\images\image21.jpg" />
+    <Content Include="Content\Theme\Hiking\images\image22.jpg" />
+    <Content Include="Content\Theme\Hiking\images\image23.jpg" />
+    <Content Include="Content\Theme\Hiking\images\image24.jpg" />
+    <Content Include="Content\Theme\Hiking\images\kavkaz.jpg" />
+    <Content Include="Content\Theme\Hiking\images\main.jpg" />
+    <Content Include="Content\Theme\Hiking\images\map-marker.png" />
+    <Content Include="Content\Theme\Hiking\images\mountain.jpg" />
+    <Content Include="Content\Theme\Hiking\images\partner1.png" />
+    <Content Include="Content\Theme\Hiking\images\partner2.png" />
+    <Content Include="Content\Theme\Hiking\images\pyrenees.jpg" />
+    <Content Include="Content\Theme\Hiking\images\rocky.jpg" />
+    <Content Include="Content\Theme\Hiking\images\single.jpg" />
+    <Content Include="Content\Theme\Hiking\index.html" />
+    <Content Include="Content\Theme\Hiking\js\bootstrap.min.js" />
+    <Content Include="Content\Theme\Hiking\js\html5shiv.js" />
+    <Content Include="Content\Theme\Hiking\js\isotope.min.js" />
+    <Content Include="Content\Theme\Hiking\js\jquery-2.1.1.js" />
+    <Content Include="Content\Theme\Hiking\js\lightbox-plus-jquery.min.js" />
+    <Content Include="Content\Theme\Hiking\js\respond.min.js" />
+    <Content Include="Content\Theme\Hiking\license.txt" />
+    <Content Include="Content\Theme\Hiking\owl-carousel\AjaxLoader.gif" />
+    <Content Include="Content\Theme\Hiking\owl-carousel\grabbing.png" />
+    <Content Include="Content\Theme\Hiking\owl-carousel\owl.carousel.css" />
+    <Content Include="Content\Theme\Hiking\owl-carousel\owl.carousel.js" />
+    <Content Include="Content\Theme\Hiking\owl-carousel\owl.carousel.min.js" />
+    <Content Include="Content\Theme\Hiking\owl-carousel\owl.theme.css" />
+    <Content Include="Content\Theme\Hiking\owl-carousel\owl.transitions.css" />
+    <Content Include="Content\Theme\Hiking\readme.txt" />
+    <Content Include="Content\Theme\Hiking\single.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\ThueXeToanCau.Context.tt">
+    <Content Include="Models\thuexetoancau.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ThueXeToanCau.edmx</DependentUpon>
-      <LastGenOutput>ThueXeToanCau.Context.cs</LastGenOutput>
+      <DependentUpon>thuexetoancau.edmx</DependentUpon>
+      <LastGenOutput>thuexetoancau.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\ThueXeToanCau.tt">
+    <Content Include="Models\thuexetoancau.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ThueXeToanCau.edmx</DependentUpon>
-      <LastGenOutput>ThueXeToanCau.cs</LastGenOutput>
+      <DependentUpon>thuexetoancau.edmx</DependentUpon>
+      <LastGenOutput>thuexetoancau.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\airportway.js" />
     <Content Include="Scripts\booking.js" />
@@ -1041,12 +1111,49 @@
     <Content Include="Content\Theme\admin\vendor\font-awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\Theme\admin\vendor\font-awesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\Theme\admin\vendor\font-awesome\fonts\FontAwesome.otf" />
-    <EntityDeploy Include="Models\ThueXeToanCau.edmx">
+    <Content Include="Content\Theme\Hiking\contact.php" />
+    <Content Include="Content\Theme\Hiking\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Theme\Hiking\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Theme\Hiking\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Theme\Hiking\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\Theme\Hiking\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Content\Theme\Hiking\font-awesome\less\animated.less" />
+    <Content Include="Content\Theme\Hiking\font-awesome\less\bordered-pulled.less" />
+    <Content Include="Content\Theme\Hiking\font-awesome\less\core.less" />
+    <Content Include="Content\Theme\Hiking\font-awesome\less\fixed-width.less" />
+    <Content Include="Content\Theme\Hiking\font-awesome\less\font-awesome.less" />
+    <Content Include="Content\Theme\Hiking\font-awesome\less\icons.less" />
+    <Content Include="Content\Theme\Hiking\font-awesome\less\larger.less" />
+    <Content Include="Content\Theme\Hiking\font-awesome\less\list.less" />
+    <Content Include="Content\Theme\Hiking\font-awesome\less\mixins.less" />
+    <Content Include="Content\Theme\Hiking\font-awesome\less\path.less" />
+    <Content Include="Content\Theme\Hiking\font-awesome\less\rotated-flipped.less" />
+    <Content Include="Content\Theme\Hiking\font-awesome\less\screen-reader.less" />
+    <Content Include="Content\Theme\Hiking\font-awesome\less\stacked.less" />
+    <Content Include="Content\Theme\Hiking\font-awesome\less\variables.less" />
+    <Content Include="Content\Theme\Hiking\font-awesome\scss\font-awesome.scss" />
+    <Content Include="Content\Theme\Hiking\font-awesome\scss\_animated.scss" />
+    <Content Include="Content\Theme\Hiking\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="Content\Theme\Hiking\font-awesome\scss\_core.scss" />
+    <Content Include="Content\Theme\Hiking\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="Content\Theme\Hiking\font-awesome\scss\_icons.scss" />
+    <Content Include="Content\Theme\Hiking\font-awesome\scss\_larger.scss" />
+    <Content Include="Content\Theme\Hiking\font-awesome\scss\_list.scss" />
+    <Content Include="Content\Theme\Hiking\font-awesome\scss\_mixins.scss" />
+    <Content Include="Content\Theme\Hiking\font-awesome\scss\_path.scss" />
+    <Content Include="Content\Theme\Hiking\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="Content\Theme\Hiking\font-awesome\scss\_screen-reader.scss" />
+    <Content Include="Content\Theme\Hiking\font-awesome\scss\_stacked.scss" />
+    <Content Include="Content\Theme\Hiking\font-awesome\scss\_variables.scss" />
+    <Content Include="Content\Theme\Hiking\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\Theme\Hiking\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\Theme\Hiking\fonts\glyphicons-halflings-regular.woff" />
+    <EntityDeploy Include="Models\thuexetoancau.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ThueXeToanCau.Designer.cs</LastGenOutput>
+      <LastGenOutput>thuexetoancau.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\ThueXeToanCau.edmx.diagram">
-      <DependentUpon>ThueXeToanCau.edmx</DependentUpon>
+    <Content Include="Models\thuexetoancau.edmx.diagram">
+      <DependentUpon>thuexetoancau.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\thuexetoancau.pubxml" />
     <Content Include="Scripts\ckeditor\CHANGES.md" />
@@ -1523,6 +1630,14 @@
     <Content Include="Scripts\ckeditor\styles.js" />
     <Content Include="Scripts\commonFn.js" />
     <Content Include="Scripts\driver.js" />
+    <Content Include="Scripts\dropzone\basic.css" />
+    <Content Include="Scripts\dropzone\basic.min.css" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.js" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.min.js" />
+    <Content Include="Scripts\dropzone\dropzone.css" />
+    <Content Include="Scripts\dropzone\dropzone.js" />
+    <Content Include="Scripts\dropzone\dropzone.min.css" />
+    <Content Include="Scripts\dropzone\dropzone.min.js" />
     <Content Include="Scripts\factor.js" />
     <Content Include="Scripts\hiretype.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1617,6 +1732,14 @@
     <Content Include="Views\infoes\Details.cshtml" />
     <Content Include="Views\infoes\Edit.cshtml" />
     <Content Include="Views\infoes\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutNew.cshtml" />
+    <Content Include="Views\Shared\_LayoutNewBlank.cshtml" />
+    <Content Include="Views\news\Create.cshtml" />
+    <Content Include="Views\news\Delete.cshtml" />
+    <Content Include="Views\news\Details.cshtml" />
+    <Content Include="Views\news\Edit.cshtml" />
+    <Content Include="Views\news\Index.cshtml" />
+    <Content Include="Views\news\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

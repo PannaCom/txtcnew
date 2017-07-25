@@ -26,6 +26,13 @@ namespace ThueXeToanCau.Controllers
             //Config.setCookie("id_driver", p2.id.ToString());
             //Config.setCookie("driver_number", p2.car_number != null ? p2.car_number.ToString() : "");
             //Config.setCookie("driver_phone", p2.phone != null ? p2.phone.ToString() : "");
+            try
+            {
+                var p=(from q in db.news select q).OrderByDescending(o=>o.id).Take(6).ToList();
+                ViewBag.news=p;
+            }catch{
+
+            }
             return View();
         }
         public ActionResult Policy()

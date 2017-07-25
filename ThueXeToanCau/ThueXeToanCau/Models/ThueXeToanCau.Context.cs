@@ -12,7 +12,7 @@ namespace ThueXeToanCau.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
+
     public partial class thuexetoancauEntities : DbContext
     {
         public thuexetoancauEntities()
@@ -25,6 +25,7 @@ namespace ThueXeToanCau.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<transaction> transactions { get; set; }
         public virtual DbSet<airport_way> airport_way { get; set; }
         public virtual DbSet<auction> auctions { get; set; }
         public virtual DbSet<booking> bookings { get; set; }
@@ -36,6 +37,7 @@ namespace ThueXeToanCau.Models
         public virtual DbSet<car_price_airport> car_price_airport { get; set; }
         public virtual DbSet<car_type> car_type { get; set; }
         public virtual DbSet<car_who_hire> car_who_hire { get; set; }
+        public virtual DbSet<cat> cats { get; set; }
         public virtual DbSet<driver_bank> driver_bank { get; set; }
         public virtual DbSet<driver_own> driver_own { get; set; }
         public virtual DbSet<driver_salary> driver_salary { get; set; }
@@ -45,6 +47,7 @@ namespace ThueXeToanCau.Models
         public virtual DbSet<info> infoes { get; set; }
         public virtual DbSet<list_online> list_online { get; set; }
         public virtual DbSet<NationalDay> NationalDays { get; set; }
+        public virtual DbSet<news> news { get; set; }
         public virtual DbSet<notice> notices { get; set; }
         public virtual DbSet<noticeso> noticesos { get; set; }
         public virtual DbSet<notify> notifies { get; set; }
@@ -56,6 +59,5 @@ namespace ThueXeToanCau.Models
         public virtual DbSet<list_car_model> list_car_model { get; set; }
         public virtual DbSet<list_car_type> list_car_type { get; set; }
         public virtual DbSet<TinhThanh> TinhThanhs { get; set; }
-        public virtual DbSet<transaction> transactions { get; set; }
     }
 }

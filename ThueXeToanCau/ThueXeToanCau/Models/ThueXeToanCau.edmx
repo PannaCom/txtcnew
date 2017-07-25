@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="thuexetoancauModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="thuexetoancauModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="transactions">
           <Key>
             <PropertyRef Name="id" />
@@ -139,6 +139,14 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="cats">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cat_name" Type="nvarchar" MaxLength="505" />
+          <Property Name="cat_url" Type="nvarchar" MaxLength="505" />
         </EntityType>
         <EntityType Name="driver_bank">
           <Key>
@@ -280,6 +288,23 @@ warning 6002: The table/view 'txtc0307.dbo.list_car_type' does not have a primar
           <Property Name="StartDate" Type="date" />
           <Property Name="EndDate" Type="date" />
         </EntityType>
+        <EntityType Name="news">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="new_title" Type="nvarchar" MaxLength="505" />
+          <Property Name="new_content" Type="ntext" />
+          <Property Name="new_flug" Type="nvarchar" MaxLength="505" />
+          <Property Name="new_img" Type="nvarchar" MaxLength="500" />
+          <Property Name="cat_id" Type="int" />
+          <Property Name="user_id" Type="nvarchar" MaxLength="128" />
+          <Property Name="quyen_hang" Type="int" />
+          <Property Name="trang_thai" Type="int" />
+          <Property Name="isHot" Type="tinyint" />
+          <Property Name="ngay_tao" Type="datetime" />
+          <Property Name="new_des" Type="nvarchar" MaxLength="505" />
+        </EntityType>
         <EntityType Name="notice">
           <Key>
             <PropertyRef Name="id" />
@@ -375,6 +400,7 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <EntitySet Name="car_price_airport" EntityType="Self.car_price_airport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_type" EntityType="Self.car_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_who_hire" EntityType="Self.car_who_hire" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="cats" EntityType="Self.cats" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="driver_bank" EntityType="Self.driver_bank" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="driver_own" EntityType="Self.driver_own" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="driver_salary" EntityType="Self.driver_salary" Schema="dbo" store:Type="Tables" />
@@ -384,6 +410,7 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <EntitySet Name="info" EntityType="Self.info" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="list_online" EntityType="Self.list_online" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NationalDay" EntityType="Self.NationalDay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="news" EntityType="Self.news" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="notice" EntityType="Self.notice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="noticesos" EntityType="Self.noticesos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="notifies" EntityType="Self.notifies" Schema="dbo" store:Type="Tables" />
@@ -418,44 +445,22 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
     FROM [dbo].[TinhThanh] AS [TinhThanh]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="thuexetoancauModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="thuexetoancauEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="airport_way" EntityType="thuexetoancauModel.airport_way" />
-          <EntitySet Name="auctions" EntityType="thuexetoancauModel.auction" />
-          <EntitySet Name="bookings" EntityType="thuexetoancauModel.booking" />
-          <EntitySet Name="booking_final" EntityType="thuexetoancauModel.booking_final" />
-          <EntitySet Name="booking_log" EntityType="thuexetoancauModel.booking_log" />
-          <EntitySet Name="car_hire_type" EntityType="thuexetoancauModel.car_hire_type" />
-          <EntitySet Name="car_made_model" EntityType="thuexetoancauModel.car_made_model" />
-          <EntitySet Name="car_price" EntityType="thuexetoancauModel.car_price" />
-          <EntitySet Name="car_price_airport" EntityType="thuexetoancauModel.car_price_airport" />
-          <EntitySet Name="car_type" EntityType="thuexetoancauModel.car_type" />
-          <EntitySet Name="car_who_hire" EntityType="thuexetoancauModel.car_who_hire" />
-          <EntitySet Name="driver_bank" EntityType="thuexetoancauModel.driver_bank" />
-          <EntitySet Name="driver_own" EntityType="thuexetoancauModel.driver_own" />
-          <EntitySet Name="driver_salary" EntityType="thuexetoancauModel.driver_salary" />
-          <EntitySet Name="drivers" EntityType="thuexetoancauModel.driver" />
-          <EntitySet Name="duplicateFiles" EntityType="thuexetoancauModel.duplicateFile" />
-          <EntitySet Name="factors" EntityType="thuexetoancauModel.factor" />
-          <EntitySet Name="infoes" EntityType="thuexetoancauModel.info" />
-          <EntitySet Name="list_online" EntityType="thuexetoancauModel.list_online" />
-          <EntitySet Name="NationalDays" EntityType="thuexetoancauModel.NationalDay" />
-          <EntitySet Name="notices" EntityType="thuexetoancauModel.notice" />
-          <EntitySet Name="noticesos" EntityType="thuexetoancauModel.noticeso" />
-          <EntitySet Name="notifies" EntityType="thuexetoancauModel.notify" />
-          <EntitySet Name="ratings" EntityType="thuexetoancauModel.rating" />
-          <EntitySet Name="saokes" EntityType="thuexetoancauModel.saoke" />
-          <EntitySet Name="transaction_bank" EntityType="thuexetoancauModel.transaction_bank" />
-          <EntitySet Name="users" EntityType="thuexetoancauModel.user" />
-          <EntitySet Name="list_car" EntityType="thuexetoancauModel.list_car" />
-          <EntitySet Name="list_car_model" EntityType="thuexetoancauModel.list_car_model" />
-          <EntitySet Name="list_car_type" EntityType="thuexetoancauModel.list_car_type" />
-          <EntitySet Name="TinhThanhs" EntityType="thuexetoancauModel.TinhThanh" />
-          <EntitySet Name="transactions" EntityType="thuexetoancauModel.transaction" />
-        </EntityContainer>
+        <EntityType Name="transaction">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="car_number" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="money" Type="Double" />
+          <Property Name="note" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="airport_way">
           <Key>
             <PropertyRef Name="id" />
@@ -580,6 +585,14 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="cat">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cat_name" Type="String" MaxLength="505" FixedLength="false" Unicode="true" />
+          <Property Name="cat_url" Type="String" MaxLength="505" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="driver_bank">
           <Key>
             <PropertyRef Name="id" />
@@ -692,6 +705,23 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <Property Name="StartDate" Type="DateTime" Precision="0" />
           <Property Name="EndDate" Type="DateTime" Precision="0" />
         </EntityType>
+        <EntityType Name="news">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="new_title" Type="String" MaxLength="505" FixedLength="false" Unicode="true" />
+          <Property Name="new_content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="new_flug" Type="String" MaxLength="505" FixedLength="false" Unicode="true" />
+          <Property Name="new_img" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="cat_id" Type="Int32" />
+          <Property Name="user_id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="quyen_hang" Type="Int32" />
+          <Property Name="trang_thai" Type="Int32" />
+          <Property Name="isHot" Type="Byte" />
+          <Property Name="ngay_tao" Type="DateTime" Precision="3" />
+          <Property Name="new_des" Type="String" MaxLength="505" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="notice">
           <Key>
             <PropertyRef Name="id" />
@@ -794,401 +824,453 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <Property Name="quanhuyen" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="tinhthanhpho" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="transaction">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="car_number" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="money" Type="Double" />
-          <Property Name="note" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-        </EntityType>
-        </Schema>
+        <EntityContainer Name="txtc0307Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="transactions" EntityType="Self.transaction" />
+          <EntitySet Name="airport_way" EntityType="Self.airport_way" />
+          <EntitySet Name="auctions" EntityType="Self.auction" />
+          <EntitySet Name="bookings" EntityType="Self.booking" />
+          <EntitySet Name="booking_final" EntityType="Self.booking_final" />
+          <EntitySet Name="booking_log" EntityType="Self.booking_log" />
+          <EntitySet Name="car_hire_type" EntityType="Self.car_hire_type" />
+          <EntitySet Name="car_made_model" EntityType="Self.car_made_model" />
+          <EntitySet Name="car_price" EntityType="Self.car_price" />
+          <EntitySet Name="car_price_airport" EntityType="Self.car_price_airport" />
+          <EntitySet Name="car_type" EntityType="Self.car_type" />
+          <EntitySet Name="car_who_hire" EntityType="Self.car_who_hire" />
+          <EntitySet Name="cats" EntityType="Self.cat" />
+          <EntitySet Name="driver_bank" EntityType="Self.driver_bank" />
+          <EntitySet Name="driver_own" EntityType="Self.driver_own" />
+          <EntitySet Name="driver_salary" EntityType="Self.driver_salary" />
+          <EntitySet Name="drivers" EntityType="Self.driver" />
+          <EntitySet Name="duplicateFiles" EntityType="Self.duplicateFile" />
+          <EntitySet Name="factors" EntityType="Self.factor" />
+          <EntitySet Name="infoes" EntityType="Self.info" />
+          <EntitySet Name="list_online" EntityType="Self.list_online" />
+          <EntitySet Name="NationalDays" EntityType="Self.NationalDay" />
+          <EntitySet Name="news" EntityType="Self.news" />
+          <EntitySet Name="notices" EntityType="Self.notice" />
+          <EntitySet Name="noticesos" EntityType="Self.noticeso" />
+          <EntitySet Name="notifies" EntityType="Self.notify" />
+          <EntitySet Name="ratings" EntityType="Self.rating" />
+          <EntitySet Name="saokes" EntityType="Self.saoke" />
+          <EntitySet Name="transaction_bank" EntityType="Self.transaction_bank" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <EntitySet Name="list_car" EntityType="Self.list_car" />
+          <EntitySet Name="list_car_model" EntityType="Self.list_car_model" />
+          <EntitySet Name="list_car_type" EntityType="Self.list_car_type" />
+          <EntitySet Name="TinhThanhs" EntityType="Self.TinhThanh" />
+        </EntityContainer>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="thuexetoancauModelStoreContainer" CdmEntityContainer="thuexetoancauEntities">
+        <EntityContainerMapping StorageEntityContainer="thuexetoancauModelStoreContainer" CdmEntityContainer="txtc0307Entities">
+          <EntitySetMapping Name="transactions">
+            <EntityTypeMapping TypeName="thuexetoancauModel.transaction">
+              <MappingFragment StoreEntitySet="transactions">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="car_number" ColumnName="car_number" />
+                <ScalarProperty Name="money" ColumnName="money" />
+                <ScalarProperty Name="note" ColumnName="note" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="airport_way">
             <EntityTypeMapping TypeName="thuexetoancauModel.airport_way">
               <MappingFragment StoreEntitySet="airport_way">
-                <ScalarProperty Name="lat2" ColumnName="lat2" />
-                <ScalarProperty Name="lon2" ColumnName="lon2" />
-                <ScalarProperty Name="lat1" ColumnName="lat1" />
-                <ScalarProperty Name="lon1" ColumnName="lon1" />
-                <ScalarProperty Name="car_to" ColumnName="car_to" />
-                <ScalarProperty Name="car_from" ColumnName="car_from" />
-                <ScalarProperty Name="airport_name" ColumnName="airport_name" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="airport_name" ColumnName="airport_name" />
+                <ScalarProperty Name="car_from" ColumnName="car_from" />
+                <ScalarProperty Name="car_to" ColumnName="car_to" />
+                <ScalarProperty Name="lon1" ColumnName="lon1" />
+                <ScalarProperty Name="lat1" ColumnName="lat1" />
+                <ScalarProperty Name="lon2" ColumnName="lon2" />
+                <ScalarProperty Name="lat2" ColumnName="lat2" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="auctions">
             <EntityTypeMapping TypeName="thuexetoancauModel.auction">
               <MappingFragment StoreEntitySet="auction">
-                <ScalarProperty Name="type" ColumnName="type" />
-                <ScalarProperty Name="date_time" ColumnName="date_time" />
-                <ScalarProperty Name="price" ColumnName="price" />
-                <ScalarProperty Name="id_driver" ColumnName="id_driver" />
-                <ScalarProperty Name="id_booking" ColumnName="id_booking" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_booking" ColumnName="id_booking" />
+                <ScalarProperty Name="id_driver" ColumnName="id_driver" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="type" ColumnName="type" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="bookings">
             <EntityTypeMapping TypeName="thuexetoancauModel.booking">
               <MappingFragment StoreEntitySet="booking">
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="time_to_reduce" ColumnName="time_to_reduce" />
-                <ScalarProperty Name="datebook" ColumnName="datebook" />
-                <ScalarProperty Name="book_price_max" ColumnName="book_price_max" />
-                <ScalarProperty Name="book_price" ColumnName="book_price" />
-                <ScalarProperty Name="lat2" ColumnName="lat2" />
-                <ScalarProperty Name="lon2" ColumnName="lon2" />
-                <ScalarProperty Name="geo2" ColumnName="geo2" />
-                <ScalarProperty Name="lat1" ColumnName="lat1" />
-                <ScalarProperty Name="lon1" ColumnName="lon1" />
-                <ScalarProperty Name="geo1" ColumnName="geo1" />
-                <ScalarProperty Name="to_datetime" ColumnName="to_datetime" />
-                <ScalarProperty Name="from_datetime" ColumnName="from_datetime" />
-                <ScalarProperty Name="car_who_hire" ColumnName="car_who_hire" />
-                <ScalarProperty Name="car_hire_type" ColumnName="car_hire_type" />
-                <ScalarProperty Name="car_type" ColumnName="car_type" />
-                <ScalarProperty Name="car_to" ColumnName="car_to" />
-                <ScalarProperty Name="car_from" ColumnName="car_from" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="car_from" ColumnName="car_from" />
+                <ScalarProperty Name="car_to" ColumnName="car_to" />
+                <ScalarProperty Name="car_type" ColumnName="car_type" />
+                <ScalarProperty Name="car_hire_type" ColumnName="car_hire_type" />
+                <ScalarProperty Name="car_who_hire" ColumnName="car_who_hire" />
+                <ScalarProperty Name="from_datetime" ColumnName="from_datetime" />
+                <ScalarProperty Name="to_datetime" ColumnName="to_datetime" />
+                <ScalarProperty Name="geo1" ColumnName="geo1" />
+                <ScalarProperty Name="lon1" ColumnName="lon1" />
+                <ScalarProperty Name="lat1" ColumnName="lat1" />
+                <ScalarProperty Name="geo2" ColumnName="geo2" />
+                <ScalarProperty Name="lon2" ColumnName="lon2" />
+                <ScalarProperty Name="lat2" ColumnName="lat2" />
+                <ScalarProperty Name="book_price" ColumnName="book_price" />
+                <ScalarProperty Name="book_price_max" ColumnName="book_price_max" />
+                <ScalarProperty Name="datebook" ColumnName="datebook" />
+                <ScalarProperty Name="time_to_reduce" ColumnName="time_to_reduce" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="status" ColumnName="status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="booking_final">
             <EntityTypeMapping TypeName="thuexetoancauModel.booking_final">
               <MappingFragment StoreEntitySet="booking_final">
-                <ScalarProperty Name="type" ColumnName="type" />
-                <ScalarProperty Name="date_time" ColumnName="date_time" />
-                <ScalarProperty Name="id_booking" ColumnName="id_booking" />
-                <ScalarProperty Name="price" ColumnName="price" />
-                <ScalarProperty Name="driver_phone" ColumnName="driver_phone" />
-                <ScalarProperty Name="driver_number" ColumnName="driver_number" />
-                <ScalarProperty Name="id_driver" ColumnName="id_driver" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_driver" ColumnName="id_driver" />
+                <ScalarProperty Name="driver_number" ColumnName="driver_number" />
+                <ScalarProperty Name="driver_phone" ColumnName="driver_phone" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="id_booking" ColumnName="id_booking" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="type" ColumnName="type" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="booking_log">
             <EntityTypeMapping TypeName="thuexetoancauModel.booking_log">
               <MappingFragment StoreEntitySet="booking_log">
-                <ScalarProperty Name="date_time" ColumnName="date_time" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id_booking" ColumnName="id_booking" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_booking" ColumnName="id_booking" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="car_hire_type">
             <EntityTypeMapping TypeName="thuexetoancauModel.car_hire_type">
               <MappingFragment StoreEntitySet="car_hire_type">
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="car_made_model">
             <EntityTypeMapping TypeName="thuexetoancauModel.car_made_model">
               <MappingFragment StoreEntitySet="car_made_model">
-                <ScalarProperty Name="model" ColumnName="model" />
-                <ScalarProperty Name="made" ColumnName="made" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="made" ColumnName="made" />
+                <ScalarProperty Name="model" ColumnName="model" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="car_price">
             <EntityTypeMapping TypeName="thuexetoancauModel.car_price">
               <MappingFragment StoreEntitySet="car_price">
-                <ScalarProperty Name="multiple2" ColumnName="multiple2" />
-                <ScalarProperty Name="multiple" ColumnName="multiple" />
-                <ScalarProperty Name="price2" ColumnName="price2" />
-                <ScalarProperty Name="price" ColumnName="price" />
-                <ScalarProperty Name="car_size" ColumnName="car_size" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="car_size" ColumnName="car_size" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="price2" ColumnName="price2" />
+                <ScalarProperty Name="multiple" ColumnName="multiple" />
+                <ScalarProperty Name="multiple2" ColumnName="multiple2" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="car_price_airport">
             <EntityTypeMapping TypeName="thuexetoancauModel.car_price_airport">
               <MappingFragment StoreEntitySet="car_price_airport">
-                <ScalarProperty Name="price_two_way" ColumnName="price_two_way" />
-                <ScalarProperty Name="price_back_way" ColumnName="price_back_way" />
-                <ScalarProperty Name="price_go_way" ColumnName="price_go_way" />
-                <ScalarProperty Name="car_size" ColumnName="car_size" />
-                <ScalarProperty Name="airport_name" ColumnName="airport_name" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="airport_name" ColumnName="airport_name" />
+                <ScalarProperty Name="car_size" ColumnName="car_size" />
+                <ScalarProperty Name="price_go_way" ColumnName="price_go_way" />
+                <ScalarProperty Name="price_back_way" ColumnName="price_back_way" />
+                <ScalarProperty Name="price_two_way" ColumnName="price_two_way" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="car_type">
             <EntityTypeMapping TypeName="thuexetoancauModel.car_type">
               <MappingFragment StoreEntitySet="car_type">
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="car_who_hire">
             <EntityTypeMapping TypeName="thuexetoancauModel.car_who_hire">
               <MappingFragment StoreEntitySet="car_who_hire">
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cats">
+            <EntityTypeMapping TypeName="thuexetoancauModel.cat">
+              <MappingFragment StoreEntitySet="cats">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="cat_name" ColumnName="cat_name" />
+                <ScalarProperty Name="cat_url" ColumnName="cat_url" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="driver_bank">
             <EntityTypeMapping TypeName="thuexetoancauModel.driver_bank">
               <MappingFragment StoreEntitySet="driver_bank">
-                <ScalarProperty Name="bank_name" ColumnName="bank_name" />
-                <ScalarProperty Name="bank_number" ColumnName="bank_number" />
-                <ScalarProperty Name="driver_name" ColumnName="driver_name" />
-                <ScalarProperty Name="car_number" ColumnName="car_number" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="car_number" ColumnName="car_number" />
+                <ScalarProperty Name="driver_name" ColumnName="driver_name" />
+                <ScalarProperty Name="bank_number" ColumnName="bank_number" />
+                <ScalarProperty Name="bank_name" ColumnName="bank_name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="driver_own">
             <EntityTypeMapping TypeName="thuexetoancauModel.driver_own">
               <MappingFragment StoreEntitySet="driver_own">
-                <ScalarProperty Name="date_time" ColumnName="date_time" />
-                <ScalarProperty Name="date_year" ColumnName="date_year" />
-                <ScalarProperty Name="money_year" ColumnName="money_year" />
-                <ScalarProperty Name="date_period" ColumnName="date_period" />
-                <ScalarProperty Name="money_period" ColumnName="money_period" />
-                <ScalarProperty Name="date_month" ColumnName="date_month" />
-                <ScalarProperty Name="money_month" ColumnName="money_month" />
-                <ScalarProperty Name="driver_name" ColumnName="driver_name" />
-                <ScalarProperty Name="car_number" ColumnName="car_number" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="car_number" ColumnName="car_number" />
+                <ScalarProperty Name="driver_name" ColumnName="driver_name" />
+                <ScalarProperty Name="money_month" ColumnName="money_month" />
+                <ScalarProperty Name="date_month" ColumnName="date_month" />
+                <ScalarProperty Name="money_period" ColumnName="money_period" />
+                <ScalarProperty Name="date_period" ColumnName="date_period" />
+                <ScalarProperty Name="money_year" ColumnName="money_year" />
+                <ScalarProperty Name="date_year" ColumnName="date_year" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="driver_salary">
             <EntityTypeMapping TypeName="thuexetoancauModel.driver_salary">
               <MappingFragment StoreEntitySet="driver_salary">
-                <ScalarProperty Name="to_date" ColumnName="to_date" />
-                <ScalarProperty Name="from_date" ColumnName="from_date" />
-                <ScalarProperty Name="bank_name" ColumnName="bank_name" />
-                <ScalarProperty Name="bank_number" ColumnName="bank_number" />
-                <ScalarProperty Name="money" ColumnName="money" />
-                <ScalarProperty Name="driver_name" ColumnName="driver_name" />
-                <ScalarProperty Name="car_number" ColumnName="car_number" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="car_number" ColumnName="car_number" />
+                <ScalarProperty Name="driver_name" ColumnName="driver_name" />
+                <ScalarProperty Name="money" ColumnName="money" />
+                <ScalarProperty Name="bank_number" ColumnName="bank_number" />
+                <ScalarProperty Name="bank_name" ColumnName="bank_name" />
+                <ScalarProperty Name="from_date" ColumnName="from_date" />
+                <ScalarProperty Name="to_date" ColumnName="to_date" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="drivers">
             <EntityTypeMapping TypeName="thuexetoancauModel.driver">
               <MappingFragment StoreEntitySet="drivers">
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="os" ColumnName="os" />
-                <ScalarProperty Name="reg_id" ColumnName="reg_id" />
-                <ScalarProperty Name="license" ColumnName="license" />
-                <ScalarProperty Name="card_identify" ColumnName="card_identify" />
-                <ScalarProperty Name="address" ColumnName="address" />
-                <ScalarProperty Name="code" ColumnName="code" />
-                <ScalarProperty Name="date_time" ColumnName="date_time" />
-                <ScalarProperty Name="province" ColumnName="province" />
-                <ScalarProperty Name="total_moneys" ColumnName="total_moneys" />
-                <ScalarProperty Name="car_price" ColumnName="car_price" />
-                <ScalarProperty Name="car_type" ColumnName="car_type" />
-                <ScalarProperty Name="car_number" ColumnName="car_number" />
-                <ScalarProperty Name="car_size" ColumnName="car_size" />
-                <ScalarProperty Name="car_years" ColumnName="car_years" />
-                <ScalarProperty Name="car_made" ColumnName="car_made" />
-                <ScalarProperty Name="car_model" ColumnName="car_model" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="pass" ColumnName="pass" />
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="car_model" ColumnName="car_model" />
+                <ScalarProperty Name="car_made" ColumnName="car_made" />
+                <ScalarProperty Name="car_years" ColumnName="car_years" />
+                <ScalarProperty Name="car_size" ColumnName="car_size" />
+                <ScalarProperty Name="car_number" ColumnName="car_number" />
+                <ScalarProperty Name="car_type" ColumnName="car_type" />
+                <ScalarProperty Name="car_price" ColumnName="car_price" />
+                <ScalarProperty Name="total_moneys" ColumnName="total_moneys" />
+                <ScalarProperty Name="province" ColumnName="province" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="card_identify" ColumnName="card_identify" />
+                <ScalarProperty Name="license" ColumnName="license" />
+                <ScalarProperty Name="reg_id" ColumnName="reg_id" />
+                <ScalarProperty Name="os" ColumnName="os" />
+                <ScalarProperty Name="status" ColumnName="status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="duplicateFiles">
             <EntityTypeMapping TypeName="thuexetoancauModel.duplicateFile">
               <MappingFragment StoreEntitySet="duplicateFile">
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="factors">
             <EntityTypeMapping TypeName="thuexetoancauModel.factor">
               <MappingFragment StoreEntitySet="factor">
-                <ScalarProperty Name="val" ColumnName="val" />
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="val" ColumnName="val" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="infoes">
             <EntityTypeMapping TypeName="thuexetoancauModel.info">
               <MappingFragment StoreEntitySet="info">
-                <ScalarProperty Name="address" ColumnName="address" />
-                <ScalarProperty Name="about" ColumnName="about" />
-                <ScalarProperty Name="hotline2" ColumnName="hotline2" />
-                <ScalarProperty Name="hotline1" ColumnName="hotline1" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="hotline1" ColumnName="hotline1" />
+                <ScalarProperty Name="hotline2" ColumnName="hotline2" />
+                <ScalarProperty Name="about" ColumnName="about" />
+                <ScalarProperty Name="address" ColumnName="address" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="list_online">
             <EntityTypeMapping TypeName="thuexetoancauModel.list_online">
               <MappingFragment StoreEntitySet="list_online">
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="car_number" ColumnName="car_number" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="geo" ColumnName="geo" />
-                <ScalarProperty Name="lat" ColumnName="lat" />
-                <ScalarProperty Name="lon" ColumnName="lon" />
-                <ScalarProperty Name="date_time" ColumnName="date_time" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="lon" ColumnName="lon" />
+                <ScalarProperty Name="lat" ColumnName="lat" />
+                <ScalarProperty Name="geo" ColumnName="geo" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="car_number" ColumnName="car_number" />
+                <ScalarProperty Name="status" ColumnName="status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="NationalDays">
             <EntityTypeMapping TypeName="thuexetoancauModel.NationalDay">
               <MappingFragment StoreEntitySet="NationalDay">
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="DayName" ColumnName="DayName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DayName" ColumnName="DayName" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="news">
+            <EntityTypeMapping TypeName="thuexetoancauModel.news">
+              <MappingFragment StoreEntitySet="news">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="new_title" ColumnName="new_title" />
+                <ScalarProperty Name="new_content" ColumnName="new_content" />
+                <ScalarProperty Name="new_flug" ColumnName="new_flug" />
+                <ScalarProperty Name="new_img" ColumnName="new_img" />
+                <ScalarProperty Name="cat_id" ColumnName="cat_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="quyen_hang" ColumnName="quyen_hang" />
+                <ScalarProperty Name="trang_thai" ColumnName="trang_thai" />
+                <ScalarProperty Name="isHot" ColumnName="isHot" />
+                <ScalarProperty Name="ngay_tao" ColumnName="ngay_tao" />
+                <ScalarProperty Name="new_des" ColumnName="new_des" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="notices">
             <EntityTypeMapping TypeName="thuexetoancauModel.notice">
               <MappingFragment StoreEntitySet="notice">
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="noticesos">
             <EntityTypeMapping TypeName="thuexetoancauModel.noticeso">
               <MappingFragment StoreEntitySet="noticesos">
-                <ScalarProperty Name="body" ColumnName="body" />
-                <ScalarProperty Name="title" ColumnName="title" />
-                <ScalarProperty Name="os" ColumnName="os" />
-                <ScalarProperty Name="regid" ColumnName="regid" />
-                <ScalarProperty Name="tobject" ColumnName="tobject" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tobject" ColumnName="tobject" />
+                <ScalarProperty Name="regid" ColumnName="regid" />
+                <ScalarProperty Name="os" ColumnName="os" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="body" ColumnName="body" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="notifies">
             <EntityTypeMapping TypeName="thuexetoancauModel.notify">
               <MappingFragment StoreEntitySet="notifies">
-                <ScalarProperty Name="os" ColumnName="os" />
-                <ScalarProperty Name="reg_id" ColumnName="reg_id" />
-                <ScalarProperty Name="tobject" ColumnName="tobject" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="tobject" ColumnName="tobject" />
+                <ScalarProperty Name="reg_id" ColumnName="reg_id" />
+                <ScalarProperty Name="os" ColumnName="os" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ratings">
             <EntityTypeMapping TypeName="thuexetoancauModel.rating">
               <MappingFragment StoreEntitySet="rating">
-                <ScalarProperty Name="comment" ColumnName="comment" />
-                <ScalarProperty Name="rate" ColumnName="rate" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="id_booking" ColumnName="id_booking" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_booking" ColumnName="id_booking" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="rate" ColumnName="rate" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="saokes">
             <EntityTypeMapping TypeName="thuexetoancauModel.saoke">
               <MappingFragment StoreEntitySet="saoke">
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="date_time" ColumnName="date_time" />
-                <ScalarProperty Name="money" ColumnName="money" />
-                <ScalarProperty Name="id_booking" ColumnName="id_booking" />
-                <ScalarProperty Name="id_driver" ColumnName="id_driver" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_driver" ColumnName="id_driver" />
+                <ScalarProperty Name="id_booking" ColumnName="id_booking" />
+                <ScalarProperty Name="money" ColumnName="money" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="status" ColumnName="status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="transaction_bank">
             <EntityTypeMapping TypeName="thuexetoancauModel.transaction_bank">
               <MappingFragment StoreEntitySet="transaction_bank">
-                <ScalarProperty Name="to_date" ColumnName="to_date" />
-                <ScalarProperty Name="from_date" ColumnName="from_date" />
-                <ScalarProperty Name="des" ColumnName="des" />
-                <ScalarProperty Name="province" ColumnName="province" />
-                <ScalarProperty Name="bank_name" ColumnName="bank_name" />
-                <ScalarProperty Name="bank_number" ColumnName="bank_number" />
-                <ScalarProperty Name="money" ColumnName="money" />
-                <ScalarProperty Name="driver_name" ColumnName="driver_name" />
-                <ScalarProperty Name="car_number" ColumnName="car_number" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="car_number" ColumnName="car_number" />
+                <ScalarProperty Name="driver_name" ColumnName="driver_name" />
+                <ScalarProperty Name="money" ColumnName="money" />
+                <ScalarProperty Name="bank_number" ColumnName="bank_number" />
+                <ScalarProperty Name="bank_name" ColumnName="bank_name" />
+                <ScalarProperty Name="province" ColumnName="province" />
+                <ScalarProperty Name="des" ColumnName="des" />
+                <ScalarProperty Name="from_date" ColumnName="from_date" />
+                <ScalarProperty Name="to_date" ColumnName="to_date" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="users">
             <EntityTypeMapping TypeName="thuexetoancauModel.user">
               <MappingFragment StoreEntitySet="users">
-                <ScalarProperty Name="permision" ColumnName="permision" />
-                <ScalarProperty Name="pass" ColumnName="pass" />
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="permision" ColumnName="permision" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="list_car">
             <EntityTypeMapping TypeName="thuexetoancauModel.list_car">
               <MappingFragment StoreEntitySet="list_car">
-                <ScalarProperty Name="no" ColumnName="no" />
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="no" ColumnName="no" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="list_car_model">
             <EntityTypeMapping TypeName="thuexetoancauModel.list_car_model">
               <MappingFragment StoreEntitySet="list_car_model">
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="list_car_type">
             <EntityTypeMapping TypeName="thuexetoancauModel.list_car_type">
               <MappingFragment StoreEntitySet="list_car_type">
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TinhThanhs">
             <EntityTypeMapping TypeName="thuexetoancauModel.TinhThanh">
               <MappingFragment StoreEntitySet="TinhThanh">
-                <ScalarProperty Name="tinhthanhpho" ColumnName="tinhthanhpho" />
+                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="quanhuyen" ColumnName="quanhuyen" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="transactions">
-            <EntityTypeMapping TypeName="thuexetoancauModel.transaction">
-              <MappingFragment StoreEntitySet="transactions">
-                <ScalarProperty Name="note" ColumnName="note" />
-                <ScalarProperty Name="money" ColumnName="money" />
-                <ScalarProperty Name="car_number" ColumnName="car_number" />
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="type" ColumnName="type" />
-                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tinhthanhpho" ColumnName="tinhthanhpho" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
