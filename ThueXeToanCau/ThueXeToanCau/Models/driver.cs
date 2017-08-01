@@ -36,5 +36,6 @@ namespace ThueXeToanCau.Models
         public string reg_id { get; set; }
         public Nullable<int> os { get; set; }
         public Nullable<int> status { get; set; }
+        public Nullable<int> driver_type { get; set; }
     }
 }

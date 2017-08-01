@@ -41,7 +41,6 @@ namespace ThueXeToanCau.Models
         public virtual DbSet<driver_bank> driver_bank { get; set; }
         public virtual DbSet<driver_own> driver_own { get; set; }
         public virtual DbSet<driver_salary> driver_salary { get; set; }
-        public virtual DbSet<driver> drivers { get; set; }
         public virtual DbSet<duplicateFile> duplicateFiles { get; set; }
         public virtual DbSet<factor> factors { get; set; }
         public virtual DbSet<info> infoes { get; set; }
@@ -59,5 +58,8 @@ namespace ThueXeToanCau.Models
         public virtual DbSet<list_car_model> list_car_model { get; set; }
         public virtual DbSet<list_car_type> list_car_type { get; set; }
         public virtual DbSet<TinhThanh> TinhThanhs { get; set; }
+        public virtual DbSet<driver> drivers { get; set; }
+        public virtual DbSet<customer> customers { get; set; }
+        public virtual DbSet<bookingnoi> bookingnois { get; set; }
     }
 }

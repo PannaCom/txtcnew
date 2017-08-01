@@ -62,6 +62,24 @@ namespace ThueXeToanCau
             }
             //return false;
         }
+        public static int datetimeid()
+        {
+            DateTime d1;
+            try
+            {
+
+                d1 = DateTime.Now;//.ToUniversalTime();
+                string rs = d1.Year.ToString() + d1.Month.ToString("00") + d1.Day.ToString("00");
+                return int.Parse(rs);
+
+            }
+            catch (Exception ex)
+            {
+                d1 = DateTime.Now;//.ToUniversalTime();
+                string rs = d1.Year.ToString() + d1.Month.ToString("00") + d1.Day.ToString("00");
+                return int.Parse(rs);
+            }
+        }
         public static string getHotLine()
         {
             try
@@ -173,5 +191,6 @@ namespace ThueXeToanCau
             input = input.Replace("-", "").Replace(":", "").Replace(",", "").Replace("_", "").Replace("'", "").Replace("\"", "").Replace(";", "").Replace("”", "").Replace(".", "").Replace("%", "");
             return input;
         }
+        
     }
 }

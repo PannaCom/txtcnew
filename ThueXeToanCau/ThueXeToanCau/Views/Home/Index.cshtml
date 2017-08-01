@@ -504,6 +504,13 @@
         var car_size = document.getElementById("car_type2").value;
         getDriverAround(lat3, lon3, car_size);
     }
+    function generateRandomNumber() {
+        var min = 0.001;
+        var max = 0.009;
+        var highlightedNumber = Math.random() * (max - min) + min;
+        return highlightedNumber;
+        //alert(highlightedNumber);
+    };
     function getDriverAround(lat, lon, car_size) {
         var people = [];
         var locations = "{lat: 105.8194541, lng:21.0227431}";
@@ -545,31 +552,44 @@
             };
             var totalLon = 0;
             var totalLat = 0;
+            var init_lon = -1;
+            var init_lat = -1;
+            var countCar = 0;
             for (var i = 0; i < json_parsed.news.length; i++) {
                 if (json_parsed.news[i]) {
-                    //var action = "<button class='btn btn-warning' style='width:100%' onclick='bookingFinal(" + json_parsed.news[i].book_price + "," + json_parsed.news[i].current_price + "," + json_parsed.news[i].id + ",1);'>Mua Ngay</button><br>";
-                    //action += "<button class='btn btn-danger' style='width:100%' onclick='bookingFinal(" + json_parsed.news[i].book_price + "," + json_parsed.news[i].current_price + "," + json_parsed.news[i].id + ",0);'>Đấu Giá</button>";
-                    //Mỗi tài xế đấu giá khi ấn vào nút đấu giá sẽ gửi lên server qua API này, bookingFinal(long id_driver, string driver_number, string driver_phone, int price, long id_booking,int? type)
-                    //Với id_driver là id tài xế, biển số, số phone, giá đặt mua ngay/đấu giá, id_booking là id của chuyến xe đang được đấu giá mà anh mô tả ở id trên, type=0 là đấu giá, =1 là mua ngay, nếu là mua ngay thì anh sẽ đánh dấu ông nào mua ngay sớm nhất sẽ thắng, các nút đấu giá sau này gửi lên sẽ trả về bằng 0 hết, tức ko đấu giá được nữa, do có người đã mua ngay, =-1 thì trả về do lỗi mạng, =1 là trả về đấu giá thành công
-                    if (i<10) items += "<tr><td>" + json_parsed.news[i].name.toString().toUpperCase() + "</td><td><a href=\"#\" class='btn btn-warning' onclick=\"openphone('" + json_parsed.news[i].phone + "');\">Gọi Điện</a></td><td>" + json_parsed.news[i].car_model + "</td><td>" + json_parsed.news[i].car_years + "</td><td>" + json_parsed.news[i].car_size + "</td><td>" + json_parsed.news[i].car_type + "</td><td>" + parseFloat(json_parsed.news[i].D).toFixed(2) + "</td></tr>";
-                    //alert(arrNotice[i]);
-                    people.push(json_parsed.news[i].name.toString().toUpperCase());
-                    locations += ",{lat: " + json_parsed.news[i].lat + ", lng: " + json_parsed.news[i].lon + "}";
-                    var latLng = new google.maps.LatLng(json_parsed.news[i].lat, json_parsed.news[i].lon);
-                    var marker = new google.maps.Marker({ 'position': latLng, 'label': json_parsed.news[i].name.toString().toUpperCase(), title: 'Click to zoom', 'icon': image, 'draggable': true });
-                    var phone = json_parsed.news[i].phone;
-                    totalLon += json_parsed.news[i].lon;
-                    totalLat += json_parsed.news[i].lat;
-                    marker.addListener('click', function () {
-                        //alert("ok");
-                        openphone(phone);
-                    });
+                        if (parseFloat(init_lon) != parseFloat(json_parsed.news[i].lon) || parseFloat(init_lat) != parseFloat(json_parsed.news[i].lat)) {
+                            init_lon = json_parsed.news[i].lon;
+                            init_lat = json_parsed.news[i].lat;
+                        } else {
+                            json_parsed.news[i].lon=json_parsed.news[i].lon+generateRandomNumber();
+                            json_parsed.news[i].lat=json_parsed.news[i].lat+generateRandomNumber();
+                        }
+                        //var action = "<button class='btn btn-warning' style='width:100%' onclick='bookingFinal(" + json_parsed.news[i].book_price + "," + json_parsed.news[i].current_price + "," + json_parsed.news[i].id + ",1);'>Mua Ngay</button><br>";
+                        //action += "<button class='btn btn-danger' style='width:100%' onclick='bookingFinal(" + json_parsed.news[i].book_price + "," + json_parsed.news[i].current_price + "," + json_parsed.news[i].id + ",0);'>Đấu Giá</button>";
+                        //Mỗi tài xế đấu giá khi ấn vào nút đấu giá sẽ gửi lên server qua API này, bookingFinal(long id_driver, string driver_number, string driver_phone, int price, long id_booking,int? type)
+                        //Với id_driver là id tài xế, biển số, số phone, giá đặt mua ngay/đấu giá, id_booking là id của chuyến xe đang được đấu giá mà anh mô tả ở id trên, type=0 là đấu giá, =1 là mua ngay, nếu là mua ngay thì anh sẽ đánh dấu ông nào mua ngay sớm nhất sẽ thắng, các nút đấu giá sau này gửi lên sẽ trả về bằng 0 hết, tức ko đấu giá được nữa, do có người đã mua ngay, =-1 thì trả về do lỗi mạng, =1 là trả về đấu giá thành công
+                        if (i<10) items += "<tr><td>" + json_parsed.news[i].name.toString().toUpperCase() + "</td><td><a href=\"#\" class='btn btn-warning' onclick=\"openphone('" + json_parsed.news[i].phone + "');\">Gọi Điện</a></td><td>" + json_parsed.news[i].car_model + "</td><td>" + json_parsed.news[i].car_years + "</td><td>" + json_parsed.news[i].car_size + "</td><td>" + json_parsed.news[i].car_type + "</td><td>" + parseFloat(json_parsed.news[i].D).toFixed(2) + "</td></tr>";
+                        //alert(arrNotice[i]);
+                        people.push(json_parsed.news[i].name.toString().toUpperCase());
+                        locations += ",{lat: " + json_parsed.news[i].lat + ", lng: " + json_parsed.news[i].lon + "}";
+                        var latLng = new google.maps.LatLng(json_parsed.news[i].lat, json_parsed.news[i].lon);
+                        var marker = new google.maps.Marker({ 'position': latLng, 'label': json_parsed.news[i].name.toString().toUpperCase(), title: 'Click to zoom', 'icon': image, 'draggable': true });
+                        var phone = json_parsed.news[i].phone;
+                        totalLon += json_parsed.news[i].lon;
+                        totalLat += json_parsed.news[i].lat;
+                        marker.addListener('click', function () {
+                            //alert("ok");
+                            openphone(phone);
+                        });
 
-                    markers.push(marker);
+                        markers.push(marker);
+                        if (i < 10) console.log(json_parsed.news[i].name.toString().toUpperCase() + ",{lat: " + json_parsed.news[i].lat + ", lng: " + json_parsed.news[i].lon + "}");                        
+                        countCar++;
+                    
                 }
             }
-            totalLon = totalLon / json_parsed.news.length;
-            totalLat = totalLat / json_parsed.news.length;
+            totalLon = totalLon / countCar;
+            totalLat = totalLat / countCar;
             $("#listdriver").html("<table>" + items + "</table>");
             if (json_parsed.news.length <= 0) {
                 $("#listdriver").hide();

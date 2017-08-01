@@ -21,7 +21,6 @@
         <EntityTypeShape EntityType="thuexetoancauModel.driver_bank" Width="1.5" PointX="2.75" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="thuexetoancauModel.driver_own" Width="1.5" PointX="4.75" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="thuexetoancauModel.driver_salary" Width="1.5" PointX="6.75" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="thuexetoancauModel.driver" Width="1.5" PointX="8.75" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="thuexetoancauModel.duplicateFile" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="thuexetoancauModel.factor" Width="1.5" PointX="10.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="thuexetoancauModel.info" Width="1.5" PointX="10.75" PointY="6.75" IsExpanded="true" />
@@ -39,6 +38,9 @@
         <EntityTypeShape EntityType="thuexetoancauModel.list_car_model" Width="1.5" PointX="14.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="thuexetoancauModel.list_car_type" Width="1.5" PointX="14.75" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="thuexetoancauModel.TinhThanh" Width="1.5" PointX="14.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="thuexetoancauModel.driver" Width="1.5" PointX="7.375" PointY="13.75" />
+        <EntityTypeShape EntityType="thuexetoancauModel.customer" Width="1.5" PointX="11.375" PointY="15.75" />
+        <EntityTypeShape EntityType="thuexetoancauModel.bookingnoi" Width="1.5" PointX="13.375" PointY="15.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -169,6 +169,7 @@ namespace ThueXeToanCau.Models
                         using (MD5 md5Hash = MD5.Create())
                         {
                             string hash = GetMd5Hash(md5Hash, dri.pass);
+                            dri.driver_type = 0;
                             dri.status = 0;
                             dri.os = 3;
                             dri.pass = hash;
