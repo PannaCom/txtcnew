@@ -18,7 +18,7 @@
         <p>Tên tài xế</p>
         <input id="tname" type="text" class="form-control" placeholder="Nhập tên">
         <p>Số điện thoại</p>
-        <input id="tphone" type="text" class="form-control" placeholder="Nhập số điện thoại">
+        <input id="tphone" type="text" class="form-control" placeholder="Nhập số điện thoại" onblur="checkDulicatePhone(this);">
         <p>Mật Khẩu Mới</p>
         <input id="tPass" type="password" class="form-control" placeholder="Nhập mật khẩu">
         <p>Xác Nhận Mật Khẩu</p>
@@ -63,7 +63,7 @@
         <input id="total_moneys" type="hidden">
     </div>
     <div class="divBtn">
-        <button type="button" class="btn btn-primary" onclick="saveDriver2()">Đồng Ý</button>
+        <button type="button" class="btn btn-primary" onclick="saveDriver2()" id="regDRVbtn">Đồng Ý</button>
         <button type="button" class="btn btn-primary" onclick="closeDDialog('#driverDialog')">Hủy</button>
     </div>
 </div>
@@ -89,6 +89,20 @@
                 return false;
             },
             minLength: 1
+        });
+    }
+    function checkDulicatePhone(obj){
+        $.ajax({
+            url: "/Driver/checkDulicatePhone?phone=" + obj.value,
+        cache: false
+        }).done(function (html) {
+            if (html == "1") {
+                alert("Đã tồn tại tài xế đăng ký số điện thoại này rồi. Bạn chọn số khác!");
+                document.getElementById("regDRVbtn").disabled = true;
+                document.getElementById("tphone").focus();
+            } else {
+                document.getElementById("regDRVbtn").disabled = false;
+            }
         });
     }
 </script>

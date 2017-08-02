@@ -1,12 +1,14 @@
-﻿function openCarPrice(carId, car_size, price, multiple, multiple2) {
+﻿function openCarPrice(carId, car_size, price,price2, multiple, multiple2) {
     car_size = resetValue(car_size, 5);
-    price = resetValue(price, 5000);    
+    price = resetValue(price, 5000);
+    price2 = resetValue(price2, 5000);
     multiple = resetValue(multiple, 1);
     multiple2 = resetValue(multiple2, 1);
 
     $("#cp_ID").val(carId);
     $('#cp_car_type option[value=' + car_size + ']').prop('selected', true);
     $("#cp_Price").val(price);
+    $("#cp_Price2").val(price2);
     //price2 = resetValue(price2, 5000);price2, , price2: $("#cp_Price2").val()
     //$("#cp_Price2").val(price2);
     $("#cp_Multiple").val(multiple);
@@ -19,7 +21,7 @@ function saveCarPrice() {
         url: url_addUpdateCarPrice, type: 'post',
         contentType: 'application/json',
         data: JSON.stringify({
-            ID: $("#cp_ID").val(), car_size: $("#cp_car_type").val(), price: $("#cp_Price").val(),
+            ID: $("#cp_ID").val(), car_size: $("#cp_car_type").val(), price: $("#cp_Price").val(), price2: $("#cp_Price2").val(),
             multiple: $("#cp_Multiple").val(), multiple2: $("#cp_Multiple2").val()
         }),
         success: function (rs) {

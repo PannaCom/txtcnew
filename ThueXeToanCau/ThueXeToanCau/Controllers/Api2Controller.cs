@@ -282,44 +282,51 @@ namespace ThueXeToanCau.Controllers
             }
         }
         //C5
-        //1. Gửi lên hỏi server là với ô tô dạng 4,5,8 chỗ (car_size) đi nội thành hoặc đường dài (car_type=0 là đường dài, car_type=1 là nội thành, với đường dài thì trả về cả giá 1 chiều và cả giá khứ hồi
-        //2. Server trả về giá price/1km để client tính toán nhân với km trên bản đồ client đo được
-        //3. nếu lỗi server trả error, price là 0 và lỗi chi tiết
+        //1. Gửi lên hỏi server giá của tất cả các ô tô dạng 4,5,8 chỗ (car_size) 
+        //Server trả về hết các bảng giả listprice quy ước như sau
+        // price01way (đường dài 1 chiều)
+        // price02way (đường dài 2 chiều)
+        // price11way(Đường ngắn 1 chiều)       
+        //3. nếu lỗi server trả error, listprice là rỗng và lỗi chi tiết
         //[HttpPost]
-        public string getPostage(int car_size,int car_type,int? way)
+        public string getPostage()
         {
             Dictionary<string, string> field = new Dictionary<string, string>();
             try
             {
-                if (car_type == 0)
-                {
-                    int? price = db.car_price.Where(o => o.car_size == car_size).FirstOrDefault().price;
-                    int? factor = db.car_price.Where(o => o.car_size == car_size).FirstOrDefault().multiple;
-                    int? price2 = price;
-                    price2 = (int)((factor * price) / 100);// Nếu đi 1 chiều thì nhân hệ số, giá gốc là đi khứ hồi
-                    field.Add("price2Way", price.ToString());
-                    field.Add("price1Way", price2.ToString());
-                    return Api("success", field, "Giá đi đường dài với số chỗ là " + car_size.ToString());
-                }
-                else
-                {
-                    int? price = db.car_price.Where(o => o.car_size == car_size).FirstOrDefault().price2;
-                    field.Add("price", price.ToString());
-                    return Api("success", field, "Giá đi nội thành với số chỗ là " + car_size.ToString());
-                }
+                //if (car_type == 0)
+                //{
+                //    int? price = db.car_price.Where(o => o.car_size == car_size).FirstOrDefault().price;
+                //    int? factor = db.car_price.Where(o => o.car_size == car_size).FirstOrDefault().multiple;
+                //    int? price2 = price;
+                //    price2 = (int)((factor * price) / 100);// Nếu đi 1 chiều thì nhân hệ số, giá gốc là đi khứ hồi
+                //    field.Add("price2Way", price.ToString());
+                //    field.Add("price1Way", price2.ToString());
+                //    return Api("success", field, "Giá đi đường dài với số chỗ là " + car_size.ToString());
+                //}
+                //else
+                //{
+                //    int? price = db.car_price.Where(o => o.car_size == car_size).FirstOrDefault().price2;
+                //    field.Add("price", price.ToString());
+                //    return Api("success", field, "Giá đi nội thành với số chỗ là " + car_size.ToString());
+                //}
+                var pr = (from q in db.car_price select new { car_size = q.car_size, price01way = q.price * q.multiple2 / 100, price02way = q.price,price11way=q.price2 }).OrderBy(o => o.car_size).ToList();
+                field.Add("listprice", JsonConvert.SerializeObject(pr));
+                return Api("success", field, "Tất cả bảng giá xe đi đường dài 1 chiều, 2 chiều, và nội thành 1 chiều");
             }
             catch (Exception ex)
             {
-                field.Add("price", "0");
+                field.Add("listprice", "");
                 return Api("error", field, "Lỗi server!" + ex.ToString());
             }
         }
         //C6
-        // Gửi đặt xe với user_id là id của khách, số phone custom_phone của khách, loại xe car_type 4,5,8 chỗ,  điểm đi start_point_name, danh sách điểm đến list_end_point_name, tọa độ lat,lon điểm đi start_point ví dụ cấu trúc start_point=lat,lon, danh sách tọa độ lat,lon điểm đến theo cấu trúc list_end_point=lat1,lon1_lat2,lon2_lat3,lon3...
+        // Gửi đặt xe với user_id là id của khách, số phone custom_phone, tên custom_name của khách, nếu đặt hộ thì gửi thêm guest_phone,guest_name của khách được đặt hộ
+        // loại xe car_type 4,5,8.. chỗ,  điểm đi start_point_name, danh sách điểm đến list_end_point_name, tọa độ lat,lon điểm đi start_point ví dụ cấu trúc start_point=lat,lon, danh sách tọa độ lat,lon điểm đến theo cấu trúc list_end_point=lat1,lon1_lat2,lon2_lat3,lon3...
         //isOneWay=0 là hai chiều, =1 là 1 chiều, isMineTrip=0 là đặt hộ, =1 là đặt riêng, estimated_price là ước lượng giá, estimated_distance là ước lượng khoảng cách, start_time là giờ đi, nếu đi ngay thì là null, come_back_time là giờ về nếu có, custom_note là ghi chú của khách
         //Giá trị trả về là id của chuyến xe được đặt này date_time là thời gian đặt
         [HttpPost]
-        public string bookingGrab(long user_id,string custom_phone, int car_type, string start_point_name, string list_end_point_name, string start_point, string list_end_point, byte? isOneWay, byte? isMineTrip, double estimated_price, double estimated_distance, DateTime? start_time, DateTime? come_back_time, string custom_note)
+        public string bookingGrab(long user_id,string custom_phone,string custom_name,string guest_phone,string guest_name, int car_type, string start_point_name, string list_end_point_name, string start_point, string list_end_point, byte? isOneWay, byte? isMineTrip, double estimated_price, double estimated_distance, DateTime? start_time, DateTime? come_back_time, string custom_note)
         {
             Dictionary<string, string> field = new Dictionary<string, string>();
             try
@@ -336,6 +343,9 @@ namespace ThueXeToanCau.Controllers
                 bn.book_time = DateTime.Now;
                 bn.car_type = car_type;
                 bn.custom_phone = custom_phone;
+                bn.custom_name = custom_name;
+                bn.guest_phone = guest_phone;
+                bn.guest_name = guest_name;
                 bn.distance = estimated_distance;
                 bn.is_mine_trip = isMineTrip;
                 bn.is_one_way = isOneWay;
@@ -413,5 +423,6 @@ namespace ThueXeToanCau.Controllers
                 return Api("error", field, "Lỗi server!" + ex.ToString());
             }
         }
+
     }
 }

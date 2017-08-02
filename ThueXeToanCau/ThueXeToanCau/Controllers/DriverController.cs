@@ -182,6 +182,22 @@ namespace ThueXeToanCau.Controllers
                 return ex.Message;
             }            
         }
+        public string checkDulicatePhone(string phone)
+        {
+            try {
+                if (db.drivers.Any(o=>o.phone==phone)){
+                    return "1";
+                }
+                else
+                {
+                    return "0";
+                }
+            } catch (Exception ex)
+            {
+                return "1";
+            }            
+        }
+        
         public string getLocation(string phone)
         {
             double? lat = 21.008665;

@@ -11,14 +11,15 @@
 <h2>@ViewBag.Title</h2>
 <button type="button" class="btn btn-primary" onclick="openCarPrice(0)">Thêm Mới</button><br /><br />
 <table class="table marginBottom0">
-    <tr><th>Loại Xe</th><th>Giá/1Km khứ hồi (Đồng)</th><th>Nhân Ngày Lễ</th><th>Nhân Một Chiều</th><th></th><th></th></tr>
+    <tr><th colspan="7">Chú ý: Nếu ngày lễ, một chiều giá trị là 120 có nghĩa là nhân giá với 120%, giá đường dài mặc định là giá khứ hồi, nhân với hệ số 1 chiều là ra giá giá một chiều, nhân với hệ số ngày lễ là ra giá cuối cùng</th></tr>
+    <tr><th>Loại Xe</th><th>Giá/1Km khứ hồi (Đồng) đường dài</th><th>Giá/1Km 1 chiều đường ngắn</th><th>Nhân Ngày Lễ</th><th>Nhân Một Chiều</th><th></th><th></th></tr>
     @foreach (var item in (PagedList<car_price>)ViewBag.OnePage)
     {
         if (item.multiple != null) { multiple = item.multiple; } else { multiple = 0; }
         if (item.multiple2 != null) { multiple2 = item.multiple2; } else { multiple2 = 0; } 
         <tr>
-            <td>@item.car_size chỗ</td><td>@item.price</td><td>@item.multiple</td><td>@item.multiple2</td>
-            <td><a href="#" onclick="openCarPrice(@item.ID, @item.car_size, @item.price, @multiple, @multiple2)">Sửa</a></td>
+            <td>@item.car_size chỗ</td><td>@item.price</td><td>@item.price2</td><td>@item.multiple</td><td>@item.multiple2</td>
+            <td><a href="#" onclick="openCarPrice(@item.ID, @item.car_size, @item.price,@item.price2, @multiple, @multiple2)">Sửa</a></td>
             <td><a href="#" onclick="confirmDelCarPrice(@item.ID, '@(item.car_size.ToString() + " chỗ")')">Xóa</a></td>
         </tr>
     }
@@ -33,12 +34,12 @@
         <select id="cp_car_type" class="form-control"><option value="4">4 chỗ</option><option value="5">5 chỗ</option><option value="8">8 chỗ</option><option value="16">16 chỗ</option><option value="30">30 chỗ</option><option value="45">45 chỗ</option></select>
         <p>Giá/1Km khứ hồi (Đồng)</p>
         <input id="cp_Price" type="number" class="form-control" placeholder="Nhập giá">
-        @*<th>Giá Khác</th><td>@item.price2</td>, @(item.price2 == null ? 5000 : item.price2)
-        <p>Giá Khác</p>
-        <input id="cp_Price2" type="number" class="form-control" placeholder="Nhập giá khác">*@
-        <p>Nhân Ngày Lễ</p>
+        @*<th>Giá Khác</th><td>@item.price2</td>, @(item.price2 == null ? 5000 : item.price2)*@
+        <p>Giá 1 chiều đường ngắn</p>
+        <input id="cp_Price2" type="number" class="form-control" placeholder="Nhập giá 1 chiều đường ngắn">
+        <p>Nhân Ngày Lễ (ví dụ nhập 120 thì giá sẽ nhân 120% vào ngày lễ)</p>
         <input id="cp_Multiple" type="number" class="form-control" placeholder="Nhập tỷ số nhân khi đặt xe ngày lễ">
-        <p>Nhân Một Chiều</p>
+        <p>Nhân Một Chiều (ví dụ nhập 120 thì giá sẽ nhân 120% nếu đi 1 chiều)</p>
         <input id="cp_Multiple2" type="number" class="form-control" placeholder="Nhập tỷ số nhân khi đặt xe một chiều">        
         <div class="divBtn">
             <button type="button" class="btn btn-primary" onclick="saveCarPrice()">Đồng Ý</button>
