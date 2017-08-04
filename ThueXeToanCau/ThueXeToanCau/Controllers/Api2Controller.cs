@@ -8,6 +8,14 @@ using System.Security.Cryptography;
 using System.Web.Http;
 using ThueXeToanCau.Models;
 using Newtonsoft.Json;
+using System.IO;
+using System.Text;
+using System.Net.Sockets;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Security;
+using Newtonsoft.Json.Linq;
+using System.Data.Entity.SqlServer;
+using System.Security.Authentication;
 namespace ThueXeToanCau.Controllers
 {
     public class Api2Controller : ApiController
@@ -22,6 +30,18 @@ namespace ThueXeToanCau.Controllers
             }
             if (data.EndsWith(",")) data = data.Substring(0, data.Length - 1);
             data +="}]";
+            string temp = "{\"status\":\"" + status + "\",\"data\":" + data + ",\"message\":\"" + message + "\"}";
+            return temp;
+        }
+        public string ApiArray(string status, Dictionary<string, string> field, string message)
+        {
+            string data = "[{";
+            for (int i = 0; i < field.Count; i++)
+            {
+                data += "\"" + field.ElementAt(i).Key + "\":" + field.ElementAt(i).Value + ",";
+            }
+            if (data.EndsWith(",")) data = data.Substring(0, data.Length - 1);
+            data += "}]";
             string temp = "{\"status\":\"" + status + "\",\"data\":" + data + ",\"message\":\"" + message + "\"}";
             return temp;
         }
@@ -312,12 +332,12 @@ namespace ThueXeToanCau.Controllers
                 //}
                 var pr = (from q in db.car_price select new { car_size = q.car_size, price01way = q.price * q.multiple2 / 100, price02way = q.price,price11way=q.price2 }).OrderBy(o => o.car_size).ToList();
                 field.Add("listprice", JsonConvert.SerializeObject(pr));
-                return Api("success", field, "Tất cả bảng giá xe đi đường dài 1 chiều, 2 chiều, và nội thành 1 chiều");
+                return ApiArray("success", field, "Tất cả bảng giá xe đi đường dài 1 chiều, 2 chiều, và nội thành 1 chiều");
             }
             catch (Exception ex)
             {
                 field.Add("listprice", "");
-                return Api("error", field, "Lỗi server!" + ex.ToString());
+                return ApiArray("error", field, "Lỗi server!" + ex.ToString());
             }
         }
         //C6
@@ -367,6 +387,7 @@ namespace ThueXeToanCau.Controllers
                 bn.user_id = user_id;
                 db.bookingnois.Add(bn);
                 db.SaveChanges();
+                findDriverSuitable(bn.id);
                 field.Add("id_booking", bn.id.ToString());
                 field.Add("date_time", DateTime.Now.ToString());      
                 return Api("success", field, "Đặt xe thành công");
@@ -376,6 +397,325 @@ namespace ThueXeToanCau.Controllers
                 field.Add("id_booking", "");
                 return Api("error", field, "Lỗi server!" + ex.ToString());
             }
+        }
+        public const String certificatePass = "txvn";
+        public const String certificateHostName = "gateway.sandbox.push.apple.com";
+        public const string fcmAppId = "AIzaSyCo-B6yPRG6J5cu2ZK1osxgx5BRu6FXcjg";//"AIzaSyCo-B6yPRG6J5cu2ZK1osxgx5BRu6FXcjg";//"AAAA5m5BKBw:APA91bFRUOhKeAPN5f71MgQLwSGySqQ1yuhuIzXVLzZIniiB0yQu6Il8vd2tDEb0-NHDAjIeFkc3yIUeDK2NtUE0dDT4DZy9PgL0ZLX89OYZDwSWLklfV0RsgxUn_QS5qcgSEWCJUu5u3FysN9zDkcb1hiKwtsyX7g";//"AIzaSyCo-B6yPRG6J5cu2ZK1osxgx5BRu6FXcjg";
+        public const string fcmSenderId = "989692241948";//"989692241948";;
+        public const Int32 port = 2195;
+        public X509Certificate2 clientCertificate;
+        public X509Certificate2Collection certificatesCollection;
+        public TcpClient client;
+        public WebRequest tRequest;
+        public SslStream sslStream;
+        public int sendNotify(int? os, string regId, string title, string body)
+        {
+            try
+            {
+                if (os == 1)
+                {
+                    InitAuthForAndroid();
+                    return PushMessageForAndroid(regId, title, body);
+                }
+                else
+                {
+                    InitAuthForIOS();
+                    return PushMessageForIOS(regId, title, body);
+
+                }
+            }
+            catch
+            {
+                return -1;
+            }
+
+        }
+
+        public void InitAuthForIOS()
+        {
+            String certificateFile = System.Web.Hosting.HostingEnvironment.MapPath("/APNsNew.p12");
+            //clientCertificate = new X509Certificate2(System.IO.File.ReadAllBytes(certificateFile), certificatePass);
+            clientCertificate = new X509Certificate2(certificateFile, certificatePass,
+X509KeyStorageFlags.Exportable | X509KeyStorageFlags.MachineKeySet |
+X509KeyStorageFlags.PersistKeySet);
+            certificatesCollection = new X509Certificate2Collection(clientCertificate);
+        }
+
+        public void InitAuthForAndroid()
+        {
+            tRequest = WebRequest.Create("https://fcm.googleapis.com/fcm/send");
+            tRequest.Method = "POST";
+            tRequest.UseDefaultCredentials = true;
+            tRequest.PreAuthenticate = true;
+            tRequest.Credentials = CredentialCache.DefaultNetworkCredentials;
+            //định dạng JSON
+            tRequest.ContentType = "application/json";
+            //tRequest.ContentType = " application/x-www-form-urlencoded;charset=UTF-8";
+            tRequest.Headers.Add(string.Format("Authorization: key={0}", fcmAppId));
+            tRequest.Headers.Add(string.Format("Sender: id={0}", fcmSenderId));
+        }
+
+        public int PushMessageForIOS(string deviceId, string title, string body)
+        {
+            int sended = 0;
+            try
+            {
+                string payload = "{\"aps\" : {\"alert\" : {\"title\" :\"" + title + "\",\"body\" :\"" + body + "\", \"action-loc-key\" : \"PLAY\"}, \"badge\" : 1, \"sound\":\"default\"}}";
+
+
+                client = new TcpClient(certificateHostName, 2195);
+                sslStream = new SslStream(client.GetStream(), false);
+                sslStream.AuthenticateAsClient(certificateHostName, certificatesCollection, SslProtocols.Tls, false);
+
+                MemoryStream memoryStream = new MemoryStream();
+                BinaryWriter writer = new BinaryWriter(memoryStream);
+                writer.Write((byte)0);
+                writer.Write((byte)0);
+                writer.Write((byte)32);
+
+                writer.Write(HexStringToByteArray(deviceId.ToUpper()));
+                //String payload = "{\"aps\":{\"alert\":\"" + messager + "\",\"badge\":1,\"sound\":\"default\"}}";
+                writer.Write((byte)0);
+                writer.Write((byte)payload.Length);
+                byte[] b1 = System.Text.Encoding.UTF8.GetBytes(payload);
+                writer.Write(b1);
+                writer.Flush();
+                byte[] array = memoryStream.ToArray();
+                sslStream.Write(array);
+                sslStream.Flush();
+                client.Close();
+
+
+                sended = 1;
+            }
+            catch (System.Security.Authentication.AuthenticationException ex)
+            {
+                client.Close();
+            }
+
+            return sended;
+        }
+        public int PushMessageForAndroid(string regId, string title, string body)
+        {
+            int sended = 0;
+            try
+            {
+                if (regId != null)
+                {
+                    //string postData = "{ \"registration_ids\": [ \"" + RegArr + "\" ],\"data\": {\"message\": \"" + title + ";" + hinhanh + "\",\"id\":\"" + strhethongst + "\"}}"; //"\",\"dsanh\":\"" + dsanh +
+                    string RegArr = String.Empty;
+                    RegArr = string.Join("\",\"", regId);
+                    string postData = "{ \"registration_ids\": [ \"" + RegArr + "\" ],\"data\": {\"message\": \"" + title + "\",\"body\": \"" + body + "\",\"title\": \"" + title + "\",\"collapse_key\":\"" + body + "\"}}";
+
+                    //string postData = Convert.ToBase64String(fileBytes);
+
+                    Byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+                    tRequest.ContentLength = byteArray.Length;
+
+                    Stream dataStream = tRequest.GetRequestStream();
+                    dataStream.Write(byteArray, 0, byteArray.Length);
+                    dataStream.Close();
+
+                    WebResponse tResponse = tRequest.GetResponse();
+
+                    dataStream = tResponse.GetResponseStream();
+
+                    StreamReader tReader = new StreamReader(dataStream);
+
+                    string sResponseFromServer = tReader.ReadToEnd();
+
+                    tReader.Close();
+                    dataStream.Close();
+                    tResponse.Close();
+
+                    var json = JObject.Parse(sResponseFromServer);
+                    var xyz = json["success"].ToString();
+                    if (xyz != "0")
+                    {
+                        sended = 1;
+                    }
+                }
+                return sended;
+            }
+            catch (Exception ex)
+            {
+                return sended;
+            }
+        }
+        public static byte[] HexStringToByteArray(string hexString)
+        {
+            //check for null
+            if (hexString == null) return null;
+            //get length
+            int len = hexString.Length;
+            if (len % 2 == 1) return null;
+            int len_half = len / 2;
+            //create a byte array
+            byte[] bs = new byte[len_half];
+            try
+            {
+                //convert the hexstring to bytes
+                for (int i = 0; i != len_half; i++)
+                {
+                    bs[i] = (byte)Int32.Parse(hexString.Substring(i * 2, 2), System.Globalization.NumberStyles.HexNumber);
+                }
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show("Exception : " + ex.Message);
+            }
+            //return the byte array
+            return bs;
+        }
+        //Tìm tài xế đường ngắn gần nhất
+        public void findDriverSuitable(long id)
+        {
+            //,string start_point_name, string list_end_point_name, string custom_phone, string custom_name, double? estimated_price, double? estimated_distance,float lat, float lon
+            try
+            {
+                int date_id = Config.datetimeid();
+                var booking = db.bookingnois.Find(id);
+                DateTime? lastcancel=DateTime.Now.AddMinutes(5);
+                var cancel_list = db.cancel_booking_log.Where(o => o.date_id >= date_id && o.date_time >= lastcancel);
+                //Tìm tài xế gần nhất mà chưa bị hủy chuyến trong 5 phút gần đây, online trong vòng 1 tiếng gần đây và gần với khách nhất
+                var startGuest = new { Latitude = booking.start_point_lat, Longitude = booking.start_point_lon };
+                DateTime? latest = DateTime.Now.AddHours(-1);
+                var driver = db.list_online.Where(o => o.car_type == 1 && o.status == 0 && o.date_time >= latest).Where(p => !cancel_list.Any(p2 =>p2.date_id>=date_id && p2.driver_phone ==p.phone)).OrderBy(x => 12742 * SqlFunctions.Asin(SqlFunctions.SquareRoot(SqlFunctions.Sin(((SqlFunctions.Pi() / 180) * (x.lat - startGuest.Latitude)) / 2) * SqlFunctions.Sin(((SqlFunctions.Pi() / 180) * (x.lat - startGuest.Latitude)) / 2) +
+                                    SqlFunctions.Cos((SqlFunctions.Pi() / 180) * startGuest.Latitude) * SqlFunctions.Cos((SqlFunctions.Pi() / 180) * (x.lat)) *
+                                    SqlFunctions.Sin(((SqlFunctions.Pi() / 180) * (x.lon - startGuest.Longitude)) / 2) * SqlFunctions.Sin(((SqlFunctions.Pi() / 180) * (x.lon - startGuest.Longitude)) / 2)))).FirstOrDefault();//Take(5).
+                //Gửi tin báo cho tài xế này
+                //tìm thông tin tài xế này
+                //var dr = db.drivers.Where(o => o.phone == driver.phone).FirstOrDefault();
+                if (driver != null)
+                {
+                    sendNotify(driver.os, driver.reg_id, id.ToString(), "Khách đi từ " + booking.start_point_name + " đến " + booking.list_end_point_name);
+                }
+                else
+                {
+                    var ctm = db.customers.Find((long)booking.user_id);
+                    sendNotify(ctm.os, ctm.regId, "Hiện chưa tìm được tài xế nào cho chuyến đi của bạn!", "Các tài xế đều bận hoặc chưa có ai đăng ký đường ngắn lúc này!");
+                }
+            }catch{
+                var booking = db.bookingnois.Find(id);
+                var ctm = db.customers.Find((long)booking.user_id);
+                sendNotify(ctm.os, ctm.regId, "Hiện chưa tìm được tài xế nào cho chuyến đi của bạn!", "Các tài xế đều bận hoặc chưa có ai đăng ký đường ngắn lúc này!");
+            }
+        }
+        [HttpPost]
+        //Tài xế có id là driver_id nhận chuyến đi id_booking này và gửi báo tin đến cho khách đặt qua app ứng dụng
+        //Trả về là số phone, tên, user_id của khách đặt chuyến
+        //Lỗi trả về rỗng
+        public string receivedTrip(long id_booking,long driver_id){
+            Dictionary<string, string> field = new Dictionary<string, string>();
+            try
+            {
+                var booking = db.bookingnois.Find(id_booking);
+                var driver = db.drivers.Find(driver_id);
+                var ctm = db.customers.Find((long)booking.user_id);
+                sendNotify(ctm.os, ctm.regId, "Tài xế " + driver.name, driver.phone);
+                db.Database.ExecuteSqlCommand("update bookingnoi set driver_id=" + driver_id + ", status_booking=1 where id=" + id_booking);
+                field.Add("user_id", booking.user_id.ToString());
+                field.Add("user_id", booking.user_id.ToString());           
+                return Api("success", field, "Đã gửi số tài xế cho khách");
+            }
+            catch (Exception ex)
+            {
+                field.Add("user_id", "");
+                return Api("error", field, "Lỗi server!" + ex.ToString());
+            }
+        }
+        [HttpPost]
+        //Tài xế có id là driver_id không nhận chuyến đi id_booking này do server phân công,  và gửi báo server, server phải điều hành gửi đến cho tài xế khác ngay, bỏ qua tài xế này cho lần phân xe sau
+        //Trả về là đồng ý tìm tài xế khác, id_booking chuyến xe, đồng thời gọi hàm tìm tài xế khác cho chuyến xe này
+        public string noReceivedTrip(long id_booking, long driver_id)
+        {
+            Dictionary<string, string> field = new Dictionary<string, string>();
+            try
+            {
+                var booking = db.bookingnois.Find(id_booking);
+                var driver = db.drivers.Find(driver_id);
+                cancel_booking_log cbl=new cancel_booking_log();
+                cbl.custom_phone = booking.custom_phone;
+                cbl.date_id = Config.datetimeid();
+                cbl.date_time = DateTime.Now;
+                cbl.driver_id = driver_id;
+                cbl.driver_phone = driver.phone;
+                cbl.id_booking = id_booking;
+                cbl.type_cancel = 0;//tài xế hủy, =1 là khách hủy
+                cbl.user_id = booking.user_id;
+                db.cancel_booking_log.Add(cbl);
+                db.SaveChanges();
+                findDriverSuitable(id_booking);
+                field.Add("user_id", booking.user_id.ToString());
+                return Api("success", field, "Tài xế đã bỏ không nhận chuyến xe này. Server đã tìm tài xế khác.");
+            }
+            catch (Exception ex)
+            {
+                field.Add("user_id", "");
+                return Api("error", field, "Lỗi server!" + ex.ToString());
+            }
+        }
+        //Sau khi đi xong nhớ báo cho server biết là chuyến xe kết thúc, tài xế ấn vào nút xác nhận, server sẽ đánh dấu trạng thái chuyến xe đã hoàn thành
+        //Server trả vế thông báo xác nhận chuyến đi thành công và số km, số tiền sẽ được thanh toán như lúc đầu
+        //Lỗi trả về id_booking rỗng và lỗi chi tiết
+        [HttpPost]
+        public string confirmTrip(long id_booking,long driver_id)
+        {
+            Dictionary<string, string> field = new Dictionary<string, string>();
+            try
+            {
+                var booking = db.bookingnois.Find(id_booking);
+                var driver = db.drivers.Find(driver_id);
+                booking_noi_history bnh = new booking_noi_history();
+                bnh.custom_name = booking.custom_name;
+                bnh.custom_phone = booking.custom_phone;
+                bnh.date_id = Config.datetimeid();
+                bnh.date_time = DateTime.Now;
+                bnh.driver_id = driver_id;
+                bnh.driver_name = driver.name;
+                bnh.driver_phone = driver.phone;
+                bnh.end_point = booking.list_end_point_name;
+                bnh.id_booking = id_booking;
+                bnh.start_point = booking.start_point_name;
+                bnh.user_id = booking.user_id;
+                db.booking_noi_history.Add(bnh);
+                db.SaveChanges();
+                db.Database.ExecuteSqlCommand("update bookingnoi set status_booking=2 where id=" + id_booking);
+                field.Add("distance", booking.distance.ToString());
+                field.Add("price", booking.price.ToString());
+                field.Add("date_time", DateTime.Now.ToString());
+                return Api("success", field, "Đặt xe thành công");
+            }
+            catch (Exception ex)
+            {
+                field.Add("id_booking", "");
+                return Api("error", field, "Lỗi server!" + ex.ToString());
+            }
+        }
+       
+        //[HttpPost]
+        //Trả về các chuyến xe do khách đặt trong bán kính 1km
+        public string getListBookingNoiArround(double lat, double lon)
+        {
+            double distance = 12742 * SqlFunctions.Asin(SqlFunctions.SquareRoot(SqlFunctions.Sin(((SqlFunctions.Pi() / 180) * (21.022703 - startGuest.Latitude)) / 2) * SqlFunctions.Sin(((SqlFunctions.Pi() / 180) * (21.022703 - startGuest.Latitude)) / 2) +
+                                   SqlFunctions.Cos((SqlFunctions.Pi() / 180) * startGuest.Latitude) * SqlFunctions.Cos((SqlFunctions.Pi() / 180) * (x.start_point_lat)) *
+                                   SqlFunctions.Sin(((SqlFunctions.Pi() / 180) * (x.start_point_lon - startGuest.Longitude)) / 2) * SqlFunctions.Sin(((SqlFunctions.Pi() / 180) * (x.start_point_lon - startGuest.Longitude)) / 2)));
+            //Dictionary<string, string> field = new Dictionary<string, string>();
+            //try
+            //{
+            //    DateTime booktime=DateTime.Now.AddMinutes(-1);
+            //    var startGuest = new { Latitude = lat, Longitude = lon };
+            //    var driver = db.bookingnois.Where(o => o.book_time>=booktime && o.car_type == 1).Where(x => 12742 * SqlFunctions.Asin(SqlFunctions.SquareRoot(SqlFunctions.Sin(((SqlFunctions.Pi() / 180) * (x.start_point_lat - startGuest.Latitude)) / 2) * SqlFunctions.Sin(((SqlFunctions.Pi() / 180) * (x.start_point_lat - startGuest.Latitude)) / 2) +
+            //                       SqlFunctions.Cos((SqlFunctions.Pi() / 180) * startGuest.Latitude) * SqlFunctions.Cos((SqlFunctions.Pi() / 180) * (x.start_point_lat)) *
+            //                       SqlFunctions.Sin(((SqlFunctions.Pi() / 180) * (x.start_point_lon - startGuest.Longitude)) / 2) * SqlFunctions.Sin(((SqlFunctions.Pi() / 180) * (x.start_point_lon - startGuest.Longitude)) / 2)))<=1000).Take(10);
+            //    field.Add("bookinglist", );                
+            //    return Api("success", field, "Đặt xe thành công");
+            //}
+            //catch (Exception ex)
+            //{
+            //    field.Add("id_booking", "");
+            //    return Api("error", field, "Lỗi server!" + ex.ToString());
+            //}
         }
         [HttpPost]
         public string template()
