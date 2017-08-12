@@ -89,6 +89,23 @@
           <Property Name="phone" Type="nvarchar" MaxLength="50" />
           <Property Name="date_time" Type="datetime" />
         </EntityType>
+        <EntityType Name="booking_noi_history">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_booking" Type="bigint" />
+          <Property Name="user_id" Type="bigint" />
+          <Property Name="custom_name" Type="nvarchar" MaxLength="150" />
+          <Property Name="custom_phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="driver_id" Type="bigint" />
+          <Property Name="driver_name" Type="nvarchar" MaxLength="150" />
+          <Property Name="driver_phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="start_point" Type="nvarchar" MaxLength="150" />
+          <Property Name="end_point" Type="nvarchar" MaxLength="501" />
+          <Property Name="date_time" Type="datetime" />
+          <Property Name="date_id" Type="int" />
+        </EntityType>
         <EntityType Name="bookingnoi">
           <Key>
             <PropertyRef Name="id" />
@@ -96,7 +113,8 @@
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="user_id" Type="bigint" />
           <Property Name="custom_phone" Type="nvarchar" MaxLength="50" />
-          <Property Name="car_type" Type="int" />
+          <Property Name="custom_name" Type="nvarchar" MaxLength="150" />
+          <Property Name="car_size" Type="int" />
           <Property Name="start_point_name" Type="nvarchar" MaxLength="150" />
           <Property Name="list_end_point_name" Type="nvarchar" MaxLength="950" />
           <Property Name="start_point_lon" Type="float" />
@@ -108,14 +126,34 @@
           <Property Name="is_mine_trip" Type="tinyint" />
           <Property Name="price" Type="float" />
           <Property Name="distance" Type="float" />
-          <Property Name="start_time" Type="time" Precision="7" />
-          <Property Name="back_time" Type="time" Precision="7" />
+          <Property Name="start_time" Type="datetime" />
+          <Property Name="back_time" Type="datetime" />
           <Property Name="note" Type="nvarchar" MaxLength="1005" />
           <Property Name="book_time" Type="datetime" />
           <Property Name="book_date_id" Type="int" />
           <Property Name="status_booking" Type="int" />
           <Property Name="status_payment" Type="int" />
           <Property Name="cancel_reason" Type="nvarchar" MaxLength="1501" />
+          <Property Name="guest_phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="guest_name" Type="nvarchar" MaxLength="150" />
+          <Property Name="driver_id" Type="bigint" />
+          <Property Name="car_type" Type="int" />
+          <Property Name="real_distance" Type="float" />
+          <Property Name="real_price" Type="float" />
+        </EntityType>
+        <EntityType Name="cancel_booking_log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_booking" Type="bigint" />
+          <Property Name="custom_phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="driver_phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="date_time" Type="datetime" />
+          <Property Name="date_id" Type="int" />
+          <Property Name="type_cancel" Type="int" />
+          <Property Name="user_id" Type="bigint" />
+          <Property Name="driver_id" Type="bigint" />
         </EntityType>
         <EntityType Name="car_hire_type">
           <Key>
@@ -184,6 +222,7 @@
           <Property Name="custom_name" Type="nvarchar" MaxLength="150" />
           <Property Name="custom_phone" Type="nvarchar" MaxLength="50" />
           <Property Name="custom_email" Type="nvarchar" MaxLength="150" />
+          <Property Name="pass" Type="nvarchar" MaxLength="150" />
           <Property Name="regId" Type="nvarchar" MaxLength="550" />
           <Property Name="token" Type="nvarchar" MaxLength="150" />
           <Property Name="date_reg" Type="datetime" />
@@ -281,6 +320,17 @@
           <Property Name="about" Type="ntext" />
           <Property Name="address" Type="ntext" />
         </EntityType>
+        <EntityType Name="like_trip">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_booking" Type="bigint" />
+          <Property Name="user_id" Type="bigint" />
+          <Property Name="custom_phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="is_like_trip" Type="tinyint" />
+          <Property Name="date_time" Type="datetime" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'txtc0307.dbo.list_car' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="list_car">
@@ -321,6 +371,10 @@ warning 6002: The table/view 'txtc0307.dbo.list_car_type' does not have a primar
           <Property Name="phone" Type="nvarchar" MaxLength="50" />
           <Property Name="car_number" Type="nvarchar" MaxLength="50" />
           <Property Name="status" Type="int" />
+          <Property Name="car_type" Type="int" />
+          <Property Name="os" Type="int" />
+          <Property Name="reg_id" Type="nvarchar" MaxLength="501" />
+          <Property Name="driver_id" Type="bigint" />
         </EntityType>
         <EntityType Name="NationalDay">
           <Key>
@@ -385,6 +439,18 @@ warning 6002: The table/view 'txtc0307.dbo.list_car_type' does not have a primar
           <Property Name="rate" Type="int" />
           <Property Name="comment" Type="ntext" />
         </EntityType>
+        <EntityType Name="review_trip">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="bigint" />
+          <Property Name="custom_phone" Type="nvarchar" MaxLength="150" />
+          <Property Name="id_booking" Type="bigint" />
+          <Property Name="custom_rating" Type="int" />
+          <Property Name="custom_comment" Type="nvarchar" MaxLength="1001" />
+          <Property Name="date_time" Type="datetime" />
+        </EntityType>
         <EntityType Name="saoke">
           <Key>
             <PropertyRef Name="id" />
@@ -437,7 +503,9 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <EntitySet Name="booking" EntityType="Self.booking" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="booking_final" EntityType="Self.booking_final" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="booking_log" EntityType="Self.booking_log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="booking_noi_history" EntityType="Self.booking_noi_history" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bookingnoi" EntityType="Self.bookingnoi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="cancel_booking_log" EntityType="Self.cancel_booking_log" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_hire_type" EntityType="Self.car_hire_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_made_model" EntityType="Self.car_made_model" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_price" EntityType="Self.car_price" Schema="dbo" store:Type="Tables" />
@@ -453,6 +521,7 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <EntitySet Name="duplicateFile" EntityType="Self.duplicateFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="factor" EntityType="Self.factor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="info" EntityType="Self.info" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="like_trip" EntityType="Self.like_trip" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="list_online" EntityType="Self.list_online" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NationalDay" EntityType="Self.NationalDay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="news" EntityType="Self.news" Schema="dbo" store:Type="Tables" />
@@ -460,6 +529,7 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <EntitySet Name="noticesos" EntityType="Self.noticesos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="notifies" EntityType="Self.notifies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="rating" EntityType="Self.rating" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="review_trip" EntityType="Self.review_trip" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="saoke" EntityType="Self.saoke" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="transaction_bank" EntityType="Self.transaction_bank" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
@@ -578,6 +648,37 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="date_time" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="booking_noi_history">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_booking" Type="Int64" />
+          <Property Name="user_id" Type="Int64" />
+          <Property Name="custom_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="custom_phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="driver_id" Type="Int64" />
+          <Property Name="driver_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="driver_phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="start_point" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="end_point" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
+          <Property Name="date_id" Type="Int32" />
+        </EntityType>
+        <EntityType Name="cancel_booking_log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_booking" Type="Int64" />
+          <Property Name="custom_phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="driver_phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
+          <Property Name="date_id" Type="Int32" />
+          <Property Name="type_cancel" Type="Int32" />
+          <Property Name="user_id" Type="Int64" />
+          <Property Name="driver_id" Type="Int64" />
+        </EntityType>
         <EntityType Name="car_hire_type">
           <Key>
             <PropertyRef Name="id" />
@@ -675,6 +776,34 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <Property Name="from_date" Type="DateTime" Precision="0" />
           <Property Name="to_date" Type="DateTime" Precision="0" />
         </EntityType>
+        <EntityType Name="driver">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="pass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="car_model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="car_made" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="car_years" Type="Int32" />
+          <Property Name="car_size" Type="Int32" />
+          <Property Name="car_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="car_type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="car_price" Type="Int32" />
+          <Property Name="total_moneys" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="province" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
+          <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="card_identify" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="license" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="reg_id" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="os" Type="Int32" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="driver_type" Type="Int32" />
+        </EntityType>
         <EntityType Name="duplicateFile">
           <Key>
             <PropertyRef Name="id" />
@@ -712,6 +841,10 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="car_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="status" Type="Int32" />
+          <Property Name="car_type" Type="Int32" />
+          <Property Name="os" Type="Int32" />
+          <Property Name="reg_id" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
+          <Property Name="driver_id" Type="Int64" />
         </EntityType>
         <EntityType Name="NationalDay">
           <Key>
@@ -841,13 +974,15 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <Property Name="quanhuyen" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="tinhthanhpho" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityContainer Name="txtc0307Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="thuexetoancau2Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="transactions" EntityType="Self.transaction" />
           <EntitySet Name="airport_way" EntityType="Self.airport_way" />
           <EntitySet Name="auctions" EntityType="Self.auction" />
           <EntitySet Name="bookings" EntityType="Self.booking" />
           <EntitySet Name="booking_final" EntityType="Self.booking_final" />
           <EntitySet Name="booking_log" EntityType="Self.booking_log" />
+          <EntitySet Name="booking_noi_history" EntityType="Self.booking_noi_history" />
+          <EntitySet Name="cancel_booking_log" EntityType="Self.cancel_booking_log" />
           <EntitySet Name="car_hire_type" EntityType="Self.car_hire_type" />
           <EntitySet Name="car_made_model" EntityType="Self.car_made_model" />
           <EntitySet Name="car_price" EntityType="Self.car_price" />
@@ -858,6 +993,7 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <EntitySet Name="driver_bank" EntityType="Self.driver_bank" />
           <EntitySet Name="driver_own" EntityType="Self.driver_own" />
           <EntitySet Name="driver_salary" EntityType="Self.driver_salary" />
+          <EntitySet Name="drivers" EntityType="Self.driver" />
           <EntitySet Name="duplicateFiles" EntityType="Self.duplicateFile" />
           <EntitySet Name="factors" EntityType="Self.factor" />
           <EntitySet Name="infoes" EntityType="Self.info" />
@@ -875,38 +1011,11 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <EntitySet Name="list_car_model" EntityType="Self.list_car_model" />
           <EntitySet Name="list_car_type" EntityType="Self.list_car_type" />
           <EntitySet Name="TinhThanhs" EntityType="Self.TinhThanh" />
-          <EntitySet Name="drivers" EntityType="thuexetoancauModel.driver" />
           <EntitySet Name="customers" EntityType="thuexetoancauModel.customer" />
+          <EntitySet Name="like_trip" EntityType="thuexetoancauModel.like_trip" />
+          <EntitySet Name="review_trip" EntityType="thuexetoancauModel.review_trip" />
           <EntitySet Name="bookingnois" EntityType="thuexetoancauModel.bookingnoi" />
         </EntityContainer>
-        <EntityType Name="driver">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="pass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="car_model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="car_made" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="car_years" Type="Int32" />
-          <Property Name="car_size" Type="Int32" />
-          <Property Name="car_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="car_type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="car_price" Type="Int32" />
-          <Property Name="total_moneys" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="province" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="date_time" Type="DateTime" Precision="3" />
-          <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="card_identify" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="license" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="reg_id" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="os" Type="Int32" />
-          <Property Name="status" Type="Int32" />
-          <Property Name="driver_type" Type="Int32" />
-        </EntityType>
         <EntityType Name="customer">
           <Key>
             <PropertyRef Name="id" />
@@ -915,11 +1024,35 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <Property Name="custom_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="custom_phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="custom_email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="pass" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="regId" Type="String" MaxLength="550" FixedLength="false" Unicode="true" />
           <Property Name="token" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="date_reg" Type="DateTime" Precision="3" />
           <Property Name="last_update" Type="DateTime" Precision="3" />
           <Property Name="os" Type="Int32" />
+        </EntityType>
+        <EntityType Name="like_trip">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_booking" Type="Int64" />
+          <Property Name="user_id" Type="Int64" />
+          <Property Name="custom_phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="is_like_trip" Type="Byte" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="review_trip">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int64" />
+          <Property Name="custom_phone" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="id_booking" Type="Int64" />
+          <Property Name="custom_rating" Type="Int32" />
+          <Property Name="custom_comment" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="bookingnoi">
           <Key>
@@ -928,7 +1061,8 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="user_id" Type="Int64" />
           <Property Name="custom_phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="car_type" Type="Int32" />
+          <Property Name="custom_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="car_size" Type="Int32" />
           <Property Name="start_point_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="list_end_point_name" Type="String" MaxLength="950" FixedLength="false" Unicode="true" />
           <Property Name="start_point_lon" Type="Double" />
@@ -940,21 +1074,27 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <Property Name="is_mine_trip" Type="Byte" />
           <Property Name="price" Type="Double" />
           <Property Name="distance" Type="Double" />
-          <Property Name="start_time" Type="Time" Precision="7" />
-          <Property Name="back_time" Type="Time" Precision="7" />
+          <Property Name="start_time" Type="DateTime" Precision="3" />
+          <Property Name="back_time" Type="DateTime" Precision="3" />
           <Property Name="note" Type="String" MaxLength="1005" FixedLength="false" Unicode="true" />
           <Property Name="book_time" Type="DateTime" Precision="3" />
           <Property Name="book_date_id" Type="Int32" />
           <Property Name="status_booking" Type="Int32" />
           <Property Name="status_payment" Type="Int32" />
           <Property Name="cancel_reason" Type="String" MaxLength="1501" FixedLength="false" Unicode="true" />
+          <Property Name="guest_phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="guest_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="driver_id" Type="Int64" />
+          <Property Name="car_type" Type="Int32" />
+          <Property Name="real_distance" Type="Double" />
+          <Property Name="real_price" Type="Double" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="thuexetoancauModelStoreContainer" CdmEntityContainer="txtc0307Entities">
+        <EntityContainerMapping StorageEntityContainer="thuexetoancauModelStoreContainer" CdmEntityContainer="thuexetoancau2Entities">
           <EntitySetMapping Name="transactions">
             <EntityTypeMapping TypeName="thuexetoancauModel.transaction">
               <MappingFragment StoreEntitySet="transactions">
@@ -1042,6 +1182,39 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="phone" ColumnName="phone" />
                 <ScalarProperty Name="date_time" ColumnName="date_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="booking_noi_history">
+            <EntityTypeMapping TypeName="thuexetoancauModel.booking_noi_history">
+              <MappingFragment StoreEntitySet="booking_noi_history">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_booking" ColumnName="id_booking" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="custom_name" ColumnName="custom_name" />
+                <ScalarProperty Name="custom_phone" ColumnName="custom_phone" />
+                <ScalarProperty Name="driver_id" ColumnName="driver_id" />
+                <ScalarProperty Name="driver_name" ColumnName="driver_name" />
+                <ScalarProperty Name="driver_phone" ColumnName="driver_phone" />
+                <ScalarProperty Name="start_point" ColumnName="start_point" />
+                <ScalarProperty Name="end_point" ColumnName="end_point" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="date_id" ColumnName="date_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cancel_booking_log">
+            <EntityTypeMapping TypeName="thuexetoancauModel.cancel_booking_log">
+              <MappingFragment StoreEntitySet="cancel_booking_log">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_booking" ColumnName="id_booking" />
+                <ScalarProperty Name="custom_phone" ColumnName="custom_phone" />
+                <ScalarProperty Name="driver_phone" ColumnName="driver_phone" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="date_id" ColumnName="date_id" />
+                <ScalarProperty Name="type_cancel" ColumnName="type_cancel" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="driver_id" ColumnName="driver_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1152,6 +1325,35 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="drivers">
+            <EntityTypeMapping TypeName="thuexetoancauModel.driver">
+              <MappingFragment StoreEntitySet="drivers">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="car_model" ColumnName="car_model" />
+                <ScalarProperty Name="car_made" ColumnName="car_made" />
+                <ScalarProperty Name="car_years" ColumnName="car_years" />
+                <ScalarProperty Name="car_size" ColumnName="car_size" />
+                <ScalarProperty Name="car_number" ColumnName="car_number" />
+                <ScalarProperty Name="car_type" ColumnName="car_type" />
+                <ScalarProperty Name="car_price" ColumnName="car_price" />
+                <ScalarProperty Name="total_moneys" ColumnName="total_moneys" />
+                <ScalarProperty Name="province" ColumnName="province" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="card_identify" ColumnName="card_identify" />
+                <ScalarProperty Name="license" ColumnName="license" />
+                <ScalarProperty Name="reg_id" ColumnName="reg_id" />
+                <ScalarProperty Name="os" ColumnName="os" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="driver_type" ColumnName="driver_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="duplicateFiles">
             <EntityTypeMapping TypeName="thuexetoancauModel.duplicateFile">
               <MappingFragment StoreEntitySet="duplicateFile">
@@ -1191,6 +1393,10 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
                 <ScalarProperty Name="phone" ColumnName="phone" />
                 <ScalarProperty Name="car_number" ColumnName="car_number" />
                 <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="car_type" ColumnName="car_type" />
+                <ScalarProperty Name="os" ColumnName="os" />
+                <ScalarProperty Name="reg_id" ColumnName="reg_id" />
+                <ScalarProperty Name="driver_id" ColumnName="driver_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1335,35 +1541,6 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="drivers">
-            <EntityTypeMapping TypeName="thuexetoancauModel.driver">
-              <MappingFragment StoreEntitySet="drivers">
-                <ScalarProperty Name="driver_type" ColumnName="driver_type" />
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="os" ColumnName="os" />
-                <ScalarProperty Name="reg_id" ColumnName="reg_id" />
-                <ScalarProperty Name="license" ColumnName="license" />
-                <ScalarProperty Name="card_identify" ColumnName="card_identify" />
-                <ScalarProperty Name="address" ColumnName="address" />
-                <ScalarProperty Name="code" ColumnName="code" />
-                <ScalarProperty Name="date_time" ColumnName="date_time" />
-                <ScalarProperty Name="province" ColumnName="province" />
-                <ScalarProperty Name="total_moneys" ColumnName="total_moneys" />
-                <ScalarProperty Name="car_price" ColumnName="car_price" />
-                <ScalarProperty Name="car_type" ColumnName="car_type" />
-                <ScalarProperty Name="car_number" ColumnName="car_number" />
-                <ScalarProperty Name="car_size" ColumnName="car_size" />
-                <ScalarProperty Name="car_years" ColumnName="car_years" />
-                <ScalarProperty Name="car_made" ColumnName="car_made" />
-                <ScalarProperty Name="car_model" ColumnName="car_model" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="pass" ColumnName="pass" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="customers">
             <EntityTypeMapping TypeName="thuexetoancauModel.customer">
               <MappingFragment StoreEntitySet="customer">
@@ -1372,6 +1549,7 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
                 <ScalarProperty Name="date_reg" ColumnName="date_reg" />
                 <ScalarProperty Name="token" ColumnName="token" />
                 <ScalarProperty Name="regId" ColumnName="regId" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
                 <ScalarProperty Name="custom_email" ColumnName="custom_email" />
                 <ScalarProperty Name="custom_phone" ColumnName="custom_phone" />
                 <ScalarProperty Name="custom_name" ColumnName="custom_name" />
@@ -1379,9 +1557,40 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="like_trip">
+            <EntityTypeMapping TypeName="thuexetoancauModel.like_trip">
+              <MappingFragment StoreEntitySet="like_trip">
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="is_like_trip" ColumnName="is_like_trip" />
+                <ScalarProperty Name="custom_phone" ColumnName="custom_phone" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="id_booking" ColumnName="id_booking" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="review_trip">
+            <EntityTypeMapping TypeName="thuexetoancauModel.review_trip">
+              <MappingFragment StoreEntitySet="review_trip">
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="custom_comment" ColumnName="custom_comment" />
+                <ScalarProperty Name="custom_rating" ColumnName="custom_rating" />
+                <ScalarProperty Name="id_booking" ColumnName="id_booking" />
+                <ScalarProperty Name="custom_phone" ColumnName="custom_phone" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="bookingnois">
             <EntityTypeMapping TypeName="thuexetoancauModel.bookingnoi">
               <MappingFragment StoreEntitySet="bookingnoi">
+                <ScalarProperty Name="real_price" ColumnName="real_price" />
+                <ScalarProperty Name="real_distance" ColumnName="real_distance" />
+                <ScalarProperty Name="car_type" ColumnName="car_type" />
+                <ScalarProperty Name="driver_id" ColumnName="driver_id" />
+                <ScalarProperty Name="guest_name" ColumnName="guest_name" />
+                <ScalarProperty Name="guest_phone" ColumnName="guest_phone" />
                 <ScalarProperty Name="cancel_reason" ColumnName="cancel_reason" />
                 <ScalarProperty Name="status_payment" ColumnName="status_payment" />
                 <ScalarProperty Name="status_booking" ColumnName="status_booking" />
@@ -1401,7 +1610,8 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
                 <ScalarProperty Name="start_point_lon" ColumnName="start_point_lon" />
                 <ScalarProperty Name="list_end_point_name" ColumnName="list_end_point_name" />
                 <ScalarProperty Name="start_point_name" ColumnName="start_point_name" />
-                <ScalarProperty Name="car_type" ColumnName="car_type" />
+                <ScalarProperty Name="car_size" ColumnName="car_size" />
+                <ScalarProperty Name="custom_name" ColumnName="custom_name" />
                 <ScalarProperty Name="custom_phone" ColumnName="custom_phone" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="id" ColumnName="id" />

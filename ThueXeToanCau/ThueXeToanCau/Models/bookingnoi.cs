@@ -17,7 +17,8 @@ namespace ThueXeToanCau.Models
         public long id { get; set; }
         public Nullable<long> user_id { get; set; }
         public string custom_phone { get; set; }
-        public Nullable<int> car_type { get; set; }
+        public string custom_name { get; set; }
+        public Nullable<int> car_size { get; set; }
         public string start_point_name { get; set; }
         public string list_end_point_name { get; set; }
         public Nullable<double> start_point_lon { get; set; }
@@ -29,13 +30,19 @@ namespace ThueXeToanCau.Models
         public Nullable<byte> is_mine_trip { get; set; }
         public Nullable<double> price { get; set; }
         public Nullable<double> distance { get; set; }
-        public Nullable<System.TimeSpan> start_time { get; set; }
-        public Nullable<System.TimeSpan> back_time { get; set; }
+        public Nullable<System.DateTime> start_time { get; set; }
+        public Nullable<System.DateTime> back_time { get; set; }
         public string note { get; set; }
         public Nullable<System.DateTime> book_time { get; set; }
         public Nullable<int> book_date_id { get; set; }
         public Nullable<int> status_booking { get; set; }
         public Nullable<int> status_payment { get; set; }
         public string cancel_reason { get; set; }
+        public string guest_phone { get; set; }
+        public string guest_name { get; set; }
+        public Nullable<long> driver_id { get; set; }
+        public Nullable<int> car_type { get; set; }
+        public Nullable<double> real_distance { get; set; }
+        public Nullable<double> real_price { get; set; }
     }
 }

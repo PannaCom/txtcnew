@@ -12,17 +12,14 @@ namespace ThueXeToanCau.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class customer
+    public partial class review_trip
     {
         public long id { get; set; }
-        public string custom_name { get; set; }
+        public Nullable<long> user_id { get; set; }
         public string custom_phone { get; set; }
-        public string custom_email { get; set; }
-        public string pass { get; set; }
-        public string regId { get; set; }
-        public string token { get; set; }
-        public Nullable<System.DateTime> date_reg { get; set; }
-        public Nullable<System.DateTime> last_update { get; set; }
-        public Nullable<int> os { get; set; }
+        public Nullable<long> id_booking { get; set; }
+        public Nullable<int> custom_rating { get; set; }
+        public string custom_comment { get; set; }
+        public Nullable<System.DateTime> date_time { get; set; }
     }
 }

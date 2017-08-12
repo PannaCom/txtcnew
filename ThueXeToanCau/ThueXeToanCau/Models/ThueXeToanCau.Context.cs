@@ -12,7 +12,7 @@ namespace ThueXeToanCau.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-
+    
     public partial class thuexetoancauEntities : DbContext
     {
         public thuexetoancauEntities()
@@ -31,6 +31,8 @@ namespace ThueXeToanCau.Models
         public virtual DbSet<booking> bookings { get; set; }
         public virtual DbSet<booking_final> booking_final { get; set; }
         public virtual DbSet<booking_log> booking_log { get; set; }
+        public virtual DbSet<booking_noi_history> booking_noi_history { get; set; }
+        public virtual DbSet<cancel_booking_log> cancel_booking_log { get; set; }
         public virtual DbSet<car_hire_type> car_hire_type { get; set; }
         public virtual DbSet<car_made_model> car_made_model { get; set; }
         public virtual DbSet<car_price> car_price { get; set; }
@@ -41,6 +43,7 @@ namespace ThueXeToanCau.Models
         public virtual DbSet<driver_bank> driver_bank { get; set; }
         public virtual DbSet<driver_own> driver_own { get; set; }
         public virtual DbSet<driver_salary> driver_salary { get; set; }
+        public virtual DbSet<driver> drivers { get; set; }
         public virtual DbSet<duplicateFile> duplicateFiles { get; set; }
         public virtual DbSet<factor> factors { get; set; }
         public virtual DbSet<info> infoes { get; set; }
@@ -58,8 +61,9 @@ namespace ThueXeToanCau.Models
         public virtual DbSet<list_car_model> list_car_model { get; set; }
         public virtual DbSet<list_car_type> list_car_type { get; set; }
         public virtual DbSet<TinhThanh> TinhThanhs { get; set; }
-        public virtual DbSet<driver> drivers { get; set; }
         public virtual DbSet<customer> customers { get; set; }
+        public virtual DbSet<like_trip> like_trip { get; set; }
+        public virtual DbSet<review_trip> review_trip { get; set; }
         public virtual DbSet<bookingnoi> bookingnois { get; set; }
     }
 }
