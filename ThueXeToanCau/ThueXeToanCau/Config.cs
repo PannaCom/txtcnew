@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -191,6 +192,12 @@ namespace ThueXeToanCau
             input = input.Replace("-", "").Replace(":", "").Replace(",", "").Replace("_", "").Replace("'", "").Replace("\"", "").Replace(";", "").Replace("”", "").Replace(".", "").Replace("%", "");
             return input;
         }
-        
+        public static void logFile(string val,string filename)
+        {
+            string path = "D:\\ThueXeToanCau.Vn\\";
+            StreamWriter sw = new StreamWriter(path + filename);
+            sw.WriteLine(val);
+            sw.Close();
+        }
     }
 }

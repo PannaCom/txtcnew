@@ -37,5 +37,6 @@ namespace ThueXeToanCau.Models
         public Nullable<int> os { get; set; }
         public Nullable<int> status { get; set; }
         public Nullable<int> driver_type { get; set; }
+        public Nullable<int> is_car { get; set; }
     }
 }

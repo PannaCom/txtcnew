@@ -2,7 +2,7 @@
 @using PagedList;
 @using ThueXeToanCau.Models;
 @{
-    ViewBag.Title = "Đăng Ký Tài Xế";
+    ViewBag.Title = "Đăng Ký Tài Xế - Tải ứng dụng Noi Car Driver trên Google Play";
     Layout = "~/Views/Shared/_LayoutNewBlank.cshtml";
 }
 <script type="text/javascript" src="/Content/Theme/1a/js/jquery-1.11.2.min.js"></script>
@@ -10,10 +10,17 @@
 <script src="/Content/Theme/1a/js/jquery.1.11.1.js"></script>
 <script src="/Content/Theme/1a/js/jquery-ui.js"></script>
 <link rel="stylesheet" href="/Content/Theme/1a/js/jquery-ui.css">
-<h2>@ViewBag.Title</h2>
-<div id="driverDialog" style="display:block;min-height:690px;background:#ffffff;" class="col-sm-4 dDialog col-md-12">
+
+<div id="driverDialog" style="display:block;min-height:690px;background:#ffffff;padding-top:200px;" class="col-sm-4 dDialog col-md-12">
     @*<div class="dTitle">Thêm/Sửa Tài Xế</div>*@
-    <div class="dDialogContent">
+    <h1>@ViewBag.Title</h1>
+    <h1>Bạn dùng điện thoại hệ điều hành Android để đăng ký và đăng nhập tài xế, dựa vào tọa độ GPS của tài xế mà ứng dụng Noi Car giúp các tài xế đón khách gần mình nhất</h1>
+    <p>
+        <a href="https://play.google.com/store/apps/details?id=grab.com.thuexetoancau.driver" target="_blank">
+            <img alt="Tải ứng dụng Noi Car Driver trên Google Play" src="/images/vi_badge_web_generic.png" >
+        </a>
+    </p>
+    @*<div class="dDialogContent">
         <input type="hidden" id="driverId" />
         <p>Tên tài xế</p>
         <input id="tname" type="text" class="form-control" placeholder="Nhập tên">
@@ -65,7 +72,7 @@
     <div class="divBtn">
         <button type="button" class="btn btn-primary" onclick="saveDriver2()" id="regDRVbtn">Đồng Ý</button>
         <button type="button" class="btn btn-primary" onclick="closeDDialog('#driverDialog')">Hủy</button>
-    </div>
+    </div>*@
 </div>
 
 <script type="text/javascript">

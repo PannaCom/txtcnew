@@ -20,5 +20,7 @@ namespace ThueXeToanCau.Models
         public Nullable<int> price2 { get; set; }
         public Nullable<int> multiple { get; set; }
         public Nullable<int> multiple2 { get; set; }
+        public Nullable<int> price3 { get; set; }
+        public Nullable<int> price4 { get; set; }
     }
 }

@@ -44,5 +44,9 @@ namespace ThueXeToanCau.Models
         public Nullable<int> car_type { get; set; }
         public Nullable<double> real_distance { get; set; }
         public Nullable<double> real_price { get; set; }
+        public string driver_name { get; set; }
+        public string driver_phone { get; set; }
+        public string driver_car_number { get; set; }
+        public Nullable<int> is_car { get; set; }
     }
 }
