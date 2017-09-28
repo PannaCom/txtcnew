@@ -383,6 +383,7 @@ warning 6002: The table/view 'txtc0307.dbo.list_car_type' does not have a primar
           <Property Name="reg_id" Type="nvarchar" MaxLength="501" />
           <Property Name="driver_id" Type="bigint" />
           <Property Name="car_size" Type="int" />
+          <Property Name="is_car" Type="int" />
         </EntityType>
         <EntityType Name="NationalDay">
           <Key>
@@ -436,6 +437,16 @@ warning 6002: The table/view 'txtc0307.dbo.list_car_type' does not have a primar
           <Property Name="tobject" Type="int" />
           <Property Name="reg_id" Type="nvarchar(max)" />
           <Property Name="os" Type="int" />
+        </EntityType>
+        <EntityType Name="paramsnoti">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="501" />
+          <Property Name="title" Type="nvarchar" MaxLength="501" />
+          <Property Name="body" Type="nvarchar" MaxLength="2001" />
+          <Property Name="date_time" Type="datetime" />
         </EntityType>
         <EntityType Name="rating">
           <Key>
@@ -536,6 +547,7 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <EntitySet Name="notice" EntityType="Self.notice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="noticesos" EntityType="Self.noticesos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="notifies" EntityType="Self.notifies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="paramsnoti" EntityType="Self.paramsnoti" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="rating" EntityType="Self.rating" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="review_trip" EntityType="Self.review_trip" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="saoke" EntityType="Self.saoke" Schema="dbo" store:Type="Tables" />
@@ -1086,6 +1098,7 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <EntitySet Name="list_car_type" EntityType="Self.list_car_type" />
           <EntitySet Name="TinhThanhs" EntityType="Self.TinhThanh" />
           <EntitySet Name="list_online" EntityType="thuexetoancauModel.list_online" />
+          <EntitySet Name="paramsnotis" EntityType="thuexetoancauModel.paramsnoti" />
         </EntityContainer>
         <EntityType Name="list_online">
           <Key>
@@ -1104,6 +1117,17 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <Property Name="reg_id" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
           <Property Name="driver_id" Type="Int64" />
           <Property Name="car_size" Type="Int32" />
+          <Property Name="is_car" Type="Int32" />
+        </EntityType>
+        <EntityType Name="paramsnoti">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
+          <Property Name="title" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
+          <Property Name="body" Type="String" MaxLength="2001" FixedLength="false" Unicode="true" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1626,6 +1650,7 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
           <EntitySetMapping Name="list_online">
             <EntityTypeMapping TypeName="thuexetoancauModel.list_online">
               <MappingFragment StoreEntitySet="list_online">
+                <ScalarProperty Name="is_car" ColumnName="is_car" />
                 <ScalarProperty Name="car_size" ColumnName="car_size" />
                 <ScalarProperty Name="driver_id" ColumnName="driver_id" />
                 <ScalarProperty Name="reg_id" ColumnName="reg_id" />
@@ -1638,6 +1663,17 @@ warning 6002: The table/view 'txtc0307.dbo.TinhThanh' does not have a primary ke
                 <ScalarProperty Name="lat" ColumnName="lat" />
                 <ScalarProperty Name="lon" ColumnName="lon" />
                 <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="paramsnotis">
+            <EntityTypeMapping TypeName="thuexetoancauModel.paramsnoti">
+              <MappingFragment StoreEntitySet="paramsnoti">
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="body" ColumnName="body" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

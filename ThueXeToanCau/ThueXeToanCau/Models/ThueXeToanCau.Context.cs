@@ -12,7 +12,7 @@ namespace ThueXeToanCau.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
+
     public partial class thuexetoancauEntities : DbContext
     {
         public thuexetoancauEntities()
@@ -65,5 +65,6 @@ namespace ThueXeToanCau.Models
         public virtual DbSet<list_car_type> list_car_type { get; set; }
         public virtual DbSet<TinhThanh> TinhThanhs { get; set; }
         public virtual DbSet<list_online> list_online { get; set; }
+        public virtual DbSet<paramsnoti> paramsnotis { get; set; }
     }
 }

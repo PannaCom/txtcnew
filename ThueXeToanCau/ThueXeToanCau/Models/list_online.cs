@@ -27,5 +27,6 @@ namespace ThueXeToanCau.Models
         public string reg_id { get; set; }
         public Nullable<long> driver_id { get; set; }
         public Nullable<int> car_size { get; set; }
+        public Nullable<int> is_car { get; set; }
     }
 }
